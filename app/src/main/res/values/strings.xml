@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Izzo</string>
+
+    <string name="welcome">Welcome to Izzo!</string>
+    <string name="action_settings">Settings</string>
+</resources>
