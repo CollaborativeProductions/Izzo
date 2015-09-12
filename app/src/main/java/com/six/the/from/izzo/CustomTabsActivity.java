@@ -14,21 +14,21 @@ public class CustomTabsActivity extends TabActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.tab_host);
         setTabs();
     }
 
     private void setTabs() {
         tabHost = getTabHost();
 
-        addTab(R.string.tab_1, R.drawable.tab_home);
-        addTab(R.string.tab_2, R.drawable.tab_home);
-        addTab(R.string.tab_3, R.drawable.tab_home);
-        addTab(R.string.tab_4, R.drawable.tab_home);
+        addTab(R.string.tab_1, R.drawable.tab_main);
+        addTab(R.string.tab_2, R.drawable.tab_main);
+        addTab(R.string.tab_3, R.drawable.tab_main);
+        addTab(R.string.tab_4, R.drawable.tab_main);
     }
 
     private void addTab(int labelId, int drawableId) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ShareActivity.class);
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, getTabWidget(), false);

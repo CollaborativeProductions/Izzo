@@ -9,7 +9,7 @@ import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class, emulateSdk = 21)
-public class MainActivityTest extends TestCase {
+public class ShareActivityTest extends TestCase {
 
     @Test
     public void testHelloWorld() {
