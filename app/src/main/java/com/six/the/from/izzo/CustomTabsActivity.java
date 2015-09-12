@@ -25,6 +25,8 @@ public class CustomTabsActivity extends TabActivity {
         addTab(R.string.tab_2, R.drawable.tab_main);
         addTab(R.string.tab_3, R.drawable.tab_main);
         addTab(R.string.tab_4, R.drawable.tab_main);
+
+        tabHost.setCurrentTab(1);
     }
 
     private void addTab(int labelId, int drawableId) {
