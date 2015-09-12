@@ -28,7 +28,24 @@ public class CustomTabsActivity extends TabActivity {
     }
 
     private void addTab(int labelId, int drawableId) {
-        Intent intent = new Intent(this, ShareActivity.class);
+        Intent intent;
+        switch (labelId) {
+            case R.string.tab_1:
+                intent = new Intent(this, ShareActivity.class);
+                break;
+            case R.string.tab_2:
+                intent = new Intent(this, ProgramsActivity.class);
+                break;
+            case R.string.tab_3:
+                intent = new Intent(this, NewTeamActivity.class);
+                break;
+            case R.string.tab_4:
+                intent = new Intent(this, NewProgramActivity.class);
+                break;
+            default:
+                intent = new Intent(this, ProgramsActivity.class);
+                break;
+        }
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, getTabWidget(), false);
@@ -39,6 +56,5 @@ public class CustomTabsActivity extends TabActivity {
         spec.setIndicator(tabIndicator);
         spec.setContent(intent);
         tabHost.addTab(spec);
-
     }
 }
