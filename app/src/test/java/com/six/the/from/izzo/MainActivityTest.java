@@ -14,7 +14,7 @@ public class MainActivityTest extends TestCase {
     @Test
     public void testHelloWorld() {
         String helloWorld = "hello world!";
-        assertEquals("hello world!", helloWorld);
+        assertEquals("hello there!", helloWorld);
     }
 
 }
