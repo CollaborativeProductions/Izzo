@@ -11,7 +11,8 @@ public class Athlete {
     private String phone_number;
     private Set<Integer> groups;
 
-    public Athlete(String uuid, String first_name, String last_name, String phone_number) {
+    public Athlete(int id, String uuid, String first_name, String last_name, String phone_number) {
+        setId(id);
         setUuid(uuid);
         setFirstName(first_name);
         setLastName(last_name);
