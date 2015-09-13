@@ -21,11 +21,23 @@ public class CustomTabsActivity extends TabActivity {
     private void setTabs() {
         tabHost = getTabHost();
 
+        addFakeTab(R.string.tab_0);
         addTab(R.string.tab_1, R.drawable.tab_home);
         addTab(R.string.tab_2, R.drawable.tab_team);
         addTab(R.string.tab_3, R.drawable.tab_single);
 
         tabHost.setCurrentTab(0);
+    }
+
+    private void addFakeTab(int labelId) {
+        Intent intent = new Intent(this, InFlightActivity.class);
+        TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
+
+        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, getTabWidget(), false);
+
+        spec.setIndicator(tabIndicator);
+        spec.setContent(intent);
+        tabHost.addTab(spec);
     }
 
     private void addTab(int labelId, int drawableId) {
