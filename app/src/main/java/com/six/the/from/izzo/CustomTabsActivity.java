@@ -24,24 +24,20 @@ public class CustomTabsActivity extends TabActivity {
         addTab(R.string.tab_1, R.drawable.tab_main);
         addTab(R.string.tab_2, R.drawable.tab_main);
         addTab(R.string.tab_3, R.drawable.tab_main);
-        addTab(R.string.tab_4, R.drawable.tab_main);
 
-        tabHost.setCurrentTab(1);
+        tabHost.setCurrentTab(0);
     }
 
     private void addTab(int labelId, int drawableId) {
         Intent intent;
         switch (labelId) {
             case R.string.tab_1:
-                intent = new Intent(this, ShareActivity.class);
-                break;
-            case R.string.tab_2:
                 intent = new Intent(this, ProgramsActivity.class);
                 break;
-            case R.string.tab_3:
+            case R.string.tab_2:
                 intent = new Intent(this, NewTeamActivity.class);
                 break;
-            case R.string.tab_4:
+            case R.string.tab_3:
                 intent = new Intent(this, NewProgramActivity.class);
                 break;
             default:

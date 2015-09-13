@@ -8,10 +8,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ShareActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
             android:name=".CustomTabsActivity"
             android:label="@string/app_name" >
             <intent-filter>
