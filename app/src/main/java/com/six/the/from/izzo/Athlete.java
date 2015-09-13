@@ -44,7 +44,6 @@ public class Athlete {
         this.first_name = first_name;
     }
 
-
     public String getLastName() {
         return last_name;
     }
