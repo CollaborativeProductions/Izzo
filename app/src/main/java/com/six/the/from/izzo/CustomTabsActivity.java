@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
+import com.parse.Parse;
+
 public class CustomTabsActivity extends TabActivity {
     private TabHost tabHost;
 
@@ -16,6 +18,14 @@ public class CustomTabsActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_host);
         setTabs();
+        initParse();
+    }
+
+    private void initParse() {
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        Parse.initialize(this, "uiZSGIayyGxGlMGzzlv5PtoS8yJtEyplxVqxHALN", "06h7dcf88vcFFdVCrtBsGyMQ70CYU8C7dacfDcN6");
     }
 
     private void setTabs() {
