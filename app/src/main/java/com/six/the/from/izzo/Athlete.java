@@ -9,7 +9,6 @@ public class Athlete {
     private String first_name;
     private String last_name;
     private String phone_number;
-    private Set<Integer> groups;
 
     public Athlete(int id, String uuid, String first_name, String last_name, String phone_number) {
         setId(id);
@@ -17,7 +16,6 @@ public class Athlete {
         setFirstName(first_name);
         setLastName(last_name);
         setPhoneNumber(phone_number);
-        this.groups = new HashSet();
     }
 
     public int getId() {
@@ -60,11 +58,4 @@ public class Athlete {
         this.phone_number = phone_number;
     }
 
-    public Set<Integer> getGroups() {
-        return groups;
-    }
-
-    public void addGroup(int groupId) {
-        this.groups.add(groupId);
-    }
 }
