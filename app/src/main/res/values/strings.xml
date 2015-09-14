@@ -12,6 +12,7 @@
     <string name="finalize_team">Finalize your team!</string>
     <string name="done">Done</string>
 
+    <string name="lbl_upload_icon">Please provide an optional logo for your team</string>
     <string name="lbl_team_name">Enter team name here...</string>
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>

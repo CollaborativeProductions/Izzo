@@ -5,4 +5,5 @@
 	<color name="grey">#262626</color>
 	<color name="dark_grey">#171717</color>
 	<color name="super_dark_grey">#171717</color>
+	<color name="black">#000000</color>
 </resources>
