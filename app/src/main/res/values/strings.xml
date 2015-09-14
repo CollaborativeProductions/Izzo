@@ -9,6 +9,13 @@
     <string name="tab_3">New Workout</string>
     <string name="title_activity_programs">ProgramsActivity</string>
 
+    <string name="finalize_team">Finalize your team!</string>
+    <string name="done">Done</string>
+
+    <string name="lbl_team_name">Enter team name here...</string>
+    <string name="lbl_team_description">Enter a description...</string>
+    <string name="lbl_team_members">List members...</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_new_team">NewTeamActivity</string>
     <string name="title_activity_new_program">NewProgramActivity</string>
