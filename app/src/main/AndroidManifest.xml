@@ -28,7 +28,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".NewProgramActivity"
+            android:name=".NewWorkoutActivity"
             android:label="@string/app_name" >
         </activity>
         <activity

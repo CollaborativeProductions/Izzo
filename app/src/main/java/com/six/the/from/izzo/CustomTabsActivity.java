@@ -60,7 +60,7 @@ public class CustomTabsActivity extends TabActivity {
                 intent = new Intent(this, NewTeamActivity.class);
                 break;
             case R.string.tab_3:
-                intent = new Intent(this, NewProgramActivity.class);
+                intent = new Intent(this, NewWorkoutActivity.class);
                 break;
             default:
                 intent = new Intent(this, ProgramsActivity.class);
