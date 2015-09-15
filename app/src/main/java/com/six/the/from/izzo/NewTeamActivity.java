@@ -1,10 +1,15 @@
 package com.six.the.from.izzo;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 
 public class NewTeamActivity extends ActionBarActivity {
@@ -13,6 +18,33 @@ public class NewTeamActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_team);
+        Cursor cur = getContacts();
+        String[] fields = new String[] {
+                ContactsContract.Data.DISPLAY_NAME
+        };
+        SimpleCursorAdapter scAdapter =
+                new SimpleCursorAdapter(this,
+                        R.layout.contact_list_item,
+                        cur,
+                        fields,
+                        new int[]{R.id.name_entry},
+                        0);
+
+        ListView lv = (ListView) findViewById(R.id.contacts_list_view);
+        lv.setAdapter(scAdapter);
+    }
+
+    private Cursor getContacts() {
+        // Run query
+        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        String[] projection =
+                new String[]{ ContactsContract.Contacts._ID,
+                        ContactsContract.Contacts.DISPLAY_NAME };
+        String selection = null;
+        String[] selectionArgs = null;
+        String sortOrder = ContactsContract.Contacts.DISPLAY_NAME +
+                " COLLATE LOCALIZED ASC";
+        return getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
     }
 
     @Override
@@ -29,10 +61,6 @@ public class NewTeamActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
-            case R.id.action_next:
-                Intent intent = new Intent(this, ContactsListActivity.class);
-                startActivity(intent);
                 return true;
         }
 

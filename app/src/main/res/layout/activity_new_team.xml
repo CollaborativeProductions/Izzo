@@ -62,4 +62,10 @@
             android:layout_weight="1"
             android:ems="10" />
     </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/contacts_list_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
