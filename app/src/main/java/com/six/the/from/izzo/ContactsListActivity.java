@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 
 
 public class ContactsListActivity extends ActionBarActivity {
@@ -32,19 +31,22 @@ public class ContactsListActivity extends ActionBarActivity {
     public void init() {
         ListView lv = (ListView) findViewById(R.id.contacts_list_view);
         cur = getContacts();
-        String[] fields = new String[] {
-                ContactsContract.Data.DISPLAY_NAME
+        String[] from_fields = new String[] {
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER
+        };
+        int[] to_fields = new int[] {
+                R.id.name_entry,
+                R.id.number_entry
         };
         scAdapter =
                 new SimpleCursorAdapter(this,
                         R.layout.contact_list_item,
                         cur,
-                        fields,
-                        new int[]{R.id.name_entry},
+                        from_fields,
+                        to_fields,
                         0);
         lv.setAdapter(scAdapter);
-
-        searchString = new String();
     }
 
     public void setEditTextChangedListener() {
@@ -71,10 +73,13 @@ public class ContactsListActivity extends ActionBarActivity {
 
     private Cursor getContacts() {
         // Run query
-        Uri uri = ContactsContract.Contacts.CONTENT_URI;
+        Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] projection =
-                new String[]{ ContactsContract.Contacts._ID,
-                        ContactsContract.Contacts.DISPLAY_NAME };
+                new String[] {
+                        ContactsContract.CommonDataKinds.Phone._ID,
+                        ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                        ContactsContract.CommonDataKinds.Phone.NUMBER
+                };
         String selection =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ?
                         ContactsContract.Contacts.DISPLAY_NAME_PRIMARY + " LIKE ?" :
