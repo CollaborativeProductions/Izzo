@@ -8,14 +8,19 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
+    private HashMap<String, String> contactMap;
+
     public ContactArrayAdapter(Context context, int resource) {
         super(context, resource);
+        this.contactMap = new HashMap<>();
     }
 
     public ContactArrayAdapter(Context context, int resource, ArrayList<ContactListItem> contacts) {
         super(context, resource, contacts);
+        this.contactMap = new HashMap<>();
     }
 
     @Override
@@ -26,7 +31,6 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.contact_list_item, parent, false);
-//            view = LayoutInflater.from(getContext()).inflate(R.layout.contact_list_item, parent, false);
         }
         // Lookup view for data population
         TextView txtNameEntry = (TextView) view.findViewById(R.id.name_entry);
@@ -38,5 +42,19 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
 
         // Return the completed view to render on screen
         return view;
+    }
+
+    public void add(String name, String phoneNumber) {
+        if (this.contactMap.containsKey(phoneNumber) &&
+                this.contactMap.get(phoneNumber).equals(name))
+            return;
+        super.add(new ContactListItem(phoneNumber, name));
+        this.contactMap.put(phoneNumber, name);
+    }
+
+    public void remove(int position) {
+        ContactListItem contact = getItem(position);
+        super.remove(contact);
+        this.contactMap.remove(contact.getPhoneNumber());
     }
 }

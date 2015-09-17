@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -37,9 +36,17 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     public void initSelectedListView() {
-        ListView lvMemberList = (ListView) findViewById(R.id.member_list_view);
+        ListView lvSelectedList = (ListView) findViewById(R.id.member_list_view);
         arrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
-        lvMemberList.setAdapter(arrayAdapter);
+        lvSelectedList.setAdapter(arrayAdapter);
+        lvSelectedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
+                arrayAdapter.remove(pos);
+                arrayAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
 
     public void initSearchListView() {
@@ -66,7 +73,8 @@ public class ContactsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 TextView name = (TextView) view.findViewById(R.id.name_entry);
                 TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
-                addToArrayAdapter(name.getText().toString(), phoneNumber.getText().toString());
+                arrayAdapter.add(name.getText().toString(), phoneNumber.getText().toString());
+                arrayAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Added "+name.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -111,11 +119,6 @@ public class ContactsListActivity extends ActionBarActivity {
         String sortOrder = ContactsContract.Contacts.DISPLAY_NAME +
                 " COLLATE LOCALIZED ASC";
         return getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
-    }
-
-    public void addToArrayAdapter(String name, String phoneNumber) {
-        arrayAdapter.add(new ContactListItem(name, phoneNumber));
-        arrayAdapter.notifyDataSetChanged();
     }
 
     private void setSearchString(String text) {
