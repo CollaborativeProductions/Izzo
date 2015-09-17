@@ -10,15 +10,22 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class ContactsListActivity extends ActionBarActivity {
     private String searchString;
     private Cursor cur;
     private SimpleCursorAdapter scAdapter;
+    private ArrayAdapter<String> arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +36,11 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     public void init() {
-        ListView lv = (ListView) findViewById(R.id.contacts_list_view);
+        ListView lvMemberList = (ListView) findViewById(R.id.member_list_view);
+        arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1);
+        lvMemberList.setAdapter(arrayAdapter);
+
         cur = getContacts();
         String[] from_fields = new String[] {
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
@@ -39,6 +50,7 @@ public class ContactsListActivity extends ActionBarActivity {
                 R.id.name_entry,
                 R.id.number_entry
         };
+        ListView lvContactSearch = (ListView) findViewById(R.id.contacts_list_view);
         scAdapter =
                 new SimpleCursorAdapter(this,
                         R.layout.contact_list_item,
@@ -46,7 +58,15 @@ public class ContactsListActivity extends ActionBarActivity {
                         from_fields,
                         to_fields,
                         0);
-        lv.setAdapter(scAdapter);
+        lvContactSearch.setAdapter(scAdapter);
+        lvContactSearch.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
+                addToArrayAdapter(phoneNumber.getText().toString());
+                Toast.makeText(getApplicationContext(), "Added "+phoneNumber.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void setEditTextChangedListener() {
@@ -88,6 +108,11 @@ public class ContactsListActivity extends ActionBarActivity {
         String sortOrder = ContactsContract.Contacts.DISPLAY_NAME +
                 " COLLATE LOCALIZED ASC";
         return getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
+    }
+
+    public void addToArrayAdapter(String newListElemString) {
+        arrayAdapter.add(newListElemString);
+        arrayAdapter.notifyDataSetChanged();
     }
 
     private void setSearchString(String text) {
