@@ -91,7 +91,7 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void setSearchString(String text) {
-        searchString = text;
+        searchString = (text.length() == 0) ? null : text;
     }
 
     private String getSearchString() {
