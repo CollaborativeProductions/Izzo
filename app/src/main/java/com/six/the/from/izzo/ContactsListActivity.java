@@ -31,15 +31,18 @@ public class ContactsListActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
-        init();
+        initSelectedListView();
+        initSearchListView();
         setEditTextChangedListener();
     }
 
-    public void init() {
+    public void initSelectedListView() {
         ListView lvMemberList = (ListView) findViewById(R.id.member_list_view);
         arrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
         lvMemberList.setAdapter(arrayAdapter);
+    }
 
+    public void initSearchListView() {
         cur = getContacts();
         String[] from_fields = new String[] {
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
