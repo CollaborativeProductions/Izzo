@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,21 +9,22 @@
     android:orientation="vertical"
     tools:context="com.six.the.from.izzo.ContactsListActivity" >
 
-    <LinearLayout
-        android:layout_width="fill_parent"
+    <EditText
+        android:id="@+id/et_search_string"
+        android:hint="@string/lbl_team_members"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <EditText
-            android:id="@+id/et_search_string"
-            android:hint="@string/lbl_team_members"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10" />
-    </LinearLayout>
+        android:ems="10" />
+    <TextView
+        android:id="@+id/text_view"
+        android:text="Put a ListView here instead of me"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_search_string" />
     <ListView
         android:id="@+id/contacts_list_view"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_below="@+id/et_search_string" />
+</RelativeLayout>
