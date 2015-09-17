@@ -25,7 +25,7 @@ public class ContactsListActivity extends ActionBarActivity {
     private String searchString;
     private Cursor cur;
     private SimpleCursorAdapter scAdapter;
-    private ArrayAdapter<String> arrayAdapter;
+    private ContactArrayAdapter arrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +37,7 @@ public class ContactsListActivity extends ActionBarActivity {
 
     public void init() {
         ListView lvMemberList = (ListView) findViewById(R.id.member_list_view);
-        arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1);
+        arrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
         lvMemberList.setAdapter(arrayAdapter);
 
         cur = getContacts();
@@ -62,9 +61,10 @@ public class ContactsListActivity extends ActionBarActivity {
         lvContactSearch.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                TextView name = (TextView) view.findViewById(R.id.name_entry);
                 TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
-                addToArrayAdapter(phoneNumber.getText().toString());
-                Toast.makeText(getApplicationContext(), "Added "+phoneNumber.getText().toString(), Toast.LENGTH_SHORT).show();
+                addToArrayAdapter(name.getText().toString(), phoneNumber.getText().toString());
+                Toast.makeText(getApplicationContext(), "Added "+name.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -110,8 +110,8 @@ public class ContactsListActivity extends ActionBarActivity {
         return getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
     }
 
-    public void addToArrayAdapter(String newListElemString) {
-        arrayAdapter.add(newListElemString);
+    public void addToArrayAdapter(String name, String phoneNumber) {
+        arrayAdapter.add(new ContactListItem(name, phoneNumber));
         arrayAdapter.notifyDataSetChanged();
     }
 
