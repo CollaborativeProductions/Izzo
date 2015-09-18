@@ -131,6 +131,12 @@ public class ContactsListActivity extends ActionBarActivity {
         return searchString;
     }
 
+    public void saveTeam() {
+        for (int pos = 0; pos < arrayAdapter.getCount(); pos++) {
+            arrayAdapter.saveInBackground(pos);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -143,8 +149,12 @@ public class ContactsListActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
                 return true;
+            case R.id.action_done:
+                saveTeam();
+                return true;
             case android.R.id.home:
                 finish();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

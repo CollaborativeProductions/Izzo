@@ -10,7 +10,7 @@
     <string name="title_activity_programs">ProgramsActivity</string>
 
     <string name="finalize_team">Finalize your team!</string>
-    <string name="done">Done</string>
+    <string name="action_done">Done</string>
     <string name="next">Next</string>
 
     <string name="lbl_upload_icon">Please provide an optional logo for your team</string>

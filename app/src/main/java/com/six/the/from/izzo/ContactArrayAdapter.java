@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -48,7 +50,7 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         if (this.contactMap.containsKey(phoneNumber) &&
                 this.contactMap.get(phoneNumber).equals(name))
             return;
-        super.add(new ContactListItem(phoneNumber, name));
+        super.add(new ContactListItem(name, phoneNumber));
         this.contactMap.put(phoneNumber, name);
     }
 
@@ -56,5 +58,15 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         ContactListItem contact = getItem(position);
         super.remove(contact);
         this.contactMap.remove(contact.getPhoneNumber());
+    }
+
+    public void saveInBackground(int position) {
+        ContactListItem contact = getItem(position);
+        String[] contactName = contact.getName().split(" ");
+        ParseObject athlete = new ParseObject("Athlete");
+        athlete.put("firstName", contactName[0]);
+        if (!contactName[1].isEmpty()) athlete.put("lastName", contactName[1]);
+        athlete.put("phoneNumber", contact.getPhoneNumber());
+        athlete.saveInBackground();
     }
 }
