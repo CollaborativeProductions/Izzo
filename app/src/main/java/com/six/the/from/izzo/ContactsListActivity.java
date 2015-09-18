@@ -1,5 +1,6 @@
 package com.six.the.from.izzo;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -151,6 +152,10 @@ public class ContactsListActivity extends ActionBarActivity {
                 return true;
             case R.id.action_done:
                 saveTeam();
+                Intent intent = new Intent(getApplicationContext(), CustomTabsActivity.class);
+                intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 return true;
             case android.R.id.home:
                 finish();

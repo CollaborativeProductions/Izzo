@@ -21,7 +21,7 @@
             android:src="@drawable/default_logo"
             android:layout_weight="0.3" />
         <TextView
-            android:id="@+id/txtIconRequest"
+            android:id="@+id/txt_icon_request"
             android:hint="@string/lbl_upload_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
         android:orientation="horizontal" >
 
         <EditText
-            android:id="@+id/txtTeamName"
+            android:id="@+id/txt_new_team_name"
             android:hint="@string/lbl_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

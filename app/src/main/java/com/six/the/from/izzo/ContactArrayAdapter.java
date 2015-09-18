@@ -12,6 +12,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+
 public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
     private HashMap<String, String> contactMap;
 

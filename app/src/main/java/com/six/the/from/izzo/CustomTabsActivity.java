@@ -18,7 +18,8 @@ public class CustomTabsActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_host);
         setTabs();
-        initParse();
+
+        if (!getIntent().hasExtra("teamName")) initParse();
     }
 
     private void initParse() {
@@ -41,6 +42,9 @@ public class CustomTabsActivity extends TabActivity {
 
     private void addFakeTab(int labelId) {
         Intent intent = new Intent(this, InFlightActivity.class);
+        if (getIntent().hasExtra("teamName")) {
+            intent.putExtra("teamName",  getIntent().getStringExtra("teamName"));
+        }
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, getTabWidget(), false);

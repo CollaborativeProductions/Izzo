@@ -4,6 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class InFlightActivity extends ActionBarActivity {
@@ -12,6 +13,11 @@ public class InFlightActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_flight);
+
+        if (!getIntent().hasExtra("teamName")) return;
+
+        TextView txtteamName = (TextView) findViewById(R.id.txt_team_name);
+        txtteamName.setText(getIntent().getStringExtra("teamName"));
     }
 
     @Override
