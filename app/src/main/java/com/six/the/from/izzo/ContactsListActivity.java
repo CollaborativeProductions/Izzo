@@ -20,6 +20,8 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.ParseObject;
+
 
 public class ContactsListActivity extends ActionBarActivity {
     private String searchString;
@@ -133,6 +135,9 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     public void saveTeam() {
+        ParseObject team = new ParseObject("Team");
+        team.put("name", getIntent().getStringExtra("teamName"));
+        team.saveInBackground();
         for (int pos = 0; pos < arrayAdapter.getCount(); pos++) {
             arrayAdapter.saveInBackground(pos);
         }
