@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 
 
 public class ContactsListActivity extends ActionBarActivity {
@@ -138,8 +139,9 @@ public class ContactsListActivity extends ActionBarActivity {
         ParseObject team = new ParseObject("Team");
         team.put("name", getIntent().getStringExtra("teamName"));
         team.saveInBackground();
+
         for (int pos = 0; pos < arrayAdapter.getCount(); pos++) {
-            arrayAdapter.saveInBackground(pos);
+            arrayAdapter.saveInBackground(pos, team);
         }
     }
 
