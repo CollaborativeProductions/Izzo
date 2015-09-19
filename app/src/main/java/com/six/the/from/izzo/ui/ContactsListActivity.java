@@ -131,7 +131,7 @@ public class ContactsListActivity extends ActionBarActivity {
     private void resetSearchStringField() {
         IzzoEditText etSearchText = (IzzoEditText) findViewById(R.id.et_search_string);
         etSearchText.setText("");
-    }
+    };
 
     private void setSearchString(String text) {
         searchString = (text.length() == 0) ? null : text;
@@ -164,7 +164,7 @@ public class ContactsListActivity extends ActionBarActivity {
                     return false;
                 }
                 saveTeam();
-                Intent intent = new Intent(getApplicationContext(), CustomTabsActivity.class);
+                Intent intent = new Intent(getApplication(), CustomTabsActivity.class);
                 intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
