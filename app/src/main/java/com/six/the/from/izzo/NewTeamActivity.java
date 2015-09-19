@@ -15,7 +15,10 @@ public class NewTeamActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_team);
+        initTextView();
+    }
 
+    private void initTextView() {
         final IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
         etViewTeamName.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {

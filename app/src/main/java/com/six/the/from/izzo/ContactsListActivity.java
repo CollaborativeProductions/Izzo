@@ -38,7 +38,7 @@ public class ContactsListActivity extends ActionBarActivity {
         setEditTextChangedListener();
     }
 
-    public void initSelectedListView() {
+    private void initSelectedListView() {
         ListView lvSelectedList = (ListView) findViewById(R.id.member_list_view);
         contactArrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
         lvSelectedList.setAdapter(contactArrayAdapter);
@@ -52,7 +52,7 @@ public class ContactsListActivity extends ActionBarActivity {
         });
     }
 
-    public void initSearchListView() {
+    private void initSearchListView() {
         cur = getContacts();
         String[] from_fields = new String[] {
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
@@ -76,17 +76,14 @@ public class ContactsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 TextView name = (TextView) view.findViewById(R.id.name_entry);
                 TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
-                IzzoEditText etSearchText = (IzzoEditText) findViewById(R.id.et_search_string);
-                etSearchText.setText("");
-                etSearchText.setError(null);
                 contactArrayAdapter.add(name.getText().toString(), phoneNumber.getText().toString());
                 contactArrayAdapter.notifyDataSetChanged();
-                Toast.makeText(getApplicationContext(), "Added " + name.getText().toString(), Toast.LENGTH_SHORT).show();
+                resetSearchStringField();
             }
         });
     }
 
-    public void setEditTextChangedListener() {
+    private void setEditTextChangedListener() {
         EditText etSearchString = (EditText) findViewById(R.id.et_search_string);
         etSearchString.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable text) {
@@ -127,6 +124,11 @@ public class ContactsListActivity extends ActionBarActivity {
         return getContentResolver().query(uri, projection, selection, selectionArgs, sortOrder);
     }
 
+    private void resetSearchStringField() {
+        IzzoEditText etSearchText = (IzzoEditText) findViewById(R.id.et_search_string);
+        etSearchText.setText("");
+    }
+
     private void setSearchString(String text) {
         searchString = (text.length() == 0) ? null : text;
     }
@@ -135,7 +137,7 @@ public class ContactsListActivity extends ActionBarActivity {
         return searchString;
     }
 
-    public void saveTeam() {
+    private void saveTeam() {
         ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"));
     }
 
