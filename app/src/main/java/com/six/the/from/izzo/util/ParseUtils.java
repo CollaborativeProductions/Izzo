@@ -14,7 +14,11 @@ public class ParseUtils {
             String[] contactName = contact.getName().split(" ");
             ParseObject athlete = new ParseObject("Athlete");
             athlete.put("firstName", contactName[0]);
-            if (!contactName[1].isEmpty()) athlete.put("lastName", contactName[1]);
+            try {
+                if (!contactName[1].isEmpty()) athlete.put("lastName", contactName[1]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // Ignore putting last name
+            }
             athlete.put("phoneNumber", contact.getPhoneNumber());
             athlete.saveInBackground();
 
