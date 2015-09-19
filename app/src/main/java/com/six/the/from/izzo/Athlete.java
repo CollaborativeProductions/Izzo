@@ -1,16 +1,14 @@
 package com.six.the.from.izzo;
 
-import java.util.HashSet;
-import java.util.Set;
 
 public class Athlete {
-    private int id;
+    private String id;
     private String uuid;
     private String first_name;
     private String last_name;
     private String phone_number;
 
-    public Athlete(int id, String uuid, String first_name, String last_name, String phone_number) {
+    public Athlete(String id, String uuid, String first_name, String last_name, String phone_number) {
         setId(id);
         setUuid(uuid);
         setFirstName(first_name);
@@ -18,11 +16,11 @@ public class Athlete {
         setPhoneNumber(phone_number);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -57,5 +55,4 @@ public class Athlete {
     public void setPhoneNumber(String phone_number) {
         this.phone_number = phone_number;
     }
-
 }

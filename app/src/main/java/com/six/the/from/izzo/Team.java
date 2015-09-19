@@ -1,24 +1,22 @@
 package com.six.the.from.izzo;
 
-import java.util.HashSet;
-import java.util.Set;
+
+import com.parse.ParseObject;
 
 public class Team {
-    private int id;
+    private String id;
     private String group_name;
-    private String description;
 
-    public Team(int id, int creator_id, String group_name, String description, int member_id) {
+    public Team(String id, String group_name) {
         setId(id);
         setGroupName(group_name);
-        setDescription(description);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -30,11 +28,9 @@ public class Team {
         this.group_name = group_name;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public void saveInBackground() {
+        ParseObject team = new ParseObject("Team");
+        team.put("name", this.getGroupName());
+        team.saveInBackground();
     }
 }
