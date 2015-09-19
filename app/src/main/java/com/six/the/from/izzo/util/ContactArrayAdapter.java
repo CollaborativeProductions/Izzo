@@ -60,6 +60,4 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         super.remove(contact);
         this.contactMap.remove(contact.getPhoneNumber());
     }
-
-
 }
