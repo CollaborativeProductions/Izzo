@@ -1,29 +1,25 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.ui;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+
+import com.six.the.from.izzo.R;
 
 
-public class InFlightActivity extends ActionBarActivity {
+public class NewWorkoutActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_in_flight);
-
-        if (!getIntent().hasExtra("teamName")) return;
-
-        TextView txtteamName = (TextView) findViewById(R.id.txt_team_name);
-        txtteamName.setText(getIntent().getStringExtra("teamName"));
+        setContentView(R.layout.activity_new_workout);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_in_flight, menu);
+        getMenuInflater().inflate(R.menu.menu_new_workout, menu);
         return true;
     }
 

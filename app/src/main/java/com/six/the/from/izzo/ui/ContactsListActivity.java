@@ -1,4 +1,4 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.ui;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,6 +18,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+
+import com.six.the.from.izzo.util.ContactArrayAdapter;
+import com.six.the.from.izzo.util.IzzoEditText;
+import com.six.the.from.izzo.util.ParseUtils;
+import com.six.the.from.izzo.R;
 
 
 public class ContactsListActivity extends ActionBarActivity {

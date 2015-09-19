@@ -12,7 +12,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".CustomTabsActivity"
+            android:name=".ui.CustomTabsActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,23 +21,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProgramsActivity"
+            android:name=".ui.ProgramsActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".NewTeamActivity"
+            android:name=".ui.NewTeamActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".NewWorkoutActivity"
+            android:name=".ui.NewWorkoutActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".InFlightActivity"
+            android:name=".ui.InFlightActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ContactsListActivity"
+            android:name=".ui.ContactsListActivity"
             android:label="@string/title_activity_contacts_list" >
         </activity>
     </application>

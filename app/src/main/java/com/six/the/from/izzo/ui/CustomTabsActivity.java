@@ -1,4 +1,4 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.ui;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TabHost;
 
 import com.parse.Parse;
+import com.six.the.from.izzo.R;
 
 public class CustomTabsActivity extends TabActivity {
     private TabHost tabHost;

@@ -1,4 +1,4 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.ui;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -7,6 +7,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.six.the.from.izzo.util.IzzoEditText;
+import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.util.Validation;
 
 
 public class NewTeamActivity extends ActionBarActivity {

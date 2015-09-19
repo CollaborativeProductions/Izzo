@@ -1,4 +1,4 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.util;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

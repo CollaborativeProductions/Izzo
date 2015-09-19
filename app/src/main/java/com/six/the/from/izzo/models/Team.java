@@ -1,4 +1,4 @@
-package com.six.the.from.izzo;
+package com.six.the.from.izzo.models;
 
 
 import com.parse.ParseObject;
