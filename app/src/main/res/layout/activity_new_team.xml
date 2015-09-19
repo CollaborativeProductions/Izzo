@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <EditText
-            android:id="@+id/txt_new_team_name"
+        <com.six.the.from.izzo.IzzoEditText
+            android:id="@+id/et_new_team_name"
             android:hint="@string/lbl_team_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

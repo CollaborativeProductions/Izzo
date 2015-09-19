@@ -5,7 +5,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 
 public class NewTeamActivity extends ActionBarActivity {
@@ -32,10 +31,12 @@ public class NewTeamActivity extends ActionBarActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_next:
-                TextView txtViewTeamName = (TextView) findViewById(R.id.txt_new_team_name);
-                Intent intent = new Intent(this, ContactsListActivity.class);
-                intent.putExtra("teamName", txtViewTeamName.getText().toString());
-                startActivity(intent);
+                IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
+                if (Validation.hasText(etViewTeamName)) {
+                    etViewTeamName.setText("");
+                    Intent intent = new Intent(this, ContactsListActivity.class);
+                    startActivity(intent);
+                }
                 return true;
         }
 
