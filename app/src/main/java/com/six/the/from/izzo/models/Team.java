@@ -5,11 +5,11 @@ import com.parse.ParseObject;
 
 public class Team {
     private String id;
-    private String group_name;
+    private String name;
 
-    public Team(String id, String group_name) {
+    public Team(String id, String teamName) {
         setId(id);
-        setGroupName(group_name);
+        setName(teamName);
     }
 
     public String getId() {
@@ -20,17 +20,17 @@ public class Team {
         this.id = id;
     }
 
-    public String getGroupName() {
-        return group_name;
+    public String getName() {
+        return this.name;
     }
 
-    public void setGroupName(String group_name) {
-        this.group_name = group_name;
+    public void setName(String teamName) {
+        this.name = teamName;
     }
 
     public void saveInBackground() {
         ParseObject team = new ParseObject("Team");
-        team.put("name", this.getGroupName());
+        team.put("name", this.getName());
         team.saveInBackground();
     }
 }
