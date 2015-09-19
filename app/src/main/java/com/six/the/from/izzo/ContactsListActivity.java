@@ -149,6 +149,11 @@ public class ContactsListActivity extends ActionBarActivity {
             case R.id.action_settings:
                 return true;
             case R.id.action_done:
+                if (contactArrayAdapter.isEmpty()) {
+                    IzzoEditText etSearchText = (IzzoEditText) findViewById(R.id.et_search_string);
+                    etSearchText.setError("");
+                    return false;
+                }
                 saveTeam();
                 Intent intent = new Intent(getApplicationContext(), CustomTabsActivity.class);
                 intent.putExtra("teamName", getIntent().getStringExtra("teamName"));

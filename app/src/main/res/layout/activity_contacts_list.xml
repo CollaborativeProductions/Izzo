@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context="com.six.the.from.izzo.ContactsListActivity" >
 
-    <EditText
+    <com.six.the.from.izzo.IzzoEditText
         android:id="@+id/et_search_string"
         android:hint="@string/lbl_team_members"
         android:layout_width="match_parent"
