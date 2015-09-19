@@ -76,6 +76,9 @@ public class ContactsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 TextView name = (TextView) view.findViewById(R.id.name_entry);
                 TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
+                IzzoEditText etSearchText = (IzzoEditText) findViewById(R.id.et_search_string);
+                etSearchText.setText("");
+                etSearchText.setError(null);
                 contactArrayAdapter.add(name.getText().toString(), phoneNumber.getText().toString());
                 contactArrayAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Added " + name.getText().toString(), Toast.LENGTH_SHORT).show();

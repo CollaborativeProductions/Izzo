@@ -3,6 +3,8 @@ package com.six.the.from.izzo;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,6 +15,19 @@ public class NewTeamActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_team);
+
+        final IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
+        etViewTeamName.addTextChangedListener(new TextWatcher() {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            public void afterTextChanged(Editable s) {
+                if (s.toString().trim().length() > 0) etViewTeamName.setError(null);
+            }
+        });
     }
 
     @Override
@@ -33,8 +48,8 @@ public class NewTeamActivity extends ActionBarActivity {
             case R.id.action_next:
                 IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
                 if (Validation.hasText(etViewTeamName)) {
-                    etViewTeamName.setText("");
                     Intent intent = new Intent(this, ContactsListActivity.class);
+                    intent.putExtra("teamName", etViewTeamName.getText().toString());
                     startActivity(intent);
                 }
                 return true;
