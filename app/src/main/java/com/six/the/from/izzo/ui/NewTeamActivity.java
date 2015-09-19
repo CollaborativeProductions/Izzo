@@ -38,6 +38,14 @@ public class NewTeamActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
+        etViewTeamName.setText("");
+        etViewTeamName.setError(null);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_new_team, menu);
