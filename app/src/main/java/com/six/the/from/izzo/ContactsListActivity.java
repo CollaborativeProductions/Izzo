@@ -20,15 +20,12 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.parse.ParseObject;
-import com.parse.ParseRelation;
-
 
 public class ContactsListActivity extends ActionBarActivity {
     private String searchString;
     private Cursor cur;
     private SimpleCursorAdapter scAdapter;
-    private ContactArrayAdapter arrayAdapter;
+    private ContactArrayAdapter contactArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +40,13 @@ public class ContactsListActivity extends ActionBarActivity {
 
     public void initSelectedListView() {
         ListView lvSelectedList = (ListView) findViewById(R.id.member_list_view);
-        arrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
-        lvSelectedList.setAdapter(arrayAdapter);
+        contactArrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
+        lvSelectedList.setAdapter(contactArrayAdapter);
         lvSelectedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             public boolean onItemLongClick(AdapterView<?> av, View v, int pos, long id) {
-                arrayAdapter.remove(pos);
-                arrayAdapter.notifyDataSetChanged();
+                contactArrayAdapter.remove(pos);
+                contactArrayAdapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -79,8 +76,8 @@ public class ContactsListActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 TextView name = (TextView) view.findViewById(R.id.name_entry);
                 TextView phoneNumber = (TextView) view.findViewById(R.id.number_entry);
-                arrayAdapter.add(name.getText().toString(), phoneNumber.getText().toString());
-                arrayAdapter.notifyDataSetChanged();
+                contactArrayAdapter.add(name.getText().toString(), phoneNumber.getText().toString());
+                contactArrayAdapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(), "Added " + name.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -136,13 +133,7 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     public void saveTeam() {
-        ParseObject team = new ParseObject("Team");
-        team.put("name", getIntent().getStringExtra("teamName"));
-        team.saveInBackground();
-
-        for (int pos = 0; pos < arrayAdapter.getCount(); pos++) {
-            arrayAdapter.saveInBackground(pos, team);
-        }
+        ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"));
     }
 
     @Override
