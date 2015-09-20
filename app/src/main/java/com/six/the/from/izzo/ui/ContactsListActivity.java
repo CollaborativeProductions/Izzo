@@ -43,7 +43,7 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void initSelectedListView() {
-        ListView lvSelectedList = (ListView) findViewById(R.id.member_list_view);
+        ListView lvSelectedList = (ListView) findViewById(R.id.selected_list_view);
         contactArrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
         lvSelectedList.setAdapter(contactArrayAdapter);
         lvSelectedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {

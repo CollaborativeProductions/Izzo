@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:ems="10" />
     <ListView
-        android:id="@+id/member_list_view"
+        android:id="@+id/selected_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/et_search_string" />

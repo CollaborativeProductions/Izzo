@@ -21,11 +21,6 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         this.contactMap = new HashMap<>();
     }
 
-    public ContactArrayAdapter(Context context, int resource, ArrayList<ContactListItem> contacts) {
-        super(context, resource, contacts);
-        this.contactMap = new HashMap<>();
-    }
-
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         // Get the data item for this position
