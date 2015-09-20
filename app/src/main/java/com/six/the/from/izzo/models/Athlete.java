@@ -1,27 +1,36 @@
 package com.six.the.from.izzo.models;
 
 
+import com.parse.ParseObject;
+
 public class Athlete {
-    private String id;
+    private String objectId;
     private String uuid;
-    private String first_name;
-    private String last_name;
-    private String phone_number;
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
 
-    public Athlete(String id, String uuid, String first_name, String last_name, String phone_number) {
-        setId(id);
+    public Athlete(String uuid, String firstName, String lastName, String phoneNumber) {
         setUuid(uuid);
-        setFirstName(first_name);
-        setLastName(last_name);
-        setPhoneNumber(phone_number);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhoneNumber(phoneNumber);
     }
 
-    public String getId() {
-        return id;
+    public Athlete(String objectId, String uuid, String firstName, String lastName, String phoneNumber) {
+        setObjectId(objectId);
+        setUuid(uuid);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhoneNumber(phoneNumber);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getUuid() {
@@ -33,26 +42,35 @@ public class Athlete {
     }
 
     public String getFirstName() {
-        return first_name;
+        return firstName;
     }
 
-    public void setFirstName(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return last_name;
+        return lastName;
     }
 
-    public void setLastName(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPhoneNumber() {
-        return phone_number;
+        return phoneNumber;
     }
 
-    public void setPhoneNumber(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void saveInBackground() {
+        ParseObject newAthlete = new ParseObject("Athlete");
+        newAthlete.put("uuid", this.getUuid());
+        newAthlete.put("firstName", this.getFirstName());
+        newAthlete.put("lastName", this.getLastName());
+        newAthlete.put("phoneNumber", this.getPhoneNumber());
+        newAthlete.saveInBackground();
     }
 }

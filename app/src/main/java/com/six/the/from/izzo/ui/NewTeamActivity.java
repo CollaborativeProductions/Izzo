@@ -63,7 +63,7 @@ public class NewTeamActivity extends ActionBarActivity {
             case R.id.action_next:
                 IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
                 if (Validation.hasText(etViewTeamName)) {
-                    Intent intent = new Intent(this, ContactsListActivity.class);
+                    Intent intent = new Intent(this.getApplication(), ContactsListActivity.class);
                     intent.putExtra("teamName", etViewTeamName.getText().toString());
                     startActivity(intent);
                 }

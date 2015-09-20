@@ -4,20 +4,19 @@ package com.six.the.from.izzo.models;
 import com.parse.ParseObject;
 
 public class Team {
-    private String id;
+    private String objectId;
     private String name;
 
-    public Team(String id, String teamName) {
-        setId(id);
+    public Team(String teamName) {
         setName(teamName);
     }
 
-    public String getId() {
-        return id;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getName() {
