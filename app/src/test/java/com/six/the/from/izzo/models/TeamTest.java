@@ -20,11 +20,11 @@ public class TeamTest extends TestCase {
 
     @Before
     public void setUpObjects() {
-        team = new Team(teamName);
+        team = new Team(objectId, teamName);
     }
 
     @Test
-    public void testGetObjectId() throws Exception {
+    public void testGetId() throws Exception {
         assertEquals(objectId, team.getObjectId());
     }
 

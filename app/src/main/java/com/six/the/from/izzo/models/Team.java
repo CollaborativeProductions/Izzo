@@ -7,7 +7,8 @@ public class Team {
     private String objectId;
     private String name;
 
-    public Team(String teamName) {
+    public Team(String objectId, String teamName) {
+        setId(objectId);
         setName(teamName);
     }
 
@@ -15,8 +16,8 @@ public class Team {
         return objectId;
     }
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
+    public void setId(String id) {
+        this.objectId = id;
     }
 
     public String getName() {

@@ -1,28 +1,19 @@
 package com.six.the.from.izzo.models;
 
 
-import com.parse.ParseObject;
-
 public class Athlete {
     private String objectId;
     private String uuid;
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
+    private String first_name;
+    private String last_name;
+    private String phone_number;
 
-    public Athlete(String uuid, String firstName, String lastName, String phoneNumber) {
-        setUuid(uuid);
-        setFirstName(firstName);
-        setLastName(lastName);
-        setPhoneNumber(phoneNumber);
-    }
-
-    public Athlete(String objectId, String uuid, String firstName, String lastName, String phoneNumber) {
+    public Athlete(String objectId, String uuid, String first_name, String last_name, String phone_number) {
         setObjectId(objectId);
         setUuid(uuid);
-        setFirstName(firstName);
-        setLastName(lastName);
-        setPhoneNumber(phoneNumber);
+        setFirstName(first_name);
+        setLastName(last_name);
+        setPhoneNumber(phone_number);
     }
 
     public String getObjectId() {
@@ -42,35 +33,26 @@ public class Athlete {
     }
 
     public String getFirstName() {
-        return firstName;
+        return first_name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
     public String getLastName() {
-        return lastName;
+        return last_name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setLastName(String last_name) {
+        this.last_name = last_name;
     }
 
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phone_number;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void saveInBackground() {
-        ParseObject newAthlete = new ParseObject("Athlete");
-        newAthlete.put("uuid", this.getUuid());
-        newAthlete.put("firstName", this.getFirstName());
-        newAthlete.put("lastName", this.getLastName());
-        newAthlete.put("phoneNumber", this.getPhoneNumber());
-        newAthlete.saveInBackground();
+    public void setPhoneNumber(String phone_number) {
+        this.phone_number = phone_number;
     }
 }

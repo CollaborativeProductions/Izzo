@@ -28,4 +28,17 @@ public class ParseUtils {
             athleteteam.saveInBackground();
         }
     }
+
+    public static void saveAthlete(String uuid, String firstName, String lastName, String phoneNumber) {
+        ParseObject newAthlete = new ParseObject("Athlete");
+        newAthlete.put("uuid", uuid);
+        newAthlete.put("firstName", firstName);
+        newAthlete.put("lastName", lastName);
+        newAthlete.put("phoneNumber", phoneNumber);
+        newAthlete.saveInBackground();
+    }
+
+    public static boolean userExists(String phoneNumber) {
+        return false;
+    }
 }

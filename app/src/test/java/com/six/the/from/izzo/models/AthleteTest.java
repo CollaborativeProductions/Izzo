@@ -23,7 +23,7 @@ public class AthleteTest extends TestCase {
 
     @Before
     public void setUpObjects() {
-        athlete = new Athlete(uuid, firstName, lastName, phoneNumber);
+        athlete = new Athlete(objectId, uuid, firstName, lastName, phoneNumber);
     }
 
     @Test
