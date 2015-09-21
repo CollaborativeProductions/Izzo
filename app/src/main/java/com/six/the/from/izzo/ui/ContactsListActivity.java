@@ -1,5 +1,6 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -142,7 +144,8 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void saveTeam() {
-        ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"));
+        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"), tManager.getDeviceId());
     }
 
     @Override

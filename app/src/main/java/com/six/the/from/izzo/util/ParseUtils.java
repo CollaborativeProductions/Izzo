@@ -3,39 +3,52 @@ package com.six.the.from.izzo.util;
 import com.parse.GetCallback;
 import com.six.the.from.izzo.ui.StartUpActivity.Heartbeat;
 
-import com.parse.FindCallback;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 
 
-import java.util.List;
-
-
 public class ParseUtils {
 
-    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName) {
-    ParseObject team = new ParseObject("Team");
-    team.put("name", teamName);
-    team.saveInBackground();
+    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid) {
+        final ParseObject team = new ParseObject("Team");
+        team.put("name", teamName);
+        team.saveInBackground();
 
-    for (int pos = 0; pos < contactArrayAdapter.getCount(); pos++) {
-        ContactListItem contact = contactArrayAdapter.getItem(pos);
-        String[] contactName = contact.getName().split(" ");
-        ParseObject athlete = new ParseObject("Athlete");
-        athlete.put("firstName", contactName[0]);
-        try {
-            if (!contactName[1].isEmpty()) athlete.put("lastName", contactName[1]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // Ignore putting last name
-        }
-        athlete.put("phoneNumber", contact.getPhoneNumber());
-        athlete.saveInBackground();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Athlete");
+        query.whereEqualTo("uuid", uuid);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject athlete, ParseException e) {
+                if (e == null) {
+                    ParseObject athleteteam = new ParseObject("AthleteTeam");
+                    athleteteam.put("admin", true);
+                    athleteteam.put("athlete", athlete);
+                    athleteteam.put("creator", true);
+                    athleteteam.put("team", team);
+                    athleteteam.saveInBackground();
+                }
+            }
+        });
 
-        ParseObject athleteteam = new ParseObject("AthleteTeam");
-        athleteteam.put("team", team);
-        athleteteam.put("athlete", athlete);
-        athleteteam.saveInBackground();
+        for (int pos = 0; pos < contactArrayAdapter.getCount(); pos++) {
+            ContactListItem contact = contactArrayAdapter.getItem(pos);
+            String[] contactName = contact.getName().split(" ");
+            ParseObject athlete = new ParseObject("Athlete");
+            athlete.put("firstName", contactName[0]);
+            try {
+                if (!contactName[1].isEmpty()) athlete.put("lastName", contactName[1]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                // Ignore putting last name
+            }
+            athlete.put("phoneNumber", contact.getPhoneNumber());
+            athlete.saveInBackground();
+
+            ParseObject athleteteam = new ParseObject("AthleteTeam");
+            athleteteam.put("admin", false);
+            athleteteam.put("athlete", athlete);
+            athleteteam.put("creator", false);
+            athleteteam.put("team", team);
+            athleteteam.saveInBackground();
         }
     }
 
