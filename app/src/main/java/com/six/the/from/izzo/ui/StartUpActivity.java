@@ -34,12 +34,6 @@ public class StartUpActivity extends ActionBarActivity {
         Parse.initialize(this, "uiZSGIayyGxGlMGzzlv5PtoS8yJtEyplxVqxHALN", "06h7dcf88vcFFdVCrtBsGyMQ70CYU8C7dacfDcN6");
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
     private class FetchAthleteInfo extends Thread {
         private boolean readingFromParse = true;
 
@@ -47,12 +41,6 @@ public class StartUpActivity extends ActionBarActivity {
 
         public void run() {
             while (readingFromParse) {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException ie) {
-                    ie.printStackTrace();
-                }
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -66,6 +54,12 @@ public class StartUpActivity extends ActionBarActivity {
                         }
                     }
                 });
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
             }
         }
     }
