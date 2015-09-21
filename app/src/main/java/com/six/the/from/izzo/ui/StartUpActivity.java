@@ -22,7 +22,7 @@ public class StartUpActivity extends ActionBarActivity {
         setContentView(R.layout.activity_start_up);
         initParse();
 
-        TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         ParseUtils.uuidPhoneNumberExists(heartbeat, tManager.getLine1Number(), tManager.getDeviceId());
 
         tFetchAthleteInfo = new FetchAthleteInfo();
