@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -14,11 +15,6 @@
         <activity
             android:name=".ui.CustomTabsActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.ProgramsActivity"
@@ -40,6 +36,18 @@
             android:name=".ui.ContactsListActivity"
             android:label="@string/title_activity_contacts_list" >
         </activity>
-    </application>
+        <activity
+            android:name=".ui.RegistrationActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".ui.StartUpActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>

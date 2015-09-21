@@ -20,14 +20,7 @@ public class CustomTabsActivity extends TabActivity {
         setContentView(R.layout.tab_host);
         setTabs();
 
-        if (!getIntent().hasExtra("teamName")) initParse();
-    }
-
-    private void initParse() {
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        Parse.initialize(this, "uiZSGIayyGxGlMGzzlv5PtoS8yJtEyplxVqxHALN", "06h7dcf88vcFFdVCrtBsGyMQ70CYU8C7dacfDcN6");
+//        if (!getIntent().hasExtra("teamName")) initParse();
     }
 
     private void setTabs() {

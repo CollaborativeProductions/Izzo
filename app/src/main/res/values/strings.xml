@@ -11,9 +11,11 @@
 
     <string name="finalize_team">Finalize your team!</string>
     <string name="action_done">Done</string>
+    <string name="get_started">Get Started</string>
     <string name="next">Next</string>
 
     <string name="lbl_upload_icon">Please provide an optional logo for your team</string>
+    <string name="lbl_phone_number">Enter phone number...</string>
     <string name="lbl_team_name">Enter team name here...</string>
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>
@@ -23,5 +25,6 @@
     <string name="title_activity_new_program">NewProgramActivity</string>
     <string name="title_activity_in_flight">InFlightActivity</string>
     <string name="title_activity_contacts_list">New Team</string>
-
+    <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_start_up">StartUpActivity</string>
 </resources>
