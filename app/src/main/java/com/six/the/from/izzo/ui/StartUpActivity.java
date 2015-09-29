@@ -58,7 +58,7 @@ public class StartUpActivity extends RoboActionBarActivity {
                 }
 
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
