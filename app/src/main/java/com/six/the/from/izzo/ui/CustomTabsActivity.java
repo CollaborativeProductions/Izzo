@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 
-import com.parse.Parse;
 import com.six.the.from.izzo.R;
 
 public class CustomTabsActivity extends TabActivity {
@@ -19,8 +18,6 @@ public class CustomTabsActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_host);
         setTabs();
-
-//        if (!getIntent().hasExtra("teamName")) initParse();
     }
 
     private void setTabs() {

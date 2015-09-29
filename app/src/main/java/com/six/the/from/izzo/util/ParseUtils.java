@@ -9,7 +9,6 @@ import com.parse.ParseException;
 
 
 public class ParseUtils {
-
     public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid) {
         final ParseObject team = new ParseObject("Team");
         team.put("name", teamName);
@@ -68,7 +67,14 @@ public class ParseUtils {
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject athlete, ParseException e) {
                 if (e == null) {
-                    if (athlete != null) heartbeat.exists = true;
+                    if (athlete != null) {
+                        heartbeat.exists = true;
+                        heartbeat.objectId = athlete.getObjectId();
+                        heartbeat.uuid = athlete.getString("uuid");
+                        heartbeat.firstName = athlete.getString("firstName");
+                        heartbeat.lastName = athlete.getString("lastName");
+                        heartbeat.phoneNumber = athlete.getString("phoneNumber");
+                    }
                 }
                 heartbeat.done = true;
             }

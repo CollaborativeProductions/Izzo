@@ -1,15 +1,21 @@
 package com.six.the.from.izzo.ui;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.models.CurrentAthlete;
+
+import javax.inject.Inject;
+
+import roboguice.activity.RoboActionBarActivity;
 
 
-public class InFlightActivity extends ActionBarActivity {
+public class InFlightActivity extends RoboActionBarActivity {
+    @Inject
+    CurrentAthlete currentAthlete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +25,7 @@ public class InFlightActivity extends ActionBarActivity {
         if (!getIntent().hasExtra("teamName")) return;
 
         TextView txtteamName = (TextView) findViewById(R.id.txt_team_name);
-        txtteamName.setText(getIntent().getStringExtra("teamName"));
+        txtteamName.setText(currentAthlete.getUuid());
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.six.the.from.izzo.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
@@ -10,9 +9,17 @@ import android.view.MenuItem;
 
 import com.parse.Parse;
 import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.util.ParseUtils;
 
-public class StartUpActivity extends ActionBarActivity {
+import javax.inject.Inject;
+
+import roboguice.activity.RoboActionBarActivity;
+
+public class StartUpActivity extends RoboActionBarActivity {
+    @Inject
+    CurrentAthlete currentAthlete;
+
     private final Heartbeat heartbeat = new Heartbeat();
     private FetchAthleteInfo tFetchAthleteInfo;
 
@@ -41,19 +48,14 @@ public class StartUpActivity extends ActionBarActivity {
 
         public void run() {
             while (readingFromParse) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (heartbeat.done) {
-                            if (heartbeat.exists) {
-                                launchActivity(CustomTabsActivity.class);
-                            } else {
-                                launchActivity(RegistrationActivity.class);
-                            }
-                            readingFromParse = false;
-                        }
-                    }
-                });
+                if (heartbeat.done) {
+                    currentAthlete.setObjectId(heartbeat.objectId);
+                    currentAthlete.setUuid(heartbeat.uuid);
+                    currentAthlete.setFirstName(heartbeat.firstName);
+                    currentAthlete.setLastName(heartbeat.lastName);
+                    currentAthlete.setPhoneNumber(heartbeat.phoneNumber);
+                    readingFromParse = false;
+                }
 
                 try {
                     Thread.sleep(500);
@@ -61,6 +63,17 @@ public class StartUpActivity extends ActionBarActivity {
                     ie.printStackTrace();
                 }
             }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (heartbeat.exists) {
+                        launchActivity(CustomTabsActivity.class);
+                    } else {
+                        launchActivity(RegistrationActivity.class);
+                    }
+                }
+            });
         }
     }
 
@@ -74,8 +87,12 @@ public class StartUpActivity extends ActionBarActivity {
     public static class Heartbeat {
         public boolean exists;
         public boolean done;
+        public String objectId;
+        public String uuid;
+        public String firstName;
+        public String lastName;
+        public String phoneNumber;
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
