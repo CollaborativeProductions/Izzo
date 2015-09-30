@@ -10,8 +10,12 @@ import android.widget.TextView;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Team;
 
+import java.util.HashMap;
+
 
 public class TeamArrayAdapter extends ArrayAdapter<Team> {
+    private HashMap<String, Team> teamsMap = new HashMap<>();
+
     public TeamArrayAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -33,5 +37,22 @@ public class TeamArrayAdapter extends ArrayAdapter<Team> {
 
         // Return the completed view to render on screen
         return view;
+    }
+
+    public void add(Team team) {
+        if (this.contains(team.getObjectId()))
+            return;
+        super.add(team);
+        this.teamsMap.put(team.getObjectId(), team);
+    }
+
+    public void remove(int position) {
+        Team team = getItem(position);
+        super.remove(team);
+        this.teamsMap.remove(team.getObjectId());
+    }
+
+    public boolean contains(String objectId) {
+        return teamsMap.get(objectId) != null;
     }
 }

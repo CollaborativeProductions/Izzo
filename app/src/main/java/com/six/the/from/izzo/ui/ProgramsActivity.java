@@ -40,13 +40,14 @@ public class ProgramsActivity extends RoboActionBarActivity {
         lvTeamsList.setAdapter(teamArrayAdapter);
     }
 
-    private void fetchCurrentAthleteTeamInfo() {
-        new FetchTeamsInfoThread().start();
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
+        fetchCurrentAthleteTeamInfo();
+    }
+
+    private void fetchCurrentAthleteTeamInfo() {
+        new FetchTeamsInfoThread().start();
     }
 
     @Override
@@ -85,8 +86,13 @@ public class ProgramsActivity extends RoboActionBarActivity {
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
+                if (fetcher.teamList.size() > 0) {
+                    addToArrayAdapter();
+                }
             }
+        }
 
+        private void addToArrayAdapter() {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
