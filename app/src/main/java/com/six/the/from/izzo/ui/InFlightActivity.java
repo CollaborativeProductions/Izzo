@@ -24,8 +24,8 @@ public class InFlightActivity extends RoboActionBarActivity {
 
         if (!getIntent().hasExtra("teamName")) return;
 
-        TextView txtteamName = (TextView) findViewById(R.id.txt_team_name);
-        txtteamName.setText(currentAthlete.getUuid());
+        TextView txtTeamName = (TextView) findViewById(R.id.txt_team_name);
+        txtTeamName.setText(getIntent().getStringExtra("teamName"));
     }
 
     @Override

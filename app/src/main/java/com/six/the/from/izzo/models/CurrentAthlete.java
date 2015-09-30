@@ -5,11 +5,11 @@ import javax.inject.Singleton;
 
 @Singleton
 public class CurrentAthlete {
-    private static String objectId;
-    private static String uuid;
-    private static String first_name;
-    private static String last_name;
-    private static String phone_number;
+    private String objectId;
+    private String uuid;
+    private String first_name;
+    private String last_name;
+    private String phone_number;
 
     @Inject
     public CurrentAthlete() { }
