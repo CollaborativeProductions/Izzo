@@ -2,9 +2,8 @@ package com.six.the.from.izzo.util;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
-import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Team;
-import com.six.the.from.izzo.ui.StartUpActivity.Heartbeat;
+import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
 
 import com.parse.ParseObject;
@@ -66,24 +65,18 @@ public class ParseUtils {
         newAthlete.saveInBackground();
     }
 
-    public static void uuidPhoneNumberExists(final Heartbeat heartbeat, String phoneNumber, String uuid) {
-        heartbeat.done = false;
+    public static void uuidPhoneNumberExists(final CurrentAthleteFetcher fetcher, String phoneNumber, String uuid) {
+        fetcher.fetching = true;
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Athlete");
         query.whereEqualTo("uuid", uuid);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject athlete, ParseException e) {
                 if (e == null) {
                     if (athlete != null) {
-                        heartbeat.athlete = athlete;
-                        heartbeat.exists = true;
-                        heartbeat.objectId = athlete.getObjectId();
-                        heartbeat.uuid = athlete.getString("uuid");
-                        heartbeat.firstName = athlete.getString("firstName");
-                        heartbeat.lastName = athlete.getString("lastName");
-                        heartbeat.phoneNumber = athlete.getString("phoneNumber");
+                        fetcher.athlete = athlete;
                     }
                 }
-                heartbeat.done = true;
+                fetcher.fetching = false;
             }
         });
     }

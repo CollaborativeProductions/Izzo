@@ -30,15 +30,23 @@ public class ProgramsActivity extends RoboActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programs);
+        initListView();
+        fetchCurrentAthleteTeamInfo();
+    }
+
+    private void initListView() {
         ListView lvTeamsList = (ListView) findViewById(R.id.team_list_view);
         teamArrayAdapter = new TeamArrayAdapter(this, R.layout.team_list_item);
         lvTeamsList.setAdapter(teamArrayAdapter);
     }
 
+    private void fetchCurrentAthleteTeamInfo() {
+        new FetchTeamsInfoThread().start();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        new FetchTeamsInfoThread().start();
     }
 
     @Override

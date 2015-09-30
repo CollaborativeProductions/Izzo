@@ -21,42 +21,33 @@ public class StartUpActivity extends RoboActionBarActivity {
     @Inject
     CurrentAthlete currentAthlete;
 
-    private final Heartbeat heartbeat = new Heartbeat();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_up);
         initParse();
-
-        TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        ParseUtils.uuidPhoneNumberExists(heartbeat, tManager.getLine1Number(), tManager.getDeviceId());
-
-        new FetchAthleteInfo().start();
+        fetchCurrentAthleteInfo();
     }
 
-    public void initParse() {
+    private void initParse() {
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "uiZSGIayyGxGlMGzzlv5PtoS8yJtEyplxVqxHALN", "06h7dcf88vcFFdVCrtBsGyMQ70CYU8C7dacfDcN6");
     }
 
-    private class FetchAthleteInfo extends Thread {
-        private boolean readingFromParse = true;
+    private void fetchCurrentAthleteInfo() {
+        new FetchCurrentAthleteThread().start();
+    }
 
-        public FetchAthleteInfo() { }
+    private class FetchCurrentAthleteThread extends Thread {
+        private final CurrentAthleteFetcher currentAthleteFetcher = new CurrentAthleteFetcher();
+
+        public FetchCurrentAthleteThread() { }
 
         public void run() {
-            while (readingFromParse) {
-                if (heartbeat.done) {
-                    currentAthlete.setObjectId(heartbeat.objectId);
-                    currentAthlete.setUuid(heartbeat.uuid);
-                    currentAthlete.setFirstName(heartbeat.firstName);
-                    currentAthlete.setLastName(heartbeat.lastName);
-                    currentAthlete.setPhoneNumber(heartbeat.phoneNumber);
-                    currentAthlete.setParseObject(heartbeat.athlete);
-                    readingFromParse = false;
-                }
+            TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            ParseUtils.uuidPhoneNumberExists(currentAthleteFetcher, tManager.getLine1Number(), tManager.getDeviceId());
 
+            while (currentAthleteFetcher.fetching) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ie) {
@@ -67,10 +58,11 @@ public class StartUpActivity extends RoboActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (heartbeat.exists) {
-                        launchActivity(CustomTabsActivity.class);
-                    } else {
+                    if (currentAthleteFetcher.athlete == null) {
                         launchActivity(RegistrationActivity.class);
+                    } else {
+                        currentAthlete.setParseObject(currentAthleteFetcher.athlete);
+                        launchActivity(CustomTabsActivity.class);
                     }
                 }
             });
@@ -82,17 +74,6 @@ public class StartUpActivity extends RoboActionBarActivity {
         // TODO: Check for in-flight activity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    public static class Heartbeat {
-        public boolean exists;
-        public boolean done;
-        public String objectId;
-        public String uuid;
-        public String firstName;
-        public String lastName;
-        public String phoneNumber;
-        public ParseObject athlete;
     }
 
     @Override
@@ -115,5 +96,10 @@ public class StartUpActivity extends RoboActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public static class CurrentAthleteFetcher {
+        public boolean fetching;
+        public ParseObject athlete;
     }
 }
