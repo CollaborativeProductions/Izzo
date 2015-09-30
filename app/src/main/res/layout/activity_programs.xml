@@ -7,8 +7,7 @@
     tools:context="com.six.the.from.izzo.ui.ProgramsActivity">
 
     <ListView
-        android:id="@+id/selected_list_view"
+        android:id="@+id/team_list_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_search_string" />
+        android:layout_height="wrap_content" />
 </RelativeLayout>

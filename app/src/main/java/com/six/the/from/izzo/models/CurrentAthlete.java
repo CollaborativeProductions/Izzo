@@ -1,5 +1,7 @@
 package com.six.the.from.izzo.models;
 
+import com.parse.ParseObject;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -10,6 +12,7 @@ public class CurrentAthlete {
     private String first_name;
     private String last_name;
     private String phone_number;
+    private ParseObject athleteParseObject;
 
     @Inject
     public CurrentAthlete() { }
@@ -52,5 +55,13 @@ public class CurrentAthlete {
 
     public void setPhoneNumber(String phone_number) {
         this.phone_number = phone_number;
+    }
+
+    public ParseObject getParseObject() {
+        return athleteParseObject;
+    }
+
+    public void setParseObject(ParseObject athleteParseObject) {
+        this.athleteParseObject = athleteParseObject;
     }
 }

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 

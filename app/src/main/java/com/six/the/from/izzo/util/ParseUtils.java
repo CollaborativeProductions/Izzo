@@ -1,11 +1,17 @@
 package com.six.the.from.izzo.util;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.six.the.from.izzo.models.CurrentAthlete;
+import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.StartUpActivity.Heartbeat;
+import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
+
+import java.util.List;
 
 
 public class ParseUtils {
@@ -68,6 +74,7 @@ public class ParseUtils {
             public void done(ParseObject athlete, ParseException e) {
                 if (e == null) {
                     if (athlete != null) {
+                        heartbeat.athlete = athlete;
                         heartbeat.exists = true;
                         heartbeat.objectId = athlete.getObjectId();
                         heartbeat.uuid = athlete.getString("uuid");
@@ -81,10 +88,20 @@ public class ParseUtils {
         });
     }
 
-    public static boolean uuidExists(String uuid) {
-        return false;
+    public static void fetchCurrentAthleteTeams(final TeamsInfoFetcher fetcher, ParseObject currentAthlete) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("AthleteTeam");
+        query.whereEqualTo("athlete", currentAthlete);
+        query.include("team");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> teamList, ParseException e) {
+                for (ParseObject athleteTeamParseObj : teamList) {
+                    ParseObject teamParseObj = athleteTeamParseObj.getParseObject("team");
+                    Team team = new Team(teamParseObj.getObjectId(), teamParseObj.getString("name"));
+                    fetcher.teamList.add(team);
+                }
+                fetcher.fetching = false;
+            }
+        });
+        fetcher.fetching = true;
     }
-
-
-
 }

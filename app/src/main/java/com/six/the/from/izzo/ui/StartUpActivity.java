@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.util.ParseUtils;
@@ -21,7 +22,6 @@ public class StartUpActivity extends RoboActionBarActivity {
     CurrentAthlete currentAthlete;
 
     private final Heartbeat heartbeat = new Heartbeat();
-    private FetchAthleteInfo tFetchAthleteInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,7 @@ public class StartUpActivity extends RoboActionBarActivity {
         TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         ParseUtils.uuidPhoneNumberExists(heartbeat, tManager.getLine1Number(), tManager.getDeviceId());
 
-        tFetchAthleteInfo = new FetchAthleteInfo();
-        tFetchAthleteInfo.start();
+        new FetchAthleteInfo().start();
     }
 
     public void initParse() {
@@ -54,6 +53,7 @@ public class StartUpActivity extends RoboActionBarActivity {
                     currentAthlete.setFirstName(heartbeat.firstName);
                     currentAthlete.setLastName(heartbeat.lastName);
                     currentAthlete.setPhoneNumber(heartbeat.phoneNumber);
+                    currentAthlete.setParseObject(heartbeat.athlete);
                     readingFromParse = false;
                 }
 
@@ -92,6 +92,7 @@ public class StartUpActivity extends RoboActionBarActivity {
         public String firstName;
         public String lastName;
         public String phoneNumber;
+        public ParseObject athlete;
     }
 
     @Override
