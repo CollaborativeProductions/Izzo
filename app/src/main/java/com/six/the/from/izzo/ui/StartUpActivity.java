@@ -39,15 +39,15 @@ public class StartUpActivity extends RoboActionBarActivity {
     }
 
     private class FetchCurrentAthleteThread extends Thread {
-        private final CurrentAthleteFetcher currentAthleteFetcher = new CurrentAthleteFetcher();
+        private final CurrentAthleteFetcher fetcher = new CurrentAthleteFetcher();
 
         public FetchCurrentAthleteThread() { }
 
         public void run() {
             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            ParseUtils.uuidPhoneNumberExists(currentAthleteFetcher, tManager.getLine1Number(), tManager.getDeviceId());
+            ParseUtils.uuidPhoneNumberExists(fetcher, tManager.getLine1Number(), tManager.getDeviceId());
 
-            while (currentAthleteFetcher.fetching) {
+            while (fetcher.fetching) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ie) {
@@ -58,10 +58,10 @@ public class StartUpActivity extends RoboActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (currentAthleteFetcher.athlete == null) {
+                    if (fetcher.athlete == null) {
                         launchActivity(RegistrationActivity.class);
                     } else {
-                        currentAthlete.setParseObject(currentAthleteFetcher.athlete);
+                        currentAthlete.setParseObject(fetcher.athlete);
                         launchActivity(CustomTabsActivity.class);
                     }
                 }
