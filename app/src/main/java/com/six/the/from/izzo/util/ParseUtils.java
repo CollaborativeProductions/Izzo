@@ -56,13 +56,14 @@ public class ParseUtils {
         }
     }
 
-    public static void saveAthlete(String uuid, String firstName, String lastName, String phoneNumber) {
+    public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {
         ParseObject newAthlete = new ParseObject("Athlete");
         newAthlete.put("uuid", uuid);
         newAthlete.put("firstName", firstName);
         newAthlete.put("lastName", lastName);
         newAthlete.put("phoneNumber", phoneNumber);
         newAthlete.saveInBackground();
+        return newAthlete;
     }
 
     public static void uuidPhoneNumberExists(final CurrentAthleteFetcher fetcher, String phoneNumber, String uuid) {
