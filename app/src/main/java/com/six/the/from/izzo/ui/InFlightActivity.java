@@ -1,12 +1,19 @@
 package com.six.the.from.izzo.ui;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
+import com.squareup.picasso.Picasso;
+import java.io.InputStream;
 
 import javax.inject.Inject;
 
@@ -26,6 +33,35 @@ public class InFlightActivity extends RoboActionBarActivity {
 
         TextView txtTeamName = (TextView) findViewById(R.id.txt_team_name);
         txtTeamName.setText(getIntent().getStringExtra("teamName"));
+        String iconUrl = getIntent().getStringExtra("teamIcon");
+
+        new DownloadImageTask((ImageView) findViewById(R.id.img_team_logo))
+                .execute(iconUrl);
+    }
+
+    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
     @Override

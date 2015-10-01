@@ -2,7 +2,10 @@ package com.six.the.from.izzo.util;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
+import com.parse.ParseFile;
+import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Team;
+import com.six.the.from.izzo.ui.ContactsListActivity;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
 
@@ -14,10 +17,17 @@ import java.util.List;
 
 
 public class ParseUtils {
-    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid) {
+    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final ContactsListActivity.OperationStatusFetcher fetcher) {
         final ParseObject team = new ParseObject("Team");
         team.put("name", teamName);
-        team.saveInBackground();
+        team.put("iconImageUrl", file);
+        team.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    fetcher.done = true;
+                }
+            }
+        });
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Athlete");
         query.whereEqualTo("uuid", uuid);
@@ -56,13 +66,14 @@ public class ParseUtils {
         }
     }
 
-    public static void saveAthlete(String uuid, String firstName, String lastName, String phoneNumber) {
+    public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {
         ParseObject newAthlete = new ParseObject("Athlete");
         newAthlete.put("uuid", uuid);
         newAthlete.put("firstName", firstName);
         newAthlete.put("lastName", lastName);
         newAthlete.put("phoneNumber", phoneNumber);
         newAthlete.saveInBackground();
+        return newAthlete;
     }
 
     public static void uuidPhoneNumberExists(final CurrentAthleteFetcher fetcher, String phoneNumber, String uuid) {

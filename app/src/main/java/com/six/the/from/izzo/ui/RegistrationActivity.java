@@ -10,11 +10,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.util.IzzoEditText;
 import com.six.the.from.izzo.util.ParseUtils;
 
-public class RegistrationActivity extends ActionBarActivity {
+import javax.inject.Inject;
+
+import roboguice.activity.RoboActionBarActivity;
+
+public class RegistrationActivity extends RoboActionBarActivity {
+    @Inject
+    CurrentAthlete currentAthlete;
+
     private IzzoEditText txtPhoneNumber;
 
     @Override
@@ -31,12 +40,14 @@ public class RegistrationActivity extends ActionBarActivity {
             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 
             public void onClick(View v) {
-                ParseUtils.saveAthlete(
+                ParseObject newAthlete = ParseUtils.saveAthlete(
                         tManager.getDeviceId(),
                         "first name",   //TODO: ? maybe on another activity
                         "last name",    //TODO: ? maybe on another activity
-                        txtPhoneNumber.getText().toString()
+                        txtPhoneNumber.getText().toString(),
+                        currentAthlete.getParseObject()
                 );
+                currentAthlete.setParseObject(newAthlete);
                 launchActivity(CustomTabsActivity.class);
             }
         });

@@ -36,6 +36,10 @@ public class CustomTabsActivity extends TabActivity {
         if (getIntent().hasExtra("teamName")) {
             intent.putExtra("teamName",  getIntent().getStringExtra("teamName"));
         }
+        if (getIntent().hasExtra("teamIcon")) {
+            intent.putExtra("teamIcon",  getIntent().getStringExtra("teamIcon"));
+        }
+
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
         View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, getTabWidget(), false);
