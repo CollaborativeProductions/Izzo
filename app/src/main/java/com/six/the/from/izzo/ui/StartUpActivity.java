@@ -99,7 +99,7 @@ public class StartUpActivity extends RoboActionBarActivity {
     }
 
     public static class CurrentAthleteFetcher {
-        public boolean fetching;
-        public ParseObject athlete;
+        public volatile boolean fetching;
+        public volatile ParseObject athlete;
     }
 }
