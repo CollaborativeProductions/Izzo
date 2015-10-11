@@ -106,7 +106,7 @@ public class ProgramsActivity extends RoboActionBarActivity {
     }
 
     public static class TeamsInfoFetcher {
-        public boolean fetching;
-        public List<Team> teamList = new ArrayList<>();
+        public volatile boolean fetching;
+        public volatile List<Team> teamList = new ArrayList<>();
     }
 }
