@@ -183,16 +183,17 @@ public class ContactsListActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     if (fetcher.done) {
-                        Intent intent = new Intent(getApplication(), CustomTabsActivity.class);
-                        intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
-                        intent.putExtra("teamIcon", parseFile.getUrl());
-
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        launchActivity(CustomTabsActivity.class);
                     }
                 }
             });
         }
+    }
+
+    private void launchActivity(Class klass) {
+        Intent intent = new Intent(getApplication(), klass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     public class OperationStatusFetcher {

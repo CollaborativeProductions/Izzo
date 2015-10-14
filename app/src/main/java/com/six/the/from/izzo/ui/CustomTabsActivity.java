@@ -32,6 +32,7 @@ public class CustomTabsActivity extends TabActivity {
     }
 
     private void addFakeTab(int labelId) {
+        checkForInFlightActivity();
         Intent intent = new Intent(this, InFlightActivity.class);
         if (getIntent().hasExtra("teamName")) {
             intent.putExtra("teamName",  getIntent().getStringExtra("teamName"));
@@ -75,5 +76,9 @@ public class CustomTabsActivity extends TabActivity {
         spec.setIndicator(tabIndicator);
         spec.setContent(intent);
         tabHost.addTab(spec);
+    }
+
+    private void checkForInFlightActivity() {
+//        TODO: Check local parse database for in-flight activity
     }
 }
