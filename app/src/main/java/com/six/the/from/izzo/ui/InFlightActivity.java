@@ -1,18 +1,25 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
+import com.six.the.from.izzo.models.Team;
+import com.six.the.from.izzo.util.ParseUtils;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import javax.inject.Inject;
@@ -29,14 +36,9 @@ public class InFlightActivity extends RoboActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_flight);
 
-        if (!getIntent().hasExtra("teamName")) return;
+        if (!getIntent().hasExtra("teamId")) return;
 
-        TextView txtTeamName = (TextView) findViewById(R.id.txt_team_name);
-        txtTeamName.setText(getIntent().getStringExtra("teamName"));
-        String iconUrl = getIntent().getStringExtra("teamIcon");
-
-        new DownloadImageTask((ImageView) findViewById(R.id.img_team_logo))
-                .execute(iconUrl);
+        new FetchTeamThread(this.getApplicationContext()).start();
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -62,6 +64,45 @@ public class InFlightActivity extends RoboActionBarActivity {
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
+    }
+
+    private class FetchTeamThread extends Thread {
+        private final TeamFetcher fetcher = new TeamFetcher();
+        private Context applicationContext;
+
+        public FetchTeamThread(Context applicationContext) {
+            this.applicationContext = applicationContext;
+        }
+
+        public void run() {
+            ParseUtils.fetchTeam(fetcher, getIntent().getStringExtra("teamId"), currentAthlete.getParseObject());
+
+            while (fetcher.fetching) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!fetcher.fetching) {
+                        if (!fetcher.team.getIconUrl().isEmpty()) {
+                            Picasso.with(applicationContext).load(fetcher.team.getIconUrl()).into((ImageView) findViewById(R.id.img_team_logo));
+//                            new DownloadImageTask((ImageView) findViewById(R.id.img_team_logo))
+//                                    .execute(fetcher.team.getIconUrl());
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public class TeamFetcher {
+        public volatile boolean fetching;
+        public volatile Team team;
     }
 
     @Override

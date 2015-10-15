@@ -171,7 +171,7 @@ public class ContactsListActivity extends ActionBarActivity {
             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"), tManager.getDeviceId(), parseFile, fetcher);
 
-            while (!fetcher.done) {
+            while (!fetcher.fetching) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ie) {
@@ -182,7 +182,7 @@ public class ContactsListActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (fetcher.done) {
+                    if (fetcher.fetching) {
                         launchActivity(CustomTabsActivity.class);
                     }
                 }
@@ -197,7 +197,7 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     public class OperationStatusFetcher {
-        public boolean done;
+        public volatile boolean fetching;
     }
 
     @Override

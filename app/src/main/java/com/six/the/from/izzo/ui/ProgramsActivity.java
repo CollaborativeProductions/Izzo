@@ -1,9 +1,14 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TabHost;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
@@ -17,6 +22,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import roboguice.activity.RoboActionBarActivity;
+import roboguice.activity.RoboTabActivity;
 
 
 public class ProgramsActivity extends RoboActionBarActivity {
@@ -37,6 +43,32 @@ public class ProgramsActivity extends RoboActionBarActivity {
         ListView lvTeamsList = (ListView) findViewById(R.id.team_list_view);
         teamArrayAdapter = new TeamArrayAdapter(this, R.layout.team_list_item);
         lvTeamsList.setAdapter(teamArrayAdapter);
+        lvTeamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                launchActivity(InFlightActivity.class, teamArrayAdapter.getItem(pos));
+            }
+        });
+    }
+
+    private void launchActivity(Class klass, Team team) {
+        CustomTabsActivity.tabHost.clearAllTabs();
+
+        Intent intent = new Intent(this, InFlightActivity.class);
+        intent.putExtra("teamId", team.getObjectId());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        startActivity(intent);
+
+        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, CustomTabsActivity.tabHost.getTabWidget(), false);
+
+        TabHost.TabSpec spec = CustomTabsActivity.tabHost.newTabSpec("tab" + R.string.tab_0);
+        spec.setIndicator(tabIndicator);
+        spec.setContent(intent);
+        CustomTabsActivity.tabHost.addTab(spec);
+
+        CustomTabsActivity.setTabs(this.getApplicationContext());
+
+        CustomTabsActivity.tabHost.setCurrentTab(0);
     }
 
     @Override

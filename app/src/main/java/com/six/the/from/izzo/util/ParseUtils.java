@@ -8,6 +8,7 @@ import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
+import com.six.the.from.izzo.ui.InFlightActivity.TeamFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,7 +25,7 @@ public class ParseUtils {
         team.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    fetcher.done = true;
+                    fetcher.fetching = true;
                 }
             }
         });
@@ -100,8 +101,32 @@ public class ParseUtils {
             public void done(List<ParseObject> teamList, ParseException e) {
                 for (ParseObject athleteTeamParseObj : teamList) {
                     ParseObject teamParseObj = athleteTeamParseObj.getParseObject("team");
-                    Team team = new Team(teamParseObj.getObjectId(), teamParseObj.getString("name"));
+                    Team team = new Team(
+                            teamParseObj.getObjectId(),
+                            teamParseObj.getString("name")
+                    );
                     fetcher.teamList.add(team);
+                }
+                fetcher.fetching = false;
+            }
+        });
+        fetcher.fetching = true;
+    }
+
+    public static void fetchTeam(final TeamFetcher fetcher, String teamId, ParseObject currentAthlete) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+        query.whereEqualTo("objectId", teamId);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject teamParseObj, ParseException e) {
+                if (e == null) {
+                    ParseFile pFile = teamParseObj.getParseFile("iconImageUrl");
+                    String iconUrl = pFile.getUrl();
+                    Team team = new Team(
+                            teamParseObj.getObjectId(),
+                            teamParseObj.getString("name"),
+                            iconUrl
+                    );
+                    fetcher.team = team;
                 }
                 fetcher.fetching = false;
             }

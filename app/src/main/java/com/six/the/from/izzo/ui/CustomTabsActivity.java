@@ -1,6 +1,7 @@
 package com.six.the.from.izzo.ui;
 
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,65 +11,59 @@ import android.widget.TabHost;
 
 import com.six.the.from.izzo.R;
 
-public class CustomTabsActivity extends TabActivity {
-    private TabHost tabHost;
+import roboguice.activity.RoboTabActivity;
+
+public class CustomTabsActivity extends RoboTabActivity {
+    public static TabHost tabHost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_host);
-        setTabs();
-    }
-
-    private void setTabs() {
         tabHost = getTabHost();
-
-        addFakeTab(R.string.tab_0);
-        addTab(R.string.tab_1, R.drawable.tab_home);
-        addTab(R.string.tab_2, R.drawable.tab_team);
-        addTab(R.string.tab_3, R.drawable.tab_single);
-
-        tabHost.setCurrentTab(0);
+        addFakeTab(this.getApplicationContext(), R.string.tab_0);
+        setTabs(this.getApplicationContext());
     }
 
-    private void addFakeTab(int labelId) {
-        checkForInFlightActivity();
-        Intent intent = new Intent(this, InFlightActivity.class);
-        if (getIntent().hasExtra("teamName")) {
-            intent.putExtra("teamName",  getIntent().getStringExtra("teamName"));
-        }
-        if (getIntent().hasExtra("teamIcon")) {
-            intent.putExtra("teamIcon",  getIntent().getStringExtra("teamIcon"));
-        }
+    public static void setTabs(Context ApplicationContext) {
+        addTab(ApplicationContext, R.string.tab_1, R.drawable.tab_home);
+        addTab(ApplicationContext, R.string.tab_2, R.drawable.tab_team);
+        addTab(ApplicationContext, R.string.tab_3, R.drawable.tab_single);
+
+        tabHost.setCurrentTab(1);
+    }
+
+    private static void addFakeTab(Context ApplicationContext, int labelId) {
+        Intent intent = new Intent(ApplicationContext, InFlightActivity.class);
 
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
-        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, getTabWidget(), false);
+        View tabIndicator = LayoutInflater.from(ApplicationContext).inflate(R.layout.tab_indicator_fake, tabHost.getTabWidget(), false);
 
         spec.setIndicator(tabIndicator);
         spec.setContent(intent);
         tabHost.addTab(spec);
     }
 
-    private void addTab(int labelId, int drawableId) {
+    private static void addTab(Context ApplicationContext, int labelId, int drawableId) {
         Intent intent;
         switch (labelId) {
             case R.string.tab_1:
-                intent = new Intent(this, ProgramsActivity.class);
+                intent = new Intent(ApplicationContext, ProgramsActivity.class);
                 break;
             case R.string.tab_2:
-                intent = new Intent(this, NewTeamActivity.class);
+                intent = new Intent(ApplicationContext, NewTeamActivity.class);
                 break;
             case R.string.tab_3:
-                intent = new Intent(this, NewWorkoutActivity.class);
+                intent = new Intent(ApplicationContext, NewWorkoutActivity.class);
                 break;
             default:
-                intent = new Intent(this, ProgramsActivity.class);
+                intent = new Intent(ApplicationContext, ProgramsActivity.class);
                 break;
         }
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 
-        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator, getTabWidget(), false);
+        View tabIndicator = LayoutInflater.from(ApplicationContext).inflate(R.layout.tab_indicator, tabHost.getTabWidget(), false);
 
         ImageView icon = (ImageView) tabIndicator.findViewById(R.id.icon);
         icon.setImageResource(drawableId);
@@ -77,6 +72,11 @@ public class CustomTabsActivity extends TabActivity {
         spec.setContent(intent);
         tabHost.addTab(spec);
     }
+
+    public void clearAllTabs() {
+        tabHost.clearAllTabs();
+    }
+
 
     private void checkForInFlightActivity() {
 //        TODO: Check local parse database for in-flight activity
