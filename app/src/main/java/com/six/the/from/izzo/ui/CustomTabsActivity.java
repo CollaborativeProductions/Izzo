@@ -13,8 +13,8 @@ import com.six.the.from.izzo.R;
 
 import roboguice.activity.RoboTabActivity;
 
-public class CustomTabsActivity extends RoboTabActivity {
-    public static TabHost tabHost;
+public class CustomTabsActivity extends TabActivity {
+    public TabHost tabHost;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class CustomTabsActivity extends RoboTabActivity {
         setTabs(this.getApplicationContext());
     }
 
-    public static void setTabs(Context ApplicationContext) {
+    public void setTabs(Context ApplicationContext) {
         addTab(ApplicationContext, R.string.tab_1, R.drawable.tab_home);
         addTab(ApplicationContext, R.string.tab_2, R.drawable.tab_team);
         addTab(ApplicationContext, R.string.tab_3, R.drawable.tab_single);
@@ -33,7 +33,7 @@ public class CustomTabsActivity extends RoboTabActivity {
         tabHost.setCurrentTab(1);
     }
 
-    private static void addFakeTab(Context ApplicationContext, int labelId) {
+    private void addFakeTab(Context ApplicationContext, int labelId) {
         Intent intent = new Intent(ApplicationContext, InFlightActivity.class);
 
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
@@ -45,7 +45,7 @@ public class CustomTabsActivity extends RoboTabActivity {
         tabHost.addTab(spec);
     }
 
-    private static void addTab(Context ApplicationContext, int labelId, int drawableId) {
+    private void addTab(Context ApplicationContext, int labelId, int drawableId) {
         Intent intent;
         switch (labelId) {
             case R.string.tab_1:
