@@ -11,7 +11,9 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
@@ -36,15 +38,25 @@ public class InFlightActivity extends RoboActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_flight);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (!getIntent().hasExtra("teamId")) return;
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        initViews();
+        new FetchTeamThread(this.getApplicationContext()).start();
+    }
 
+    private void initViews() {
         bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
         teamNameTxtView = (TextView) findViewById(R.id.txt_team_name);
-
-        new FetchTeamThread(this.getApplicationContext()).start();
+        ListView listView = (ListView) findViewById(R.id.lv_team_menu);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1);
+        arrayAdapter.add("Current Program");
+        arrayAdapter.add("Team Members");
+        arrayAdapter.add("Statistics");
+        arrayAdapter.add("Previous Programs");
+        listView.setAdapter(arrayAdapter);
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
