@@ -2,13 +2,11 @@ package com.six.the.from.izzo.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TabHost;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
@@ -22,7 +20,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import roboguice.activity.RoboActionBarActivity;
-import roboguice.activity.RoboTabActivity;
 
 
 public class ProgramsActivity extends RoboActionBarActivity {
