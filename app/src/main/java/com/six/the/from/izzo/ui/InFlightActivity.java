@@ -34,6 +34,8 @@ public class InFlightActivity extends RoboActionBarActivity {
 
         if (!getIntent().hasExtra("teamId")) return;
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         new FetchTeamThread(this.getApplicationContext()).start();
     }
 
@@ -113,11 +115,14 @@ public class InFlightActivity extends RoboActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
