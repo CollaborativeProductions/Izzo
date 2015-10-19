@@ -6,17 +6,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.six.the.from.izzo.ui.InFlightActivity">
 
-    <TextView
-        android:id="@+id/txt_team_name"
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_team_logo"
-        android:layout_below="@+id/txt_team_name"
+        android:layout_centerHorizontal="true"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:maxWidth="150dp"
-        android:maxHeight="150dp" />
+        android:maxHeight="150dp"
+        app:civ_border_width="0dp" />
+    <TextView
+        android:id="@+id/txt_team_name"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/img_team_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
 </RelativeLayout>

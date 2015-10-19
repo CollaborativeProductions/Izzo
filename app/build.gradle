@@ -25,6 +25,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile files('libs/commons-io-2.4.jar')
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'org.roboguice:roboguice:3.+'
     provided 'org.roboguice:roboblender:3.+'
     testCompile 'junit:junit:4.12'

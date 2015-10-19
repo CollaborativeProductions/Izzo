@@ -3,18 +3,21 @@ package com.six.the.from.izzo.ui;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ParseUtils;
-import com.squareup.picasso.Picasso;
 
 import java.io.InputStream;
 
@@ -26,6 +29,8 @@ import roboguice.activity.RoboActionBarActivity;
 public class InFlightActivity extends RoboActionBarActivity {
     @Inject
     CurrentAthlete currentAthlete;
+    ImageView bmpImageView;
+    TextView teamNameTxtView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +41,15 @@ public class InFlightActivity extends RoboActionBarActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
+        teamNameTxtView = (TextView) findViewById(R.id.txt_team_name);
+
         new FetchTeamThread(this.getApplicationContext()).start();
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
 
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
+        public DownloadImageTask() { }
 
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
@@ -60,7 +65,9 @@ public class InFlightActivity extends RoboActionBarActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            bmpImageView.setImageBitmap(result);
+            RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), ((BitmapDrawable) bmpImageView.getDrawable()).getBitmap());
+            drawable.setCornerRadius(Math.min(bmpImageView.getMinimumWidth(), bmpImageView.getMinimumHeight()));
         }
     }
 
@@ -88,9 +95,8 @@ public class InFlightActivity extends RoboActionBarActivity {
                 public void run() {
                     if (!fetcher.fetching) {
                         if (!fetcher.team.getIconUrl().isEmpty()) {
-                            Picasso.with(applicationContext).load(fetcher.team.getIconUrl()).into((ImageView) findViewById(R.id.img_team_logo));
-//                            new DownloadImageTask((ImageView) findViewById(R.id.img_team_logo))
-//                                    .execute(fetcher.team.getIconUrl());
+                            teamNameTxtView.setText(fetcher.team.getName());
+                            new DownloadImageTask().execute(fetcher.team.getIconUrl());
                         }
                     }
                 }

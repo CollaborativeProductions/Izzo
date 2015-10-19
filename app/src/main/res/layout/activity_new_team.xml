@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_team_icon"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -22,7 +23,8 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:src="@drawable/default_logo"
-            android:layout_weight="0.3"/>
+            android:layout_weight="0.3"
+            app:civ_border_width="0dp" />
         <TextView
             android:id="@+id/txt_icon_request"
             android:hint="@string/lbl_upload_icon"
