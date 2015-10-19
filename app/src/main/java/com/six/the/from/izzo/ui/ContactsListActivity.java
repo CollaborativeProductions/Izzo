@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
@@ -24,12 +26,15 @@ import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ContactArrayAdapter;
 import com.six.the.from.izzo.util.IzzoEditText;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 
 public class ContactsListActivity extends ActionBarActivity {
@@ -37,7 +42,6 @@ public class ContactsListActivity extends ActionBarActivity {
     private Cursor cur;
     private SimpleCursorAdapter scAdapter;
     private ContactArrayAdapter contactArrayAdapter;
-    private ParseFile parseFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,28 +154,37 @@ public class ContactsListActivity extends ActionBarActivity {
     }
 
     private void saveTeam() {
-        new SaveTeamThread().start();
+        new SaveTeamThread(this.getApplicationContext()).start();
     }
 
     private class SaveTeamThread extends Thread {
         private final OperationStatusFetcher fetcher = new OperationStatusFetcher();
+        private final Context applicationContext;
 
-        public SaveTeamThread() { }
+        public SaveTeamThread(Context applicationContext) {
+            this.applicationContext = applicationContext;
+        }
 
         public void run() {
-            Bundle extras = getIntent().getExtras();
-            Bitmap bmpTeamIcon = extras.getParcelable("imgTeamIconBitmap");
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bmpTeamIcon.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] data = stream.toByteArray();
+            ParseFile parseFile = null;
 
-            parseFile = new ParseFile("imageData.txt", data);
-            parseFile.saveInBackground();
+//            if (getIntent().hasExtra("bmpByteArray")) {
+            if (getIntent().hasExtra("imageFile")) {
+                try {
+                    Bitmap bmpImage = BitmapFactory.decodeStream(applicationContext.openFileInput("izzoTeamIconImage"));
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    bmpImage.compress(Bitmap.CompressFormat.PNG, 100, bs);
+                    parseFile = new ParseFile("imageData.txt", bs.toByteArray());
+                    parseFile.saveInBackground();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
 
             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"), tManager.getDeviceId(), parseFile, fetcher);
 
-            while (!fetcher.fetching) {
+            while (fetcher.saving) {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ie) {
@@ -182,22 +195,23 @@ public class ContactsListActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (fetcher.fetching) {
-                        launchActivity(CustomTabsActivity.class);
+                    if (!fetcher.saving) {
+                        launchActivity(InFlightActivity.class, fetcher.teamId);
                     }
                 }
             });
         }
     }
 
-    private void launchActivity(Class klass) {
-        Intent intent = new Intent(getApplication(), klass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    private void launchActivity(Class klass, String teamId) {
+        Intent intent = new Intent(this, klass);
+        intent.putExtra("teamId", teamId);
         startActivity(intent);
     }
 
     public class OperationStatusFetcher {
-        public volatile boolean fetching;
+        public volatile boolean saving;
+        public volatile String teamId;
     }
 
     @Override

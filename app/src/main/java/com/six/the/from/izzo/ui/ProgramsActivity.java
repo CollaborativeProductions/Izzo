@@ -46,29 +46,15 @@ public class ProgramsActivity extends RoboActionBarActivity {
         lvTeamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                launchActivity(InFlightActivity.class, teamArrayAdapter.getItem(pos));
+                launchActivity(InFlightActivity.class, teamArrayAdapter.getItem(pos).getObjectId());
             }
         });
     }
 
-    private void launchActivity(Class klass, Team team) {
-        CustomTabsActivity.tabHost.clearAllTabs();
-
-        Intent intent = new Intent(this, InFlightActivity.class);
-        intent.putExtra("teamId", team.getObjectId());
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        startActivity(intent);
-
-        View tabIndicator = LayoutInflater.from(this).inflate(R.layout.tab_indicator_fake, CustomTabsActivity.tabHost.getTabWidget(), false);
-
-        TabHost.TabSpec spec = CustomTabsActivity.tabHost.newTabSpec("tab" + R.string.tab_0);
-        spec.setIndicator(tabIndicator);
-        spec.setContent(intent);
-        CustomTabsActivity.tabHost.addTab(spec);
-
-        CustomTabsActivity.setTabs(this.getApplicationContext());
-
-        CustomTabsActivity.tabHost.setCurrentTab(0);
+    private void launchActivity(Class klass, String teamId) {
+        Intent intent = new Intent(this, klass);
+        intent.putExtra("teamId", teamId);
+        startActivity(intent);
     }
 
     @Override

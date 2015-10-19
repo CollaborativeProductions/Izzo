@@ -5,21 +5,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.parse.ParseFile;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import javax.inject.Inject;
@@ -68,7 +64,7 @@ public class InFlightActivity extends RoboActionBarActivity {
 
     private class FetchTeamThread extends Thread {
         private final TeamFetcher fetcher = new TeamFetcher();
-        private Context applicationContext;
+        private final Context applicationContext;
 
         public FetchTeamThread(Context applicationContext) {
             this.applicationContext = applicationContext;

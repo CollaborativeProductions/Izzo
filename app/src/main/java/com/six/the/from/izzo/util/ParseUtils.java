@@ -1,5 +1,7 @@
 package com.six.the.from.izzo.util;
 
+import android.util.Log;
+
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseFile;
@@ -25,7 +27,8 @@ public class ParseUtils {
         team.saveInBackground(new SaveCallback() {
             public void done(ParseException e) {
                 if (e == null) {
-                    fetcher.fetching = true;
+                    // Saved successfully.
+                    fetcher.teamId = team.getObjectId();
                 }
             }
         });
@@ -63,8 +66,20 @@ public class ParseUtils {
             athleteteam.put("athlete", athlete);
             athleteteam.put("creator", false);
             athleteteam.put("team", team);
-            athleteteam.saveInBackground();
+            if (pos == contactArrayAdapter.getCount() - 1) {
+                athleteteam.saveInBackground(new SaveCallback() {
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            fetcher.saving = false;
+                        }
+                    }
+                });
+            } else {
+                athleteteam.saveInBackground();
+            }
         }
+
+        fetcher.saving = true;
     }
 
     public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {

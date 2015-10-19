@@ -1,5 +1,6 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,6 +24,7 @@ import org.apache.commons.lang.UnhandledException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 
 
@@ -129,6 +131,22 @@ public class NewTeamActivity extends ActionBarActivity {
         }
     }
 
+    private String createImageFileFromBitmap(Bitmap bitmap) {
+        String fileName = "izzoTeamIconImage";//no .png or .jpg needed
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            FileOutputStream fo = openFileOutput(fileName, Context.MODE_PRIVATE);
+            fo.write(bytes.toByteArray());
+            // remember close file output
+            fo.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            fileName = null;
+        }
+        return fileName;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -150,11 +168,8 @@ public class NewTeamActivity extends ActionBarActivity {
                     Intent intent = new Intent(this, ContactsListActivity.class);
                     intent.putExtra("teamName", etViewTeamName.getText().toString());
 
-                    Bitmap imgBitmap = ((BitmapDrawable)imgTeamIcon.getDrawable()).getBitmap();
-                    Bundle extras = new Bundle();
-                    extras.putParcelable("imgTeamIconBitmap", imgBitmap);
-
-                    intent.putExtras(extras);
+                    Bitmap bmpImage = ((BitmapDrawable)imgTeamIcon.getDrawable()).getBitmap();
+                    intent.putExtra("imageFile", createImageFileFromBitmap(bmpImage));
 
                     startActivity(intent);
                 }
