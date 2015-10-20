@@ -1,16 +1,15 @@
 package com.six.the.from.izzo.util;
 
-import android.util.Log;
-
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
+import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
-import com.six.the.from.izzo.ui.InFlightActivity.TeamFetcher;
+import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -128,24 +127,41 @@ public class ParseUtils {
         fetcher.fetching = true;
     }
 
-    public static void fetchTeam(final TeamFetcher fetcher, String teamId, ParseObject currentAthlete) {
+    public static void fetchTeam(final TeamFetcher fetcher, String teamId) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
         query.whereEqualTo("objectId", teamId);
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject teamParseObj, ParseException e) {
                 if (e == null) {
-                    ParseFile pFile = teamParseObj.getParseFile("iconImageUrl");
-                    String iconUrl = pFile.getUrl();
-                    Team team = new Team(
-                            teamParseObj.getObjectId(),
-                            teamParseObj.getString("name"),
-                            iconUrl
-                    );
-                    fetcher.team = team;
+                    fetcher.teamParseObj = teamParseObj;
                 }
                 fetcher.fetching = false;
             }
         });
         fetcher.fetching = true;
     }
+
+    public static void fetchTeamMembers(final TeamMembersFetcher fetcher, ParseObject teamParseObj) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("AthleteTeam");
+        query.whereEqualTo("team", teamParseObj);
+        query.include("athlete");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> athleteList, ParseException e) {
+                for (ParseObject athleteTeamParseObj : athleteList) {
+                    ParseObject teamParseObj = athleteTeamParseObj.getParseObject("athlete");
+                    Athlete athlete = new Athlete(
+                            teamParseObj.getObjectId(),
+                            teamParseObj.getString("uuid"),
+                            teamParseObj.getString("firstName"),
+                            teamParseObj.getString("lastName"),
+                            teamParseObj.getString("phoneNumber")
+                    );
+                    fetcher.teamMembers.add(athlete);
+                }
+                fetcher.fetching = false;
+            }
+        });
+        fetcher.fetching = true;
+    }
+
 }

@@ -21,10 +21,12 @@
     <string name="lbl_team_members">List members...</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="team_members">Team Members</string>
     <string name="title_activity_new_team">NewTeamActivity</string>
     <string name="title_activity_new_program">NewProgramActivity</string>
     <string name="title_activity_in_flight">InFlightActivity</string>
     <string name="title_activity_contacts_list">New Team</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_start_up">StartUpActivity</string>
+    <string name="title_activity_team_members">TeamMembersActivity</string>
 </resources>

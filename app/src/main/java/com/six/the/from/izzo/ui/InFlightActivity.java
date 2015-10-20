@@ -1,6 +1,6 @@
 package com.six.the.from.izzo.ui;
 
-import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,15 +11,19 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
-import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ParseUtils;
+import com.six.the.from.izzo.util.TeamFetcher;
 
 import java.io.InputStream;
 
@@ -33,6 +37,7 @@ public class InFlightActivity extends RoboActionBarActivity {
     CurrentAthlete currentAthlete;
     ImageView bmpImageView;
     TextView teamNameTxtView;
+    ParseObject teamParseObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +55,40 @@ public class InFlightActivity extends RoboActionBarActivity {
         bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
         teamNameTxtView = (TextView) findViewById(R.id.txt_team_name);
         ListView listView = (ListView) findViewById(R.id.lv_team_menu);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1);
         arrayAdapter.add("Current Program");
         arrayAdapter.add("Team Members");
         arrayAdapter.add("Statistics");
         arrayAdapter.add("Previous Programs");
         listView.setAdapter(arrayAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                switch (arrayAdapter.getItem(pos)) {
+                    case "Current Program":
+//                        Intent intent = new Intent(InFlightActivity.this, CurrentProgramActivity.class);
+//                        startActivity(intent);
+                        break;
+                    case "Team Members":
+                        Bundle bundle = new Bundle();
+//                        bundle.putSerializable("teamParseSerializableObject", new ParseSerializableObject(teamParseObject));
+                        Intent intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
+                        intent.putExtra("teamId", teamParseObject.getObjectId());
+                        startActivity(intent);
+                        break;
+                    case "Statistics":
+//                        Intent intent = new Intent(InFlightActivity.this, StatisticsActivity.class);
+//                        startActivity(intent);
+                        break;
+                    case "Previous Programs":
+//                        Intent intent = new Intent(InFlightActivity.this, PreviousProgramsActivity.class);
+//                        startActivity(intent);
+                        break;
+
+                }
+            }
+        });;
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -89,7 +121,7 @@ public class InFlightActivity extends RoboActionBarActivity {
         public FetchTeamThread() { }
 
         public void run() {
-            ParseUtils.fetchTeam(fetcher, getIntent().getStringExtra("teamId"), currentAthlete.getParseObject());
+            ParseUtils.fetchTeam(fetcher, getIntent().getStringExtra("teamId"));
 
             while (fetcher.fetching) {
                 try {
@@ -103,19 +135,17 @@ public class InFlightActivity extends RoboActionBarActivity {
                 @Override
                 public void run() {
                     if (!fetcher.fetching) {
-                        if (!fetcher.team.getIconUrl().isEmpty()) {
-                            teamNameTxtView.setText(fetcher.team.getName());
-                            new DownloadImageTask().execute(fetcher.team.getIconUrl());
+                        teamParseObject = fetcher.teamParseObj;
+                        ParseFile pFile = fetcher.teamParseObj.getParseFile("iconImageUrl");
+                        String iconUrl = pFile.getUrl();
+                        if (!iconUrl.isEmpty()) {
+                            teamNameTxtView.setText(fetcher.teamParseObj.getString("name"));
+                            new DownloadImageTask().execute(iconUrl);
                         }
                     }
                 }
             });
         }
-    }
-
-    public class TeamFetcher {
-        public volatile boolean fetching;
-        public volatile Team team;
     }
 
     @Override
