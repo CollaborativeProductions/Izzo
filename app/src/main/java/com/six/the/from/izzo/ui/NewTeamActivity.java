@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,12 +20,10 @@ import com.six.the.from.izzo.util.IzzoEditText;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.util.Validation;
 
-import org.apache.commons.lang.UnhandledException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 
 
 public class NewTeamActivity extends ActionBarActivity {
