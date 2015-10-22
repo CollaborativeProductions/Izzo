@@ -85,10 +85,15 @@ public class TeamMembersActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     if (!teamMembersFetcher.fetching) {
-                        for (Athlete teamMember : teamMembersFetcher.teamMembers) {
-                            View view = View.inflate(applicationContext, R.layout.team_member_list_item, null);
-                            TextView txtViewTeamMemberName = (TextView) view.findViewById(R.id.txt_team_member_name);
-                            txtViewTeamMemberName.setText(teamMember.getFirstName() + " " + teamMember.getLastName());
+                        View view;
+                        TextView txtViewTeamMemberName;
+                        for (int i = 0; i < teamMembersFetcher.teamMembers.size(); i++) {
+                            view = View.inflate(applicationContext, R.layout.team_member_list_item, null);
+                            txtViewTeamMemberName = (TextView) view.findViewById(R.id.txt_team_member_name);
+                            txtViewTeamMemberName.setText(teamMembersFetcher.teamMembers.get(i).getFirstName() + " " + teamMembersFetcher.teamMembers.get(i).getLastName());
+                            if (i != 0) {
+                                view.setBackground(applicationContext.getResources().getDrawable(R.drawable.border_top));
+                            }
                             linearLayout.addView(view);
                         }
                     }
