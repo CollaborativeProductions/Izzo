@@ -68,9 +68,6 @@ public class NewTeamActivity extends ActionBarActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        IzzoEditText etViewTeamName = (IzzoEditText) findViewById(R.id.et_new_team_name);
-        etViewTeamName.setText("");
-        etViewTeamName.setError(null);
     }
 
 
