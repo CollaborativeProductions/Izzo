@@ -167,8 +167,6 @@ public class ContactsListActivity extends ActionBarActivity {
 
         public void run() {
             ParseFile parseFile = null;
-
-//            if (getIntent().hasExtra("bmpByteArray")) {
             if (getIntent().hasExtra("imageFile")) {
                 try {
                     Bitmap bmpImage = BitmapFactory.decodeStream(applicationContext.openFileInput("izzoTeamIconImage"));

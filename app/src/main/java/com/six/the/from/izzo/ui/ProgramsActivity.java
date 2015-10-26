@@ -1,12 +1,17 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
@@ -25,13 +30,17 @@ import roboguice.activity.RoboActionBarActivity;
 public class ProgramsActivity extends RoboActionBarActivity {
     @Inject
     CurrentAthlete currentAthlete;
-
+    RelativeLayout relativeLayout;
+    Context applicationContext;
     TeamArrayAdapter teamArrayAdapter;
+    TextView txtViewNoPrograms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_programs);
+        relativeLayout = (RelativeLayout) findViewById(R.id.activity_programs);
+        applicationContext = this.getApplicationContext();
         initListView();
         fetchCurrentAthleteTeamInfo();
     }
@@ -55,8 +64,16 @@ public class ProgramsActivity extends RoboActionBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        teamArrayAdapter.clear(); teamArrayAdapter.notifyDataSetChanged();
+        relativeLayout.removeView(txtViewNoPrograms);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        initListView();
         fetchCurrentAthleteTeamInfo();
     }
 
@@ -100,9 +117,11 @@ public class ProgramsActivity extends RoboActionBarActivity {
                 } catch (InterruptedException ie) {
                     ie.printStackTrace();
                 }
-                if (fetcher.teamList.size() > 0) {
-                    addToArrayAdapter();
-                }
+            }
+            if (fetcher.teamList.size() > 0) {
+                addToArrayAdapter();
+            } else {
+                addTextView();
             }
         }
 
@@ -114,6 +133,20 @@ public class ProgramsActivity extends RoboActionBarActivity {
                         teamArrayAdapter.add(team);
                     }
                     teamArrayAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
+        private void addTextView() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    txtViewNoPrograms = new TextView(applicationContext);
+                    txtViewNoPrograms.setText("You're not currently a member of any teams.\nCreate a new team!");
+                    txtViewNoPrograms.setTextColor(getResources().getColor(R.color.dark_grey));
+                    txtViewNoPrograms.setGravity(Gravity.CENTER_HORIZONTAL);
+                    txtViewNoPrograms.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    relativeLayout.addView(txtViewNoPrograms);
                 }
             });
         }
