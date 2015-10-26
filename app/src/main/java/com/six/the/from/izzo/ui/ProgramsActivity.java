@@ -143,7 +143,9 @@ public class ProgramsActivity extends RoboActionBarActivity {
                 public void run() {
                     txtViewNoPrograms = new TextView(applicationContext);
                     txtViewNoPrograms.setText("You're not currently a member of any teams.\nCreate a new team!");
-                    txtViewNoPrograms.setTextColor(getResources().getColor(R.color.dark_grey));
+                    txtViewNoPrograms.setTextSize(16);
+                    txtViewNoPrograms.setLineSpacing(10, 1);
+                    txtViewNoPrograms.setTextColor(getResources().getColor(android.R.color.tab_indicator_text));
                     txtViewNoPrograms.setGravity(Gravity.CENTER_HORIZONTAL);
                     txtViewNoPrograms.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     relativeLayout.addView(txtViewNoPrograms);
