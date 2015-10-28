@@ -52,14 +52,19 @@ public class ProgramsActivity extends RoboActionBarActivity {
         lvTeamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                launchActivity(InFlightActivity.class, teamArrayAdapter.getItem(pos).getObjectId());
+                launchActivity(
+                        InFlightActivity.class,
+                        teamArrayAdapter.getItem(pos).getObjectId(),
+                        teamArrayAdapter.getItem(pos).getName()
+                );
             }
         });
     }
 
-    private void launchActivity(Class klass, String teamId) {
+    private void launchActivity(Class klass, String teamId, String teamName) {
         Intent intent = new Intent(this, klass);
         intent.putExtra("teamId", teamId);
+        intent.putExtra("teamName", teamName);
         startActivity(intent);
     }
 

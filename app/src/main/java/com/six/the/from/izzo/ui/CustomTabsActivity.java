@@ -21,7 +21,7 @@ public class CustomTabsActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_host);
         tabHost = getTabHost();
-        addFakeTab(this.getApplicationContext(), R.string.tab_0);
+//        addFakeTab(this.getApplicationContext(), R.string.tab_0);
         setTabs(this.getApplicationContext());
     }
 
@@ -30,7 +30,7 @@ public class CustomTabsActivity extends TabActivity {
         addTab(ApplicationContext, R.string.tab_2, R.drawable.tab_team);
         addTab(ApplicationContext, R.string.tab_3, R.drawable.tab_single);
 
-        tabHost.setCurrentTab(1);
+        tabHost.setCurrentTab(0);
     }
 
     private void addFakeTab(Context ApplicationContext, int labelId) {

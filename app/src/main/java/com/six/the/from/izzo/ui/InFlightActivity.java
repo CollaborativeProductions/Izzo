@@ -21,20 +21,15 @@ import android.widget.TextView;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
-import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamFetcher;
 
 import java.io.InputStream;
 
-import javax.inject.Inject;
-
 import roboguice.activity.RoboActionBarActivity;
 
 
 public class InFlightActivity extends RoboActionBarActivity {
-    @Inject
-    CurrentAthlete currentAthlete;
     ImageView bmpImageView;
     TextView teamNameTxtView;
     ParseObject teamParseObject;
@@ -42,11 +37,12 @@ public class InFlightActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setContentView(R.layout.activity_in_flight);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if (!getIntent().hasExtra("teamId")) return;
-
         initViews();
         new FetchTeamThread().start();
     }
@@ -71,10 +67,9 @@ public class InFlightActivity extends RoboActionBarActivity {
 //                        startActivity(intent);
                         break;
                     case "Team Members":
-                        Bundle bundle = new Bundle();
-//                        bundle.putSerializable("teamParseSerializableObject", new ParseSerializableObject(teamParseObject));
                         Intent intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
-                        intent.putExtra("teamId", teamParseObject.getObjectId());
+                        intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
+                        intent.putExtra("teamName", teamParseObject.getString("name"));
                         startActivity(intent);
                         break;
                     case "Statistics":

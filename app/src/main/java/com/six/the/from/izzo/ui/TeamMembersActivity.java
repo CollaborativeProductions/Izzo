@@ -1,7 +1,6 @@
 package com.six.the.from.izzo.ui;
 
 import android.content.Context;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +17,9 @@ import com.six.the.from.izzo.util.TeamFetcher;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamMembersActivity extends ActionBarActivity {
+import roboguice.activity.RoboActionBarActivity;
+
+public class TeamMembersActivity extends RoboActionBarActivity {
     LinearLayout linearLayout;
     ParseObject teamParseObject;
 
@@ -27,7 +28,10 @@ public class TeamMembersActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_members);
         linearLayout = (LinearLayout) findViewById(R.id.activity_team_members);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (!getIntent().getStringExtra("teamName").isEmpty()) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
+        }
         new FetchTeamThread(this.getApplicationContext()).start();
     }
 
@@ -119,11 +123,14 @@ public class TeamMembersActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_settings:
+                break;
+            case android.R.id.home:
+                this.onBackPressed();
+                return true;
+            default:
+                break;
         }
 
         return super.onOptionsItemSelected(item);
