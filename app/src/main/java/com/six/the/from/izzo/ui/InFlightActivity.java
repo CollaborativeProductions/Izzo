@@ -1,14 +1,8 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,15 +10,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamFetcher;
-
-import java.io.InputStream;
+import com.squareup.picasso.Picasso;
 
 import roboguice.activity.RoboActionBarActivity;
 
@@ -47,7 +39,7 @@ public class InFlightActivity extends RoboActionBarActivity {
         }
         setContentView(R.layout.activity_in_flight);
         initViews();
-        new FetchTeamThread().start();
+        new FetchTeamThread(this.getApplicationContext()).start();
     }
 
     private void initViews() {
@@ -72,6 +64,8 @@ public class InFlightActivity extends RoboActionBarActivity {
                         Intent intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
                         intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
                         intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
+                        String iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
+                        intent.putExtra("iconImageUrl", iconUrl);
                         startActivity(intent);
                         break;
                     case "Statistics":
@@ -88,34 +82,13 @@ public class InFlightActivity extends RoboActionBarActivity {
         });;
     }
 
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-
-        public DownloadImageTask() { }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Log.e("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmpImageView.setImageBitmap(result);
-            RoundedBitmapDrawable drawable = RoundedBitmapDrawableFactory.create(getResources(), ((BitmapDrawable) bmpImageView.getDrawable()).getBitmap());
-            drawable.setCornerRadius(Math.min(bmpImageView.getMinimumWidth(), bmpImageView.getMinimumHeight()));
-        }
-    }
-
     private class FetchTeamThread extends Thread {
         private final TeamFetcher fetcher = new TeamFetcher();
+        private Context applicationContext;
 
-        public FetchTeamThread() { }
+        public FetchTeamThread(Context context) {
+            this.applicationContext = context;
+        }
 
         public void run() {
             ParseUtils.fetchTeam(fetcher, getIntent().getStringExtra("teamId"));
@@ -136,7 +109,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                         ParseFile pFile = teamParseObject.getParseFile("iconImageUrl");
                         String iconUrl = pFile.getUrl();
                         if (!iconUrl.isEmpty()) {
-                            new DownloadImageTask().execute(iconUrl);
+                            Picasso.with(applicationContext).load(iconUrl).into(bmpImageView);
                         }
                     }
                 }

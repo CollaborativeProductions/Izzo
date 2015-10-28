@@ -10,12 +10,15 @@
     android:orientation="vertical"
     tools:context="com.six.the.from.izzo.ui.TeamMembersActivity">
 
-    <TextView
-        android:textSize="20sp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/img_team_logo"
         android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/team_members" />
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="20dp"
+        android:maxWidth="150dp"
+        android:maxHeight="150dp"
+        app:civ_border_width="4dp"
+        app:civ_border_color="#FFFFFF" />
 </LinearLayout>

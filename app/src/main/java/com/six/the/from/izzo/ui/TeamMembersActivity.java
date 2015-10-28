@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamFetcher;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,16 +24,20 @@ import roboguice.activity.RoboActionBarActivity;
 public class TeamMembersActivity extends RoboActionBarActivity {
     LinearLayout linearLayout;
     ParseObject teamParseObject;
+    ImageView bmpImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_members);
         linearLayout = (LinearLayout) findViewById(R.id.activity_team_members);
+        bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (!getIntent().getStringExtra("teamName").isEmpty()) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
+        getSupportActionBar().setTitle("Team Members");
+        if (!getIntent().getStringExtra("iconImageUrl").isEmpty()) {
+            Picasso.with(this.getApplicationContext()).load(getIntent().getStringExtra("iconImageUrl")).into(bmpImageView);
         }
+
         new FetchTeamThread(this.getApplicationContext()).start();
     }
 
@@ -95,9 +101,6 @@ public class TeamMembersActivity extends RoboActionBarActivity {
                             view = View.inflate(applicationContext, R.layout.team_member_list_item, null);
                             txtViewTeamMemberName = (TextView) view.findViewById(R.id.txt_team_member_name);
                             txtViewTeamMemberName.setText(teamMembersFetcher.teamMembers.get(i).getFirstName() + " " + teamMembersFetcher.teamMembers.get(i).getLastName());
-                            if (i != 0) {
-                                view.setBackground(applicationContext.getResources().getDrawable(R.drawable.border_top));
-                            }
                             linearLayout.addView(view);
                         }
                     }
