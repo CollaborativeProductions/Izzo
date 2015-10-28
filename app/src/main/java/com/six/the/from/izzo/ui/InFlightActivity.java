@@ -31,7 +31,6 @@ import roboguice.activity.RoboActionBarActivity;
 
 public class InFlightActivity extends RoboActionBarActivity {
     ImageView bmpImageView;
-    TextView teamNameTxtView;
     ParseObject teamParseObject;
 
     @Override
