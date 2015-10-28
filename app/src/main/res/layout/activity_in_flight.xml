@@ -16,19 +16,10 @@
         android:maxHeight="150dp"
         app:civ_border_width="4dp"
         app:civ_border_color="#FFFFFF" />
-    <TextView
-        android:id="@+id/txt_team_name"
-        android:textSize="20sp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/img_team_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp" />
     <ListView
         android:id="@+id/lv_team_menu"
-        android:layout_below="@+id/txt_team_name"
-        android:layout_marginTop="10dp"
+        android:layout_below="@+id/img_team_logo"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"

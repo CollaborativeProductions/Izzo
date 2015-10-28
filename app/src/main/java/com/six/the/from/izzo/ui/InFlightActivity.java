@@ -42,6 +42,10 @@ public class InFlightActivity extends RoboActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (!getIntent().getStringExtra("teamName").isEmpty()) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
+        }
         setContentView(R.layout.activity_in_flight);
         initViews();
         new FetchTeamThread().start();
@@ -49,7 +53,6 @@ public class InFlightActivity extends RoboActionBarActivity {
 
     private void initViews() {
         bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
-        teamNameTxtView = (TextView) findViewById(R.id.txt_team_name);
         ListView listView = (ListView) findViewById(R.id.lv_team_menu);
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1);
@@ -69,7 +72,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                     case "Team Members":
                         Intent intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
                         intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
-                        intent.putExtra("teamName", teamParseObject.getString("name"));
+                        intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
                         startActivity(intent);
                         break;
                     case "Statistics":
@@ -131,10 +134,9 @@ public class InFlightActivity extends RoboActionBarActivity {
                 public void run() {
                     if (!fetcher.fetching) {
                         teamParseObject = fetcher.teamParseObj;
-                        ParseFile pFile = fetcher.teamParseObj.getParseFile("iconImageUrl");
+                        ParseFile pFile = teamParseObject.getParseFile("iconImageUrl");
                         String iconUrl = pFile.getUrl();
                         if (!iconUrl.isEmpty()) {
-                            teamNameTxtView.setText(fetcher.teamParseObj.getString("name"));
                             new DownloadImageTask().execute(iconUrl);
                         }
                     }
