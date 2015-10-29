@@ -20,6 +20,8 @@
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>
 
+    <string name="btn_add_new_member">Add New Member</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="team_members">Team Members</string>
     <string name="title_activity_new_team">NewTeamActivity</string>

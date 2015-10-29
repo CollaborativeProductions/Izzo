@@ -1,13 +1,11 @@
 package com.six.the.from.izzo.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
@@ -22,31 +20,35 @@ import java.util.List;
 import roboguice.activity.RoboActionBarActivity;
 
 public class TeamMembersActivity extends RoboActionBarActivity {
-    LinearLayout linearLayout;
     ParseObject teamParseObject;
     ImageView bmpImageView;
+    ArrayAdapter<String> teamMembersArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_team_members);
-        linearLayout = (LinearLayout) findViewById(R.id.activity_team_members);
-        bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
+        initViews();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Team Members");
         if (!getIntent().getStringExtra("iconImageUrl").isEmpty()) {
             Picasso.with(this.getApplicationContext()).load(getIntent().getStringExtra("iconImageUrl")).into(bmpImageView);
         }
+        new FetchTeamThread().start();
+    }
 
-        new FetchTeamThread(this.getApplicationContext()).start();
+    private void initViews() {
+        bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
+        ListView listView = (ListView) findViewById(R.id.lv_team_members);
+        teamMembersArrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1);
+        listView.setAdapter(teamMembersArrayAdapter);
     }
 
     private class FetchTeamThread extends Thread {
         private final TeamFetcher fetcher = new TeamFetcher();
-        private Context applicationContext;
 
-        public FetchTeamThread(Context context) {
-            this.applicationContext = context;
+        public FetchTeamThread() {
         }
 
         public void run() {
@@ -65,7 +67,7 @@ public class TeamMembersActivity extends RoboActionBarActivity {
                 public void run() {
                     if (!fetcher.fetching) {
                         teamParseObject = fetcher.teamParseObj;
-                        new FetchTeamMembersThread(applicationContext).start();
+                        new FetchTeamMembersThread().start();
                     }
                 }
             });
@@ -74,10 +76,8 @@ public class TeamMembersActivity extends RoboActionBarActivity {
 
     private class FetchTeamMembersThread extends Thread {
         private final TeamMembersFetcher teamMembersFetcher = new TeamMembersFetcher();
-        private Context applicationContext;
 
-        public FetchTeamMembersThread(Context context) {
-            this.applicationContext = context;
+        public FetchTeamMembersThread() {
         }
 
         public void run() {
@@ -95,14 +95,12 @@ public class TeamMembersActivity extends RoboActionBarActivity {
                 @Override
                 public void run() {
                     if (!teamMembersFetcher.fetching) {
-                        View view;
-                        TextView txtViewTeamMemberName;
                         for (int i = 0; i < teamMembersFetcher.teamMembers.size(); i++) {
-                            view = View.inflate(applicationContext, R.layout.team_member_list_item, null);
-                            txtViewTeamMemberName = (TextView) view.findViewById(R.id.txt_team_member_name);
-                            txtViewTeamMemberName.setText(teamMembersFetcher.teamMembers.get(i).getFirstName() + " " + teamMembersFetcher.teamMembers.get(i).getLastName());
-                            linearLayout.addView(view);
+                            Athlete athlete = teamMembersFetcher.teamMembers.get(i);
+                            String athleteName = athlete.getFirstName() + " " + athlete.getLastName();
+                            teamMembersArrayAdapter.add(athleteName);
                         }
+                        teamMembersArrayAdapter.notifyDataSetChanged();
                     }
                 }
             });
