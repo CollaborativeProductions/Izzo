@@ -6,7 +6,7 @@ import com.parse.ParseFile;
 import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Team;
-import com.six.the.from.izzo.ui.ContactsListActivity;
+import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
@@ -19,7 +19,7 @@ import java.util.List;
 
 
 public class ParseUtils {
-    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final ContactsListActivity.OperationStatusFetcher fetcher) {
+    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final OperationStatusFetcher fetcher) {
         final ParseObject team = new ParseObject("Team");
         team.put("name", teamName);
         team.put("iconImageUrl", file);
@@ -27,7 +27,7 @@ public class ParseUtils {
             public void done(ParseException e) {
                 if (e == null) {
                     // Saved successfully.
-                    fetcher.teamId = team.getObjectId();
+                    fetcher.teamParseObj = team;
                 }
             }
         });
@@ -47,6 +47,10 @@ public class ParseUtils {
             }
         });
 
+        addTeamMembers(contactArrayAdapter, fetcher, team);
+    }
+
+    public static void addTeamMembers(ContactArrayAdapter contactArrayAdapter,  final OperationStatusFetcher fetcher, ParseObject team) {
         for (int pos = 0; pos < contactArrayAdapter.getCount(); pos++) {
             ContactListItem contact = contactArrayAdapter.getItem(pos);
             String[] contactName = contact.getName().split(" ");

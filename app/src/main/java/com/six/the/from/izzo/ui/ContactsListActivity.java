@@ -194,22 +194,23 @@ public class ContactsListActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     if (!fetcher.saving) {
-                        launchActivity(InFlightActivity.class, fetcher.teamId);
+                        launchActivity(InFlightActivity.class, fetcher.teamParseObj.getObjectId(), fetcher.teamParseObj.getString("name"));
                     }
                 }
             });
         }
     }
 
-    private void launchActivity(Class klass, String teamId) {
+    private void launchActivity(Class klass, String teamId, String teamName) {
         Intent intent = new Intent(this, klass);
         intent.putExtra("teamId", teamId);
+        intent.putExtra("teamName", teamName);
         startActivity(intent);
     }
 
     public class OperationStatusFetcher {
         public volatile boolean saving;
-        public volatile String teamId;
+        public volatile ParseObject teamParseObj;
     }
 
     @Override
