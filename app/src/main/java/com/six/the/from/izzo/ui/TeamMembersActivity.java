@@ -97,7 +97,10 @@ public class TeamMembersActivity extends RoboActionBarActivity {
                     if (!teamMembersFetcher.fetching) {
                         for (int i = 0; i < teamMembersFetcher.teamMembers.size(); i++) {
                             Athlete athlete = teamMembersFetcher.teamMembers.get(i);
-                            String athleteName = athlete.getFirstName() + " " + athlete.getLastName();
+                            String athleteName = athlete.getFirstName();
+                            if (athlete.getLastName() != null && !athlete.getLastName().isEmpty()) {
+                                athleteName += " " + athlete.getLastName();
+                            }
                             teamMembersArrayAdapter.add(athleteName);
                         }
                         teamMembersArrayAdapter.notifyDataSetChanged();
