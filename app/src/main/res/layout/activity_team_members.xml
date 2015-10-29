@@ -20,34 +20,24 @@
         app:civ_border_color="#FFFFFF" />
     <RelativeLayout
         android:id="@+id/lv_linear_layout"
-        android:layout_below="@+id/img_team_logo"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/img_team_logo" >
+        <Button
             android:id="@+id/ll_btn_new_team_member"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:paddingRight="55dp"
-            android:paddingLeft="55dp"
-            android:paddingBottom="4dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="#FFFFFF" >
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:text="@string/btn_add_new_member"
-                android:stateListAnimator="@null" />
-        </LinearLayout>
+            android:text="@string/btn_add_new_member"
+            android:stateListAnimator="@null"
+            android:background="#FF0000" />
         <ListView
+            android:layout_alignParentTop="true"
             android:id="@+id/lv_team_members"
             android:layout_above="@id/ll_btn_new_team_member"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFFFFF" />
