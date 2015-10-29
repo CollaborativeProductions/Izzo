@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.ContactsContract;
@@ -26,14 +25,12 @@ import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
-import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ContactArrayAdapter;
 import com.six.the.from.izzo.util.IzzoEditText;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.R;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 
 
@@ -48,6 +45,7 @@ public class ContactsListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Add Team Members");
 
         initSelectedListView();
         initSearchListView();
