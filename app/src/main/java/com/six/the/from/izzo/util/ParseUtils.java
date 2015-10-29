@@ -19,7 +19,7 @@ import java.util.List;
 
 
 public class ParseUtils {
-    public static void saveTeam(ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final OperationStatusFetcher fetcher) {
+    public static void saveTeam(final ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final OperationStatusFetcher fetcher) {
         final ParseObject team = new ParseObject("Team");
         team.put("name", teamName);
         team.put("iconImageUrl", file);
@@ -43,14 +43,28 @@ public class ParseUtils {
                     athleteteam.put("creator", true);
                     athleteteam.put("team", team);
                     athleteteam.saveInBackground();
+                    addTeamMembers(contactArrayAdapter, team, fetcher);
                 }
             }
         });
-
-        addTeamMembers(contactArrayAdapter, fetcher, team);
+        fetcher.saving = true;
     }
 
-    public static void addTeamMembers(ContactArrayAdapter contactArrayAdapter,  final OperationStatusFetcher fetcher, ParseObject team) {
+    public static void updateTeam(final ContactArrayAdapter contactArrayAdapter, String teamId, final OperationStatusFetcher fetcher) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+        query.whereEqualTo("objectId", teamId);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject team, ParseException e) {
+                if (e == null) {
+                    fetcher.teamParseObj = team;
+                    addTeamMembers(contactArrayAdapter, team, fetcher);
+                }
+            }
+        });
+        fetcher.saving = true;
+    }
+
+    public static void addTeamMembers(ContactArrayAdapter contactArrayAdapter, ParseObject team, final OperationStatusFetcher fetcher) {
         for (int pos = 0; pos < contactArrayAdapter.getCount(); pos++) {
             ContactListItem contact = contactArrayAdapter.getItem(pos);
             String[] contactName = contact.getName().split(" ");
@@ -81,8 +95,6 @@ public class ParseUtils {
                 athleteteam.saveInBackground();
             }
         }
-
-        fetcher.saving = true;
     }
 
     public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {

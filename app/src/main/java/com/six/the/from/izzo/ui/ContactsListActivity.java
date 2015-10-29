@@ -180,7 +180,11 @@ public class ContactsListActivity extends ActionBarActivity {
             }
 
             TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-            ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"), tManager.getDeviceId(), parseFile, fetcher);
+            if (getIntent().hasExtra("teamId")) {
+                ParseUtils.updateTeam(contactArrayAdapter, getIntent().getStringExtra("teamId"), fetcher);
+            } else {
+                ParseUtils.saveTeam(contactArrayAdapter, getIntent().getStringExtra("teamName"), tManager.getDeviceId(), parseFile, fetcher);
+            }
 
             while (fetcher.saving) {
                 try {
@@ -205,6 +209,7 @@ public class ContactsListActivity extends ActionBarActivity {
         Intent intent = new Intent(this, klass);
         intent.putExtra("teamId", teamId);
         intent.putExtra("teamName", teamName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

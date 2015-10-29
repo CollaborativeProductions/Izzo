@@ -1,9 +1,12 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -27,11 +30,16 @@ public class TeamMembersActivity extends RoboActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         setContentView(R.layout.activity_team_members);
         initViews();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Team Members");
-        if (!getIntent().getStringExtra("iconImageUrl").isEmpty()) {
+        if (getIntent().hasExtra("iconImageUrl")) {
             Picasso.with(this.getApplicationContext()).load(getIntent().getStringExtra("iconImageUrl")).into(bmpImageView);
         }
         new FetchTeamThread().start();
@@ -43,6 +51,24 @@ public class TeamMembersActivity extends RoboActionBarActivity {
         teamMembersArrayAdapter = new ArrayAdapter<>(this,
                 R.layout.simple_custom_list_item);
         listView.setAdapter(teamMembersArrayAdapter);
+        Button btnAddNewMembers = (Button) findViewById(R.id.btn_new_team_member);
+        btnAddNewMembers.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                launchActivity(
+                        ContactsListActivity.class,
+                        teamParseObject.getObjectId(),
+                        teamParseObject.getString("name")
+                );
+            }
+        });
+    }
+
+    private void launchActivity(Class klass, String teamId, String teamName) {
+        Intent intent = new Intent(this, klass);
+        intent.putExtra("teamId", teamId);
+        intent.putExtra("teamName", teamName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     private class FetchTeamThread extends Thread {

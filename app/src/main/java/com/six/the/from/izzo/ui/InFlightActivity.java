@@ -34,7 +34,7 @@ public class InFlightActivity extends RoboActionBarActivity {
     protected void onResume() {
         super.onResume();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        if (!getIntent().getStringExtra("teamName").isEmpty()) {
+        if (getIntent().hasExtra("teamName")) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
         }
         setContentView(R.layout.activity_in_flight);
@@ -66,6 +66,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                         intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
                         String iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
                         intent.putExtra("iconImageUrl", iconUrl);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
                         break;
                     case "Statistics":

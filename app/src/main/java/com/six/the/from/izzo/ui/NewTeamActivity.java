@@ -165,7 +165,7 @@ public class NewTeamActivity extends ActionBarActivity {
 
                     Bitmap bmpImage = ((BitmapDrawable)imgTeamIcon.getDrawable()).getBitmap();
                     intent.putExtra("imageFile", createImageFileFromBitmap(bmpImage));
-
+                    intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }
                 return true;

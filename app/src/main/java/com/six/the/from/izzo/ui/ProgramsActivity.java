@@ -65,6 +65,7 @@ public class ProgramsActivity extends RoboActionBarActivity {
         Intent intent = new Intent(this, klass);
         intent.putExtra("teamId", teamId);
         intent.putExtra("teamName", teamName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

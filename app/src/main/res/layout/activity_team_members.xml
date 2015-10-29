@@ -27,7 +27,7 @@
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/img_team_logo" >
         <Button
-            android:id="@+id/ll_btn_new_team_member"
+            android:id="@+id/btn_new_team_member"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
         <ListView
             android:layout_alignParentTop="true"
             android:id="@+id/lv_team_members"
-            android:layout_above="@id/ll_btn_new_team_member"
+            android:layout_above="@id/btn_new_team_member"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
