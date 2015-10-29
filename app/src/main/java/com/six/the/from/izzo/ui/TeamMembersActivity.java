@@ -41,7 +41,7 @@ public class TeamMembersActivity extends RoboActionBarActivity {
         bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
         ListView listView = (ListView) findViewById(R.id.lv_team_members);
         teamMembersArrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1);
+                R.layout.simple_custom_list_item);
         listView.setAdapter(teamMembersArrayAdapter);
     }
 
