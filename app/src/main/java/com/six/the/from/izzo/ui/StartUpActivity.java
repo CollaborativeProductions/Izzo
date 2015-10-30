@@ -72,10 +72,15 @@ public class StartUpActivity extends RoboActionBarActivity {
     private void launchActivity(Class klass) {
         Intent intent = new Intent(this.getApplication(), klass);
         // TODO: Check for in-flight activity
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
