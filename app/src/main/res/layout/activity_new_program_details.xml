@@ -49,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:text="Exercise"
+                    android:text="@string/lbl_exercise"
                     android:textColor="@color/izzo_red"
                     android:textSize="11sp"
                     android:textAllCaps="true" />
@@ -57,7 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Duration"
+                    android:text="@string/lbl_distance"
                     android:textColor="@color/izzo_red"
                     android:textSize="11sp"
                     android:textAllCaps="true" />
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Distance"
+                    android:text="@string/lbl_duration"
                     android:textColor="@color/izzo_red"
                     android:textSize="11sp"
                     android:textAllCaps="true" />
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="5"
-                    android:text="Exercise"
+                    android:text="@string/lbl_exercise"
                     android:textColor="@color/izzo_red"
                     android:textSize="11sp"
                     android:textAllCaps="true" />
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sets"
+                    android:text="@string/lbl_sets"
                     android:textColor="@color/izzo_red"
                     android:textSize="11sp"
                     android:textAllCaps="true" />

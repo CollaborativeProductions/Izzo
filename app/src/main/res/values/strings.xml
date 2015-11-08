@@ -23,6 +23,10 @@
     <string name="lbl_team_members">List members...</string>
     <string name="lbl_add_new_cardio_exercise">Add New Cardio Exercise</string>
     <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
+    <string name="lbl_exercise">Exercise</string>
+    <string name="lbl_sets">Sets</string>
+    <string name="lbl_duration">Duration</string>
+    <string name="lbl_distance">Distance</string>
 
     <string name="btn_add_new_member">Add New Member</string>
 
