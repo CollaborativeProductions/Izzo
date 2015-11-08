@@ -21,6 +21,8 @@
     <string name="lbl_program_name">Enter program name here...</string>
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>
+    <string name="lbl_add_new_cardio_exercise">Add New Cardio Exercise</string>
+    <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
 
     <string name="btn_add_new_member">Add New Member</string>
 

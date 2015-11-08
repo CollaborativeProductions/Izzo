@@ -19,7 +19,7 @@
         app:civ_border_width="4dp"
         app:civ_border_color="#FFFFFF" />
     <RelativeLayout
-        android:id="@+id/lv_linear_layout"
+        android:id="@+id/lv_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -37,9 +37,10 @@
             android:background="@color/grey" />
         <ListView
             android:layout_alignParentTop="true"
-            android:id="@+id/lv_team_members"
             android:layout_above="@id/btn_new_team_member"
+            android:id="@+id/lv_team_members"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </RelativeLayout>
+
 </RelativeLayout>
