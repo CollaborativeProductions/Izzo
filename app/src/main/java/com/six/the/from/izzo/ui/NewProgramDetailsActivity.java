@@ -8,8 +8,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 
 import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.models.Exercise;
 
 public class NewProgramDetailsActivity extends ActionBarActivity {
 
@@ -27,11 +29,16 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
     private void initCardioListView() {
         ListView listView = (ListView) findViewById(R.id.lv_cardio_exercises);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1);
-        arrayAdapter.add("Running");
-        arrayAdapter.add("Swimming");
-        listView.setAdapter(arrayAdapter);
+        final CardioExerciseArrayAdapter cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter
+                (
+                    this,
+                    R.layout.cardio_exercise_list_item
+                );
+        Exercise exercise = new Exercise("Running", 20, 40);
+        cardioExerciseArrayAdapter.add(exercise);
+        Exercise exercise2 = new Exercise("Swimming", 60, 100);
+        cardioExerciseArrayAdapter.add(exercise2);
+        listView.setAdapter(cardioExerciseArrayAdapter);
     }
 
     private void initWeightTrainingListView() {

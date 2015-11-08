@@ -8,7 +8,7 @@ public class Exercise {
     private int distance;
     private int[] sets;
 
-    public Exercise(String name, int duration, int distance) {
+    public Exercise(String name, int distance, int duration) {
         this.name = name;
         this.type = "Cardio";
         this.duration = duration;
