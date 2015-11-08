@@ -17,7 +17,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ui.ProgramsActivity"
+            android:name=".ui.AllProgramsActivity"
             android:label="@string/app_name" >
         </activity>
         <activity
@@ -25,7 +25,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ui.NewWorkoutActivity"
+            android:name=".ui.NewProgramActivity"
             android:label="@string/app_name" >
         </activity>
         <activity

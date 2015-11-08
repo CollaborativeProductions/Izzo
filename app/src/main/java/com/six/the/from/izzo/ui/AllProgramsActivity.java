@@ -27,7 +27,7 @@ import javax.inject.Inject;
 import roboguice.activity.RoboActionBarActivity;
 
 
-public class ProgramsActivity extends RoboActionBarActivity {
+public class AllProgramsActivity extends RoboActionBarActivity {
     @Inject
     CurrentAthlete currentAthlete;
     RelativeLayout relativeLayout;

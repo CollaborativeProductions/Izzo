@@ -11,8 +11,6 @@ import android.widget.TabHost;
 
 import com.six.the.from.izzo.R;
 
-import roboguice.activity.RoboTabActivity;
-
 public class CustomTabsActivity extends TabActivity {
     public TabHost tabHost;
 
@@ -49,16 +47,16 @@ public class CustomTabsActivity extends TabActivity {
         Intent intent;
         switch (labelId) {
             case R.string.tab_1:
-                intent = new Intent(ApplicationContext, ProgramsActivity.class);
+                intent = new Intent(ApplicationContext, AllProgramsActivity.class);
                 break;
             case R.string.tab_2:
                 intent = new Intent(ApplicationContext, NewTeamActivity.class);
                 break;
             case R.string.tab_3:
-                intent = new Intent(ApplicationContext, NewWorkoutActivity.class);
+                intent = new Intent(ApplicationContext, NewProgramActivity.class);
                 break;
             default:
-                intent = new Intent(ApplicationContext, ProgramsActivity.class);
+                intent = new Intent(ApplicationContext, AllProgramsActivity.class);
                 break;
         }
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);

@@ -8,7 +8,7 @@ import android.view.MenuItem;
 import com.six.the.from.izzo.R;
 
 
-public class NewWorkoutActivity extends ActionBarActivity {
+public class NewProgramActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

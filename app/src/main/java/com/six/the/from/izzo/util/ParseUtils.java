@@ -8,7 +8,7 @@ import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
-import com.six.the.from.izzo.ui.ProgramsActivity.TeamsInfoFetcher;
+import com.six.the.from.izzo.ui.AllProgramsActivity.TeamsInfoFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
 
 import com.parse.ParseObject;
