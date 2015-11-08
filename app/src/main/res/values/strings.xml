@@ -14,9 +14,11 @@
     <string name="get_started">Get Started</string>
     <string name="next">Next</string>
 
-    <string name="lbl_upload_icon">Please provide an optional logo for your team</string>
+    <string name="lbl_upload_team_icon">Please provide an optional logo for your team</string>
+    <string name="lbl_upload_program_icon">Please provide an optional logo above for your program</string>
     <string name="lbl_phone_number">Enter phone number...</string>
     <string name="lbl_team_name">Enter team name here...</string>
+    <string name="lbl_program_name">Enter program name here...</string>
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>
 
@@ -31,4 +33,5 @@
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_start_up">StartUpActivity</string>
     <string name="title_activity_team_members">TeamMembersActivity</string>
+    <string name="title_activity_new_program_details">NewProgramDetailsActivity</string>
 </resources>

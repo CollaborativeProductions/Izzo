@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.six.the.from.izzo"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 23
         versionCode 1
         versionName "0.1"
