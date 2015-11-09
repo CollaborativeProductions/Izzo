@@ -1,17 +1,26 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.WindowManager;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Exercise;
+import com.six.the.from.izzo.util.NewWeightTrainingExercisePopupWindow;
 import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
 public class NewProgramDetailsActivity extends ActionBarActivity {
@@ -30,11 +39,9 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
     private void initCardioListView() {
         ListView listView = (ListView) findViewById(R.id.lv_cardio_exercises);
-        final CardioExerciseArrayAdapter cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter
-                (
-                    this,
-                    R.layout.cardio_exercise_list_item
-                );
+        final CardioExerciseArrayAdapter cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter(
+            this,
+            R.layout.cardio_exercise_list_item);
         Exercise exercise = new Exercise("Running", 20, 40);
         cardioExerciseArrayAdapter.add(exercise);
         Exercise exercise2 = new Exercise("Swimming", 60, 100);
@@ -44,11 +51,9 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
     private void initWeightTrainingListView() {
         ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
-        final WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter
-                (
-                        this,
-                        R.layout.weighttraining_exercise_list_item
-                );
+        final WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter(
+            this,
+            R.layout.weighttraining_exercise_list_item);
         Exercise exercise = new Exercise("Bench Press", new int[]{20, 40});
         weightTrainingExerciseArrayAdapter.add(exercise);
         exercise = new Exercise("Skull Crusher", new int[]{60, 80, 100});
@@ -63,8 +68,18 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
     }
 
     public void addNewWeightTrainingExercise(View v) {
-        Toast.makeText(getApplicationContext(), "this is my Toast message!!! =)",
-                Toast.LENGTH_LONG).show();
+        WindowManager wm = (WindowManager) this.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int width = metrics.widthPixels - 60;
+        int height = metrics.heightPixels - 500;
+
+        NewWeightTrainingExercisePopupWindow newWeightTrainingExercisePopupWindow = new NewWeightTrainingExercisePopupWindow(
+                this.getApplicationContext(),
+                width,
+                height);
+        newWeightTrainingExercisePopupWindow.show(this.findViewById(R.id.activity_new_program_details), 0, 0);
     }
 
     @Override
