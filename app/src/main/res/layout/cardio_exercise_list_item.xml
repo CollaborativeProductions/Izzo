@@ -19,13 +19,13 @@
         android:id="@+id/distance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="end" />
     <TextView
         android:id="@+id/duration"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:gravity="end" />
 
 </LinearLayout>

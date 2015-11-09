@@ -12,6 +12,7 @@ import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Exercise;
+import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
 public class NewProgramDetailsActivity extends ActionBarActivity {
 
@@ -43,15 +44,22 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
     private void initWeightTrainingListView() {
         ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1);
-        arrayAdapter.add("Bench Press");
-        arrayAdapter.add("1-Arm Tricep Curl");
-        arrayAdapter.add("Leg Extension");
-        arrayAdapter.add("Squat (Olympic)");
-        arrayAdapter.add("Hammer Curl");
-        arrayAdapter.add("Leg Press");
-        listView.setAdapter(arrayAdapter);
+        final WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter
+                (
+                        this,
+                        R.layout.weighttraining_exercise_list_item
+                );
+        Exercise exercise = new Exercise("Bench Press", new int[]{20, 40});
+        weightTrainingExerciseArrayAdapter.add(exercise);
+        exercise = new Exercise("Skull Crusher", new int[]{60, 80, 100});
+        weightTrainingExerciseArrayAdapter.add(exercise);
+        exercise = new Exercise("1-Arm Tricep Curl", new int[]{60, 80, 100});
+        weightTrainingExerciseArrayAdapter.add(exercise);
+        exercise = new Exercise("Tricep Pull Down", new int[]{60, 80, 100, 120});
+        weightTrainingExerciseArrayAdapter.add(exercise);
+        exercise = new Exercise("Dumbbell Lunges", new int[]{60, 80, 100});
+        weightTrainingExerciseArrayAdapter.add(exercise);
+        listView.setAdapter(weightTrainingExerciseArrayAdapter);
     }
 
     public void addNewWeightTrainingExercise(View v) {
