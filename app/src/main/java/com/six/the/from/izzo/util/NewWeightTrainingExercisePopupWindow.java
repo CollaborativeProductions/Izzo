@@ -16,7 +16,7 @@ public class NewWeightTrainingExercisePopupWindow extends android.widget.PopupWi
     // TextView lblText;
     View popupView;
 
-    public NewWeightTrainingExercisePopupWindow(Context context, int width, int height) {
+    public NewWeightTrainingExercisePopupWindow(Context context, final View backgroundLayout, int width, int height) {
         super(context);
 
         ctx = context;
@@ -25,7 +25,6 @@ public class NewWeightTrainingExercisePopupWindow extends android.widget.PopupWi
         setContentView(popupView);
 
         btnDismiss = (Button) popupView.findViewById(R.id.btn_dismiss);
-        // lblText = (TextView)popupView.findViewById(R.id.terms_conditions);
 
         setHeight(width);
         setWidth(height);
@@ -38,10 +37,10 @@ public class NewWeightTrainingExercisePopupWindow extends android.widget.PopupWi
         setBackgroundDrawable(new BitmapDrawable());
 
         btnDismiss.setOnClickListener(new Button.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 dismiss();
+                backgroundLayout.setVisibility(View.GONE);
             }
         });
     }

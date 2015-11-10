@@ -1,21 +1,17 @@
 package com.six.the.from.izzo.ui;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
+
 import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 
 import com.six.the.from.izzo.R;
@@ -24,6 +20,7 @@ import com.six.the.from.izzo.util.NewWeightTrainingExercisePopupWindow;
 import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
 public class NewProgramDetailsActivity extends ActionBarActivity {
+    View backDimLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +30,7 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
     }
 
     private void initViews() {
+        backDimLayout = (RelativeLayout) findViewById(R.id.back_dim_layout);
         initCardioListView();
         initWeightTrainingListView();
     }
@@ -77,9 +75,11 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
         NewWeightTrainingExercisePopupWindow newWeightTrainingExercisePopupWindow = new NewWeightTrainingExercisePopupWindow(
                 this.getApplicationContext(),
+                backDimLayout,
                 width,
                 height);
         newWeightTrainingExercisePopupWindow.show(this.findViewById(R.id.activity_new_program_details), 0, 0);
+        backDimLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
