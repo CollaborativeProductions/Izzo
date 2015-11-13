@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <Button
-            android:id="@+id/btn_dismiss"
+            android:id="@+id/btn_close"
             android:background="@drawable/btn_close"
             android:layout_width="75dp"
             android:layout_height="26dp"
