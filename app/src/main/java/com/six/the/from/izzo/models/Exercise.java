@@ -60,4 +60,5 @@ public class Exercise {
     public void setSets(int[] sets) {
         this.sets = sets;
     }
+
 }

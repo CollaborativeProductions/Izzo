@@ -21,13 +21,18 @@
     <string name="lbl_program_name">Enter program name here...</string>
     <string name="lbl_team_description">Enter a description...</string>
     <string name="lbl_team_members">List members...</string>
+    <string name="lbl_add_exercise">Add Exercise</string>
     <string name="lbl_add_new_cardio_exercise">Add New Cardio Exercise</string>
     <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
     <string name="lbl_exercise">Exercise</string>
     <string name="lbl_sets">Sets</string>
     <string name="lbl_duration">Duration</string>
     <string name="lbl_distance">Distance</string>
-
+    <string name="lbl_select_duration">Duration (min)</string>
+    <string name="lbl_select_distance">Distance (m)</string>
+    <string name="lbl_select_exercise">Exercise</string>
+    <string name="lbl_select_num_reps">Number of Reps</string>
+    <string name="lbl_select_weight">Weight (lbs)</string>
     <string name="btn_add_new_member">Add New Member</string>
 
     <string name="hello_world">Hello world!</string>
@@ -40,4 +45,5 @@
     <string name="title_activity_start_up">StartUpActivity</string>
     <string name="title_activity_team_members">TeamMembersActivity</string>
     <string name="title_activity_new_program_details">NewProgramDetailsActivity</string>
+    <string name="title_activity_time_picker_custom">TimePickerCustom</string>
 </resources>

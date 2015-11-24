@@ -1,6 +1,5 @@
 package com.six.the.from.izzo.ui;
 
-import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -8,15 +7,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
+import com.six.the.from.izzo.ui.NewCardioExerciseFragment.NewCardioExerciseDialogListener;
 
-public class NewProgramDetailsActivity extends ActionBarActivity {
+public class NewProgramDetailsActivity extends ActionBarActivity implements NewCardioExerciseDialogListener {
+    CardioExerciseArrayAdapter cardioExerciseArrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,14 +31,10 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
     }
 
     private void initCardioListView() {
+        cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter(
+                this,
+                R.layout.cardio_exercise_list_item);
         ListView listView = (ListView) findViewById(R.id.lv_cardio_exercises);
-        final CardioExerciseArrayAdapter cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter(
-            this,
-            R.layout.cardio_exercise_list_item);
-        Exercise exercise = new Exercise("Running", 20, 40);
-        cardioExerciseArrayAdapter.add(exercise);
-        Exercise exercise2 = new Exercise("Swimming", 60, 100);
-        cardioExerciseArrayAdapter.add(exercise2);
         listView.setAdapter(cardioExerciseArrayAdapter);
     }
 
@@ -61,7 +58,12 @@ public class NewProgramDetailsActivity extends ActionBarActivity {
 
     public void addNewWeightTrainingExercise(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        new NewWeightExerciseFragment().show(ft, "dialog");
+        NewCardioExerciseFragment newCardioExerciseFragment = new NewCardioExerciseFragment();
+        newCardioExerciseFragment.show(ft, "dialog");
+    }
+
+    public void onFinishNewCardioExerciseDialog(Exercise exercise) {
+        cardioExerciseArrayAdapter.add(exercise);
     }
 
     @Override

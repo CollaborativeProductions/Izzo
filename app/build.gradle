@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    provided files('libs/nineoldandroids-2.2.0.jar')
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.0.1'
