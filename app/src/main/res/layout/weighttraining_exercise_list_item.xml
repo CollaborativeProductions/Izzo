@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/weighttraining_exercise_list_item"
+    android:id="@+id/weight_training_exercise_list_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
@@ -21,5 +21,17 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal" />
+    <TextView
+        android:id="@+id/num_reps"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal" />
+    <TextView
+        android:id="@+id/weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:gravity="end" />
 
 </LinearLayout>

@@ -4,4 +4,6 @@
     tools:context="com.six.the.from.izzo.ui.NewProgramDetailsActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_done" android:title="@string/action_done"
+        android:orderInCategory="100" app:showAsAction="always" />
 </menu>

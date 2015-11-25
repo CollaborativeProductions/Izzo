@@ -26,11 +26,14 @@
     <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
     <string name="lbl_exercise">Exercise</string>
     <string name="lbl_sets">Sets</string>
+    <string name="lbl_reps">Reps</string>
+    <string name="lbl_weight">Weight</string>
     <string name="lbl_duration">Duration</string>
     <string name="lbl_distance">Distance</string>
     <string name="lbl_select_duration">Duration (min)</string>
     <string name="lbl_select_distance">Distance (m)</string>
     <string name="lbl_select_exercise">Exercise</string>
+    <string name="lbl_select_num_sets">Number of Sets</string>
     <string name="lbl_select_num_reps">Number of Reps</string>
     <string name="lbl_select_weight">Weight (lbs)</string>
     <string name="btn_add_new_member">Add New Member</string>

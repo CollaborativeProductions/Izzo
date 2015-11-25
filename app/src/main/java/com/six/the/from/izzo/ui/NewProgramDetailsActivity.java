@@ -8,15 +8,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
-
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Exercise;
-import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 import com.six.the.from.izzo.ui.NewCardioExerciseFragment.NewCardioExerciseDialogListener;
+import com.six.the.from.izzo.ui.NewWeightTrainingExerciseFragment.NewWeightTrainingExerciseDialogListener;
+import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
+import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
-public class NewProgramDetailsActivity extends ActionBarActivity implements NewCardioExerciseDialogListener {
+
+public class NewProgramDetailsActivity extends ActionBarActivity implements NewCardioExerciseDialogListener, NewWeightTrainingExerciseDialogListener {
     CardioExerciseArrayAdapter cardioExerciseArrayAdapter;
+    WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +43,31 @@ public class NewProgramDetailsActivity extends ActionBarActivity implements NewC
     }
 
     private void initWeightTrainingListView() {
-        ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
-        final WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter(
+        weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter(
             this,
             R.layout.weighttraining_exercise_list_item);
-        Exercise exercise = new Exercise("Bench Press", new int[]{20, 40});
-        weightTrainingExerciseArrayAdapter.add(exercise);
-        exercise = new Exercise("Skull Crusher", new int[]{60, 80, 100});
-        weightTrainingExerciseArrayAdapter.add(exercise);
-        exercise = new Exercise("1-Arm Tricep Curl", new int[]{60, 80, 100});
-        weightTrainingExerciseArrayAdapter.add(exercise);
-        exercise = new Exercise("Tricep Pull Down", new int[]{60, 80, 100, 120});
-        weightTrainingExerciseArrayAdapter.add(exercise);
-        exercise = new Exercise("Dumbbell Lunges", new int[]{60, 80, 100});
-        weightTrainingExerciseArrayAdapter.add(exercise);
+        ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
         listView.setAdapter(weightTrainingExerciseArrayAdapter);
     }
 
     public void addNewWeightTrainingExercise(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        NewWeightTrainingExerciseFragment newWeightTrainingExerciseFragment = new NewWeightTrainingExerciseFragment();
+        newWeightTrainingExerciseFragment.show(ft, "newWeightTrainingExerciseDialog");
+    }
+
+    public void addNewCardioExercise(View v) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         NewCardioExerciseFragment newCardioExerciseFragment = new NewCardioExerciseFragment();
-        newCardioExerciseFragment.show(ft, "dialog");
+        newCardioExerciseFragment.show(ft, "newCardioExerciseDialog");
     }
 
     public void onFinishNewCardioExerciseDialog(Exercise exercise) {
         cardioExerciseArrayAdapter.add(exercise);
+    }
+
+    public void onFinishNewWeightTrainingExerciseDialog(Exercise exercise) {
+        weightTrainingExerciseArrayAdapter.add(exercise);
     }
 
     @Override
@@ -82,6 +84,9 @@ public class NewProgramDetailsActivity extends ActionBarActivity implements NewC
         // as you specify a parent activity in AndroidManifest.xml.
         switch(item.getItemId()) {
             case R.id.action_settings:
+                return true;
+            case R.id.action_done:
+//                saveProgram();
                 return true;
             case android.R.id.home:
                 finish();

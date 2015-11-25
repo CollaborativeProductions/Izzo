@@ -36,7 +36,7 @@
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     android:textAllCaps="true"
-                    android:onClick="addNewWeightTrainingExercise"
+                    android:onClick="addNewCardioExercise"
                     android:background="@color/grey" />
                 <LinearLayout
                     android:id="@+id/lv_cardio_title"
@@ -138,6 +138,24 @@
                         android:textColor="@color/izzo_red"
                         android:textSize="11sp"
                         android:textAllCaps="true" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center_horizontal"
+                        android:text="@string/lbl_reps"
+                        android:textColor="@color/izzo_red"
+                        android:textSize="11sp"
+                        android:textAllCaps="true" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="center_horizontal"
+                        android:text="@string/lbl_weight"
+                        android:textColor="@color/izzo_red"
+                        android:textSize="11sp"
+                        android:textAllCaps="true" />
                 </LinearLayout>
                 <ListView
                     android:id="@+id/lv_weighttraining_exercises"
@@ -149,12 +167,4 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/back_dim_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#C0000000"
-        android:visibility="gone" >
-    </RelativeLayout>
 </RelativeLayout>

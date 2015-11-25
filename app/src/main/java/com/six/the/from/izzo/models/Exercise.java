@@ -6,7 +6,9 @@ public class Exercise {
     private String type;
     private int duration;
     private int distance;
-    private int[] sets;
+    private int sets;
+    private int reps;
+    private int weight;
 
     public Exercise(String name, int distance, int duration) {
         this.name = name;
@@ -15,10 +17,12 @@ public class Exercise {
         this.distance = distance;
     }
 
-    public Exercise(String name, int[] sets) {
+    public Exercise(String name, int sets, int reps, int weight) {
         this.name = name;
         this.type = "Weight";
         this.sets = sets;
+        this.reps = reps;
+        this.weight = weight;
     }
 
     public String getName() {
@@ -53,12 +57,27 @@ public class Exercise {
         this.distance = distance;
     }
 
-    public int[] getSets() {
+    public int getNumSets() {
         return sets;
     }
 
-    public void setSets(int[] sets) {
+    public void setNumSets(int sets) {
         this.sets = sets;
     }
 
+    public int getNumReps() {
+        return reps;
+    }
+
+    public void setNumReps(int reps) {
+        this.reps = reps;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 }

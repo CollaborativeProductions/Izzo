@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/btn_close"
+            android:background="@drawable/btn_close"
+            android:layout_width="75dp"
+            android:layout_height="26dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="end" />
+
+        <TextView
+            android:id="@+id/lbl_select_exercise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/lbl_select_exercise"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="start" />
+        <com.six.the.from.izzo.spinnerwheel.WheelHorizontalView
+            android:id="@+id/select_exercise"
+            app:visibleItems="3"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/lbl_select_num_sets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/lbl_select_num_sets"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="start" />
+        <com.six.the.from.izzo.spinnerwheel.WheelHorizontalView
+            android:id="@+id/select_num_sets"
+            app:visibleItems="4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/lbl_select_num_reps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/lbl_select_num_reps"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="start" />
+        <com.six.the.from.izzo.spinnerwheel.WheelHorizontalView
+            android:id="@+id/select_num_reps"
+            app:visibleItems="4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:id="@+id/lbl_select_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/lbl_select_weight"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_gravity="start" />
+        <com.six.the.from.izzo.spinnerwheel.WheelHorizontalView
+            android:id="@+id/select_weight"
+            app:visibleItems="4"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/add_exercise"
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@color/izzo_red"
+            android:text="@string/lbl_add_exercise"
+            android:textColor="@color/white"
+            android:textAllCaps="true" />
+    </LinearLayout>
+
+</ScrollView>
