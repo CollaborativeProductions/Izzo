@@ -1,12 +1,14 @@
 package com.six.the.from.izzo.models;
 
 
+import com.six.the.from.izzo.util.Tuple;
+
 public class Exercise {
     private String name;
     private String type;
     private int duration;
     private int distance;
-    private int sets;
+    private Tuple<Integer, Integer>[] sets;
     private int reps;
     private int weight;
 
@@ -17,12 +19,12 @@ public class Exercise {
         this.distance = distance;
     }
 
-    public Exercise(String name, int sets, int reps, int weight) {
+    public Exercise(String name, Tuple<Integer, Integer>[] sets) {
         this.name = name;
         this.type = "Weight";
         this.sets = sets;
-        this.reps = reps;
-        this.weight = weight;
+        this.reps = sets[0].getLeft();
+        this.weight = sets[0].getRight();
     }
 
     public String getName() {
@@ -58,10 +60,10 @@ public class Exercise {
     }
 
     public int getNumSets() {
-        return sets;
+        return sets.length;
     }
 
-    public void setNumSets(int sets) {
+    public void setNumSets(Tuple<Integer, Integer>[] sets) {
         this.sets = sets;
     }
 
