@@ -75,7 +75,7 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
         numRepsSelectorWheel.setViewAdapter(numRepsAdapter);
 
         weightSelectorWheel = (AbstractWheel) view.findViewById(R.id.select_weight);
-        weightAdapter = new NumericWheelAdapter(this.getContext(), 0, 99, "%d");
+        weightAdapter = new NumericWheelAdapter(this.getContext(), 0, 999, "%d");
         weightAdapter.setItemResource(R.layout.wheel_text_centered_dark_back);
         weightAdapter.setItemTextResource(R.id.text);
         weightSelectorWheel.setViewAdapter(weightAdapter);
