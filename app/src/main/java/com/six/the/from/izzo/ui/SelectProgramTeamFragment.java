@@ -61,20 +61,19 @@ public class SelectProgramTeamFragment extends DialogFragment {
             public void onNothingSelected(AdapterView<?> parent) { }
         });
 
-        final CheckBox cbHasTeam = (CheckBox) view.findViewById(R.id.checkbox_has_team);
-        cbHasTeam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                 @Override
-                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                     teamsSpinner.setEnabled(!isChecked);
-                     teamsSpinner.setClickable(!isChecked);
-                 }
-             }
-        );
+        final CheckBox cbNoTeam = (CheckBox) view.findViewById(R.id.checkbox_has_team);
+        cbNoTeam.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                teamsSpinner.setEnabled(!isChecked);
+                teamsSpinner.setClickable(!isChecked);
+            }
+        });
 
         Button btnSaveProgram = (Button) view.findViewById(R.id.save_program);
         btnSaveProgram.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addTeam(cbHasTeam.isAttachedToWindow());
+                addTeam(!cbNoTeam.isChecked());
             }
         });
 

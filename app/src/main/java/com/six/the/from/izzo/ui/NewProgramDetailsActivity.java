@@ -1,6 +1,7 @@
 package com.six.the.from.izzo.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentTransaction;
@@ -9,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -99,6 +99,15 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
         selectProgramTeamFragment.show(ft, "selectProgramTeamFragment");
     }
 
+    private void launchActivity(Class klass, String teamId, String teamName) {
+        Intent intent = new Intent(this, klass);
+        intent.putExtra("teamId", teamId);
+        intent.putExtra("teamName", teamName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+
     public void onFinishNewCardioExerciseDialog(Exercise exercise) {
         cardioExerciseArrayAdapter.add(exercise);
     }
@@ -165,7 +174,10 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
                 @Override
                 public void run() {
                     if (!fetcher.saving) {
-                        Toast.makeText(getApplicationContext(), "Saved.. Check Parse DB", Toast.LENGTH_LONG).show();
+                        launchActivity(InFlightActivity.class,
+                                teamParseObj.getObjectId(),
+                                teamParseObj.getString("name")
+                        );
                     }
                 }
             });
@@ -212,7 +224,9 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
                 @Override
                 public void run() {
                     if (!fetcher.saving) {
-                        Toast.makeText(getApplicationContext(), "Saved.. Check Parse DB", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(applicationContext, AllProgramsActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                     }
                 }
             });
