@@ -13,7 +13,6 @@ import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.spinnerwheel.AbstractWheel;
 import com.six.the.from.izzo.spinnerwheel.adapters.ArrayWheelAdapter;
 import com.six.the.from.izzo.spinnerwheel.adapters.NumericWheelAdapter;
-import com.six.the.from.izzo.util.Tuple;
 
 import java.util.Arrays;
 
@@ -87,18 +86,22 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
 
     public void addExercise() {
         NewWeightTrainingExerciseDialogListener listener = (NewWeightTrainingExerciseDialogListener) getActivity();
-        Tuple[] sets = new Tuple[Integer.parseInt(numSetsAdapter.getItemText(numSetsSelectorWheel.getCurrentItem()).toString())];
+        int[] reps = new int[Integer.parseInt(numSetsAdapter.getItemText(numSetsSelectorWheel.getCurrentItem()).toString())];
+        int[] weight = new int[reps.length];
         Arrays.fill(
-                sets,
-                new Tuple<>(
-                        Integer.parseInt(numRepsAdapter.getItemText(numRepsSelectorWheel.getCurrentItem()).toString()),
-                        Integer.parseInt(weightAdapter.getItemText(weightSelectorWheel.getCurrentItem()).toString())
-                )
+                reps,
+                Integer.parseInt(numRepsAdapter.getItemText(numRepsSelectorWheel.getCurrentItem()).toString())
         );
+        Arrays.fill(
+                weight,
+                Integer.parseInt(weightAdapter.getItemText(weightSelectorWheel.getCurrentItem()).toString())
+        );
+
         listener.onFinishNewWeightTrainingExerciseDialog(
                 new Exercise(
                         String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
-                        sets
+                        reps,
+                        weight
                 )
         );
         dismiss();

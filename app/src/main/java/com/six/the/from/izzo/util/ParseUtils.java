@@ -5,8 +5,10 @@ import com.parse.GetCallback;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
+import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
+import com.six.the.from.izzo.ui.NewProgramDetailsActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.AllProgramsActivity.TeamsInfoFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
@@ -15,10 +17,85 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.List;
 
 
 public class ParseUtils {
+    public static void saveProgram(
+            String programName,
+            CardioExerciseArrayAdapter cardioExerciseArrayAdapter,
+            WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter,
+            ParseFile parseFile,
+            final SaveProgramStatusFetcher fetcher,
+            ParseObject currentAthlete)
+    {
+        final ParseObject programParseObj = new ParseObject("Program");
+        programParseObj.put("name", programName);
+        programParseObj.put("iconImageUrl", parseFile);
+        programParseObj.put("owner", currentAthlete);
+
+        saveCardioExercises(cardioExerciseArrayAdapter, programParseObj);
+        saveWeightTrainingExercises(weightTrainingExerciseArrayAdapter, programParseObj);
+
+        programParseObj.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    fetcher.programParseObj = programParseObj;
+                    fetcher.saving = false;
+                }
+            }
+        });
+        fetcher.saving = true;
+    }
+
+    public static void saveCardioExercises(CardioExerciseArrayAdapter cardioExerciseArrayAdapter, ParseObject programParseObj) {
+        Exercise exercise;
+        for (int i = 0; i < cardioExerciseArrayAdapter.getCount(); i++) {
+            exercise = cardioExerciseArrayAdapter.getItem(i);
+
+            ParseObject exerciseParseObj = new ParseObject("Exercise");
+            exerciseParseObj.put("name", exercise.getName());
+            exerciseParseObj.put("type", exercise.getType());
+            exerciseParseObj.put("distance", exercise.getDistance());
+            exerciseParseObj.put("duration", exercise.getDuration());
+            exerciseParseObj.saveInBackground();
+
+            ParseObject programExerciseParseObj = new ParseObject("ProgramExercise");
+            programExerciseParseObj.put("program", programParseObj);
+            programExerciseParseObj.put("exercise", exerciseParseObj);
+            programExerciseParseObj.saveInBackground();
+        }
+
+    }
+
+    public static void saveWeightTrainingExercises(WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter, ParseObject programParseObj) {
+        Exercise exercise;
+
+        for (int i = 0; i < weightTrainingExerciseArrayAdapter.getCount(); i++) {
+            exercise = weightTrainingExerciseArrayAdapter.getItem(i);
+
+            ParseObject exerciseParseObj = new ParseObject("Exercise");
+            try {
+                exerciseParseObj.put("name", exercise.getName());
+                exerciseParseObj.put("type", exercise.getType());
+                exerciseParseObj.put("reps", new JSONArray(exercise.getNumReps()));
+                exerciseParseObj.put("weight", new JSONArray(exercise.getWeight()));
+                exerciseParseObj.saveInBackground();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            ParseObject programExerciseParseObj = new ParseObject("ProgramExercise");
+            programExerciseParseObj.put("program", programParseObj);
+            programExerciseParseObj.put("exercise", exerciseParseObj);
+            programExerciseParseObj.saveInBackground();
+        }
+    }
+
     public static void saveTeam(final ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final OperationStatusFetcher fetcher) {
         final ParseObject team = new ParseObject("Team");
         team.put("name", teamName);

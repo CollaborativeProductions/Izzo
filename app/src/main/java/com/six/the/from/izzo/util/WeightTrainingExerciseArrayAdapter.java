@@ -35,8 +35,8 @@ public class WeightTrainingExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         // Populate the data into the template view using the data object
         txtView_Name.setText(exercise.getName());
         txtView_Sets.setText(String.valueOf(exercise.getNumSets()));
-        txtView_Reps.setText(String.valueOf(exercise.getNumReps()));
-        txtView_Weight.setText(String.valueOf(exercise.getWeight()) + " lbs");
+        txtView_Reps.setText(String.valueOf(exercise.getNumReps()[0]));
+        txtView_Weight.setText(String.valueOf(exercise.getWeight()[0]) + " lbs");
 
         // Return the completed view to render on screen
         return view;
