@@ -32,7 +32,7 @@ public class NewProgramActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_workout);
+        setContentView(R.layout.activity_new_program);
         initTextView();
         initImageView();
     }
