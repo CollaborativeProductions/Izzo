@@ -50,7 +50,7 @@ public class InFlightActivity extends RoboActionBarActivity {
         arrayAdapter.add("Current Program");
         arrayAdapter.add("Team Members");
         arrayAdapter.add("Statistics");
-        arrayAdapter.add("Previous Programs");
+        arrayAdapter.add("All Programs");
         listView.setAdapter(arrayAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
