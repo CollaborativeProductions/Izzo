@@ -6,12 +6,10 @@ import com.parse.ParseFile;
 import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Exercise;
-import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramDetailsActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
-import com.six.the.from.izzo.util.TeamsInfoFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -44,7 +42,6 @@ public class ParseUtils {
             public void done(ParseException e) {
                 if (e == null) {
                     // Saved successfully.
-                    fetcher.programParseObj = programParseObj;
                     fetcher.saving = false;
                 }
             }
@@ -65,20 +62,11 @@ public class ParseUtils {
         programParseObj.put("name", programName);
         programParseObj.put("iconImageUrl", parseFile);
         programParseObj.put("owner", currentAthlete);
+        programParseObj.saveInBackground();
 
         saveCardioExercises(cardioExerciseArrayAdapter, programParseObj);
         saveWeightTrainingExercises(weightTrainingExerciseArrayAdapter, programParseObj);
-
-        programParseObj.saveInBackground(new SaveCallback() {
-            public void done(ParseException e) {
-                if (e == null) {
-                    // Saved successfully.
-                    fetcher.programParseObj = programParseObj;
-                    fetcher.saving = false;
-                }
-            }
-        });
-        fetcher.saving = true;
+        saveProgramToTeam(teamParseObj, programParseObj, fetcher);
     }
 
     public static void saveCardioExercises(CardioExerciseArrayAdapter cardioExerciseArrayAdapter, ParseObject programParseObj) {
@@ -123,6 +111,21 @@ public class ParseUtils {
             programExerciseParseObj.put("exercise", exerciseParseObj);
             programExerciseParseObj.saveInBackground();
         }
+    }
+
+    public static void saveProgramToTeam(ParseObject teamParseObj, ParseObject programParseObj, final SaveProgramStatusFetcher fetcher) {
+        ParseObject teamProgramParseObj = new ParseObject("TeamProgram");
+        teamProgramParseObj.put("team", teamParseObj);
+        teamProgramParseObj.put("program", programParseObj);
+        teamProgramParseObj.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    fetcher.saving = false;
+                }
+            }
+        });
+        fetcher.saving = true;
     }
 
     public static void saveTeam(final ContactArrayAdapter contactArrayAdapter, String teamName, String uuid, ParseFile file, final OperationStatusFetcher fetcher) {

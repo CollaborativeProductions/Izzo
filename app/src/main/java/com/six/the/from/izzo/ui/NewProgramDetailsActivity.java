@@ -255,7 +255,6 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
 
     public class SaveProgramStatusFetcher {
         public volatile boolean saving;
-        public volatile ParseObject programParseObj;
     }
 
     @Override
