@@ -69,7 +69,6 @@ public class NewProgramActivity extends ActionBarActivity {
         super.onPause();
     }
 
-
     private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
         // Decode image size
         BitmapFactory.Options o = new BitmapFactory.Options();
