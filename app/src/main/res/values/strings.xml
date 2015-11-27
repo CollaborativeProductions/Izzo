@@ -18,11 +18,11 @@
 
     <string name="lbl_upload_team_icon">Please provide an optional logo for your team</string>
     <string name="lbl_upload_program_icon">Please provide an optional logo above for your program</string>
-    <string name="lbl_phone_number">Enter phone number...</string>
-    <string name="lbl_team_name">Enter team name here...</string>
-    <string name="lbl_program_name">Enter program name here...</string>
-    <string name="lbl_team_description">Enter a description...</string>
-    <string name="lbl_team_members">List members...</string>
+    <string name="lbl_phone_number">Enter phone number…</string>
+    <string name="lbl_team_name">Enter team name here…</string>
+    <string name="lbl_program_name">Enter program name here…</string>
+    <string name="lbl_team_description">Enter a description…</string>
+    <string name="lbl_team_members">List members…</string>
     <string name="lbl_add_exercise">Add Exercise</string>
     <string name="lbl_add_new_cardio_exercise">Add New Cardio Exercise</string>
     <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
