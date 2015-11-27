@@ -219,7 +219,6 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
         }
     }
 
-
     private class FetchTeamsInfoThread extends Thread {
         private final TeamsInfoFetcher fetcher = new TeamsInfoFetcher();
 
