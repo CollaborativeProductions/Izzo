@@ -13,11 +13,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamArrayAdapter;
+import com.six.the.from.izzo.util.TeamsInfoFetcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,8 +137,12 @@ public class AllProgramsActivity extends RoboActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    for (Team team : fetcher.teamList) {
-                        teamArrayAdapter.add(team);
+                    for (ParseObject teamParseObj : fetcher.teamList) {
+                        teamArrayAdapter.add(new Team(
+                                teamParseObj.getObjectId(),
+                                teamParseObj.getString("name")
+                            )
+                        );
                     }
                     teamArrayAdapter.notifyDataSetChanged();
                 }
@@ -158,10 +164,5 @@ public class AllProgramsActivity extends RoboActionBarActivity {
                 }
             });
         }
-    }
-
-    public static class TeamsInfoFetcher {
-        public volatile boolean fetching;
-        public volatile List<Team> teamList = new ArrayList<>();
     }
 }

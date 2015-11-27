@@ -10,8 +10,8 @@ import com.six.the.from.izzo.models.Team;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramDetailsActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
-import com.six.the.from.izzo.ui.AllProgramsActivity.TeamsInfoFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
+import com.six.the.from.izzo.util.TeamsInfoFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -24,8 +24,37 @@ import java.util.List;
 
 
 public class ParseUtils {
-    public static void saveProgram(
+    public static void saveProgramWithoutTeam(
             String programName,
+            CardioExerciseArrayAdapter cardioExerciseArrayAdapter,
+            WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter,
+            ParseFile parseFile,
+            final SaveProgramStatusFetcher fetcher,
+            ParseObject currentAthlete)
+    {
+        final ParseObject programParseObj = new ParseObject("Program");
+        programParseObj.put("name", programName);
+        programParseObj.put("iconImageUrl", parseFile);
+        programParseObj.put("owner", currentAthlete);
+
+        saveCardioExercises(cardioExerciseArrayAdapter, programParseObj);
+        saveWeightTrainingExercises(weightTrainingExerciseArrayAdapter, programParseObj);
+
+        programParseObj.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    fetcher.programParseObj = programParseObj;
+                    fetcher.saving = false;
+                }
+            }
+        });
+        fetcher.saving = true;
+    }
+
+    public static void saveProgramWithTeam(
+            String programName,
+            ParseObject teamParseObj,
             CardioExerciseArrayAdapter cardioExerciseArrayAdapter,
             WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter,
             ParseFile parseFile,
@@ -208,11 +237,7 @@ public class ParseUtils {
             public void done(List<ParseObject> teamList, ParseException e) {
                 for (ParseObject athleteTeamParseObj : teamList) {
                     ParseObject teamParseObj = athleteTeamParseObj.getParseObject("team");
-                    Team team = new Team(
-                            teamParseObj.getObjectId(),
-                            teamParseObj.getString("name")
-                    );
-                    fetcher.teamList.add(team);
+                    fetcher.teamList.add(teamParseObj);
                 }
                 fetcher.fetching = false;
             }

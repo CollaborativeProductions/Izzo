@@ -14,6 +14,8 @@
     <string name="get_started">Get Started</string>
     <string name="next">Next</string>
 
+    <string name="checkbox_has_team">This program does not belong to a team</string>
+
     <string name="lbl_upload_team_icon">Please provide an optional logo for your team</string>
     <string name="lbl_upload_program_icon">Please provide an optional logo above for your program</string>
     <string name="lbl_phone_number">Enter phone number...</string>
@@ -35,6 +37,8 @@
     <string name="lbl_select_exercise">Exercise</string>
     <string name="lbl_select_num_sets">Number of Sets</string>
     <string name="lbl_select_num_reps">Number of Reps</string>
+    <string name="lbl_select_program_team">Does this program belong a team?</string>
+    <string name="lbl_save_program">Save Program!</string>
     <string name="lbl_select_weight">Weight (lbs)</string>
     <string name="btn_add_new_member">Add New Member</string>
 

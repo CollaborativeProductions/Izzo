@@ -18,32 +18,42 @@ import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.ui.NewCardioExerciseFragment.NewCardioExerciseDialogListener;
 import com.six.the.from.izzo.ui.NewWeightTrainingExerciseFragment.NewWeightTrainingExerciseDialogListener;
+import com.six.the.from.izzo.ui.SelectProgramTeamFragment.SaveProgramToTeamDialogListener;
 import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
 import com.six.the.from.izzo.util.ParseUtils;
+import  com.six.the.from.izzo.util.TeamsInfoFetcher;
+
 import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
 import roboguice.activity.RoboActionBarActivity;
 
 
-public class NewProgramDetailsActivity extends RoboActionBarActivity implements NewCardioExerciseDialogListener, NewWeightTrainingExerciseDialogListener {
+public class NewProgramDetailsActivity extends RoboActionBarActivity
+        implements NewCardioExerciseDialogListener, NewWeightTrainingExerciseDialogListener, SaveProgramToTeamDialogListener {
     @Inject
     CurrentAthlete currentAthlete;
     CardioExerciseArrayAdapter cardioExerciseArrayAdapter;
     WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter;
     Context applicationContext;
+    ArrayList<ParseObject> teamParseObjectsArray = new ArrayList<>();
+    ArrayList<String> teamsArray = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_program_details);
-        applicationContext = this.getApplicationContext();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getStringExtra("programName"));
+        applicationContext = this.getApplicationContext();
+
+        new FetchTeamsInfoThread().start();
+
         initViews();
     }
 
@@ -80,6 +90,15 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity implements 
         newCardioExerciseFragment.show(ft, "newCardioExerciseDialog");
     }
 
+    private void saveProgram() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        SelectProgramTeamFragment selectProgramTeamFragment = new SelectProgramTeamFragment();
+        Bundle args = new Bundle();
+        args.putStringArrayList("allTeamsArrayList", teamsArray);
+        selectProgramTeamFragment.setArguments(args);
+        selectProgramTeamFragment.show(ft, "selectProgramTeamFragment");
+    }
+
     public void onFinishNewCardioExerciseDialog(Exercise exercise) {
         cardioExerciseArrayAdapter.add(exercise);
     }
@@ -88,14 +107,25 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity implements 
         weightTrainingExerciseArrayAdapter.add(exercise);
     }
 
-    private void saveProgram() {
-        new SaveProgramThread().start();
+    public void onFinishSelectProgramTeamDialog(int teamParseObjectsArrayPosition) {
+        ParseObject programTeam = null;
+        if (teamParseObjectsArrayPosition >= 0) {
+            programTeam = teamParseObjectsArray.get(teamParseObjectsArrayPosition);
+        }
+        new SaveProgramWithTeamThread(programTeam).start();
     }
 
-    private class SaveProgramThread extends Thread {
-        private final SaveProgramStatusFetcher fetcher = new SaveProgramStatusFetcher();
+    public void onFinishSelectProgramTeamDialog() {
+        new SaveProgramWithoutTeamThread().start();
+    }
 
-        public SaveProgramThread() { }
+    private class SaveProgramWithTeamThread extends Thread {
+        private final SaveProgramStatusFetcher fetcher = new SaveProgramStatusFetcher();
+        private final ParseObject teamParseObj;
+
+        public SaveProgramWithTeamThread(ParseObject programTeam) {
+            this.teamParseObj = programTeam;
+        }
 
         public void run() {
             ParseFile parseFile = null;
@@ -111,7 +141,57 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity implements 
                 }
             }
 
-            ParseUtils.saveProgram(
+            if (this.teamParseObj != null) {
+                ParseUtils.saveProgramWithTeam(
+                        getIntent().getStringExtra("programName"),
+                        this.teamParseObj,
+                        cardioExerciseArrayAdapter,
+                        weightTrainingExerciseArrayAdapter,
+                        parseFile,
+                        fetcher,
+                        currentAthlete.getParseObject()
+                );
+            }
+
+            while (fetcher.saving) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!fetcher.saving) {
+                        Toast.makeText(getApplicationContext(), "Saved.. Check Parse DB", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private class SaveProgramWithoutTeamThread extends Thread {
+        private final SaveProgramStatusFetcher fetcher = new SaveProgramStatusFetcher();
+
+        public SaveProgramWithoutTeamThread() { }
+
+        public void run() {
+            ParseFile parseFile = null;
+            if (getIntent().hasExtra("imageFile")) {
+                try {
+                    Bitmap bmpImage = BitmapFactory.decodeStream(applicationContext.openFileInput("izzoTeamIconImage"));
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    bmpImage.compress(Bitmap.CompressFormat.PNG, 100, bs);
+                    parseFile = new ParseFile("imageData.txt", bs.toByteArray());
+                    parseFile.saveInBackground();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ParseUtils.saveProgramWithoutTeam(
                     getIntent().getStringExtra("programName"),
                     cardioExerciseArrayAdapter,
                     weightTrainingExerciseArrayAdapter,
@@ -133,6 +213,40 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity implements 
                 public void run() {
                     if (!fetcher.saving) {
                         Toast.makeText(getApplicationContext(), "Saved.. Check Parse DB", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+
+    private class FetchTeamsInfoThread extends Thread {
+        private final TeamsInfoFetcher fetcher = new TeamsInfoFetcher();
+
+        public FetchTeamsInfoThread() { }
+
+        public void run() {
+            ParseUtils.fetchCurrentAthleteTeams(fetcher, currentAthlete.getParseObject());
+
+            while (fetcher.fetching) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+            if (fetcher.teamList.size() > 0) {
+                addToArrayAdapter();
+            }
+        }
+
+        private void addToArrayAdapter() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    for (ParseObject teamParseObj : fetcher.teamList) {
+                        teamParseObjectsArray.add(teamParseObj);
+                        teamsArray.add(teamParseObj.getString("name"));
                     }
                 }
             });
