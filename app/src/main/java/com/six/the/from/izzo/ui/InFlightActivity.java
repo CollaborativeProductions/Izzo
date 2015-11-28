@@ -29,6 +29,7 @@ public class InFlightActivity extends RoboActionBarActivity {
     ImageView bmpImageView;
     ParseObject teamParseObject;
     Context applicationContext;
+    List<ParseObject> teamPrograms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +71,23 @@ public class InFlightActivity extends RoboActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
+                Intent intent;
+                String iconUrl;
                 switch (arrayAdapter.getItem(pos)) {
                     case "Current Program":
-//                        Intent intent = new Intent(InFlightActivity.this, CurrentProgramActivity.class);
-//                        startActivity(intent);
+                        intent = new Intent(InFlightActivity.this, CurrentProgramActivity.class);
+                        intent.putExtra("programId", teamPrograms.get(0).getString("objectId"));
+                        intent.putExtra("programName", teamPrograms.get(0).getString("name"));
+                        iconUrl = teamPrograms.get(0).getParseFile("iconImageUrl").getUrl();
+                        intent.putExtra("iconImageUrl", iconUrl);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        startActivity(intent);
                         break;
                     case "Team Members":
-                        Intent intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
+                        intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
                         intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
                         intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
-                        String iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
+                        iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
                         intent.putExtra("iconImageUrl", iconUrl);
                         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);
@@ -150,6 +158,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                 @Override
                 public void run() {
                     if (!fetcher.fetching && fetcher.programParseObjs.size() > 0) {
+                        teamPrograms = new ArrayList<>(fetcher.programParseObjs);
                         Toast.makeText(applicationContext, "Ready to rumble with..." + fetcher.programParseObjs.get(0).getString("name"), Toast.LENGTH_LONG).show();
                     }
                 }
