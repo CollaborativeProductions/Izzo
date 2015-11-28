@@ -69,6 +69,10 @@
             android:name=".ui.NewProgramDetailsActivity"
             android:label="@string/title_activity_new_program_details" >
         </activity>
+        <activity
+            android:name=".ui.CurrentProgramActivity"
+            android:label="@string/title_activity_current_program" >
+        </activity>
     </application>
 
 </manifest>

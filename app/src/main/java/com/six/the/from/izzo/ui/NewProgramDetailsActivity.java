@@ -99,11 +99,11 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
         selectProgramTeamFragment.show(ft, "selectProgramTeamFragment");
     }
 
-    private void launchActivity(Class klass, String teamId, String teamName) {
+    private void launchActivity(Class klass, String teamId, String teamName, int intent_flag) {
         Intent intent = new Intent(this, klass);
         intent.putExtra("teamId", teamId);
         intent.putExtra("teamName", teamName);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.setFlags(intent_flag);
         startActivity(intent);
     }
 
@@ -174,10 +174,19 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
                 @Override
                 public void run() {
                     if (!fetcher.saving) {
-                        launchActivity(InFlightActivity.class,
-                                teamParseObj.getObjectId(),
-                                teamParseObj.getString("name")
-                        );
+                        Intent intent;
+
+                        intent = new Intent(applicationContext, InFlightActivity.class);
+                        intent.putExtra("teamId", teamParseObj.getObjectId());
+                        intent.putExtra("teamName", teamParseObj.getString("name"));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                        startActivity(intent);
+
+                        intent = new Intent(applicationContext, CurrentProgramActivity.class);
+                        intent.putExtra("programId", fetcher.programParseObj.getObjectId());
+                        intent.putExtra("programName", fetcher.programParseObj.getString("name"));
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
                 }
             });
@@ -268,6 +277,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
 
     public class SaveProgramStatusFetcher {
         public volatile boolean saving;
+        public ParseObject programParseObj;
     }
 
     @Override

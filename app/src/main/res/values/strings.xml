@@ -53,4 +53,5 @@
     <string name="title_activity_team_members">TeamMembersActivity</string>
     <string name="title_activity_new_program_details">NewProgramDetailsActivity</string>
     <string name="title_activity_time_picker_custom">TimePickerCustom</string>
+    <string name="title_activity_current_program">CurrentProgramActivity</string>
 </resources>

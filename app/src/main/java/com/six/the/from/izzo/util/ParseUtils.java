@@ -62,7 +62,14 @@ public class ParseUtils {
         programParseObj.put("name", programName);
         programParseObj.put("iconImageUrl", parseFile);
         programParseObj.put("owner", currentAthlete);
-        programParseObj.saveInBackground();
+        programParseObj.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    fetcher.programParseObj = programParseObj;
+                }
+            }
+        });
 
         saveCardioExercises(cardioExerciseArrayAdapter, programParseObj);
         saveWeightTrainingExercises(weightTrainingExerciseArrayAdapter, programParseObj);
