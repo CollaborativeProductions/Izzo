@@ -21,9 +21,6 @@ import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamArrayAdapter;
 import com.six.the.from.izzo.util.TeamsInfoFetcher;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import roboguice.activity.RoboActionBarActivity;
