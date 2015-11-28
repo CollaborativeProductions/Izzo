@@ -28,6 +28,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'org.roboguice:roboguice:3.+'
+    compile 'org.apache.commons:commons-lang3:3.4'
     provided 'org.roboguice:roboblender:3.+'
     testCompile 'junit:junit:4.12'
     testCompile 'org.easytesting:fest:1.0.16'

@@ -75,10 +75,11 @@ public class InFlightActivity extends RoboActionBarActivity {
                 String iconUrl;
                 switch (arrayAdapter.getItem(pos)) {
                     case "Current Program":
+                        ParseObject currentProgram = teamPrograms.get(0);
                         intent = new Intent(InFlightActivity.this, CurrentProgramActivity.class);
-                        intent.putExtra("programId", teamPrograms.get(0).getString("objectId"));
-                        intent.putExtra("programName", teamPrograms.get(0).getString("name"));
-                        iconUrl = teamPrograms.get(0).getParseFile("iconImageUrl").getUrl();
+                        intent.putExtra("programId", currentProgram.getObjectId());
+                        intent.putExtra("programName", currentProgram.getString("name"));
+                        iconUrl = currentProgram.getParseFile("iconImageUrl").getUrl();
                         intent.putExtra("iconImageUrl", iconUrl);
                         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(intent);

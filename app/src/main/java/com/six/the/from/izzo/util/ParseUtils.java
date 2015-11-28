@@ -7,6 +7,7 @@ import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
+import com.six.the.from.izzo.ui.CurrentProgramActivity.FetchProgramExercisesStatusFetcher ;
 import com.six.the.from.izzo.ui.InFlightActivity.FetchTeamProgramsStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramDetailsActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
@@ -317,6 +318,37 @@ public class ParseUtils {
                 for (ParseObject programParseObj : programList) {
                     program = programParseObj.getParseObject("program");
                     fetcher.programParseObjs.add(program);
+                }
+                fetcher.fetching = false;
+            }
+        });
+    }
+
+    public static void fetchProgramExercises(final FetchProgramExercisesStatusFetcher fetcher, String programId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Program");
+        query.whereEqualTo("objectId", programId);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject programParseObj, ParseException e) {
+                if (e == null) {
+                    fetchExercises(fetcher, programParseObj);
+                }
+            }
+        });
+        fetcher.fetching = true;
+
+    }
+
+    private static void fetchExercises(final FetchProgramExercisesStatusFetcher fetcher, ParseObject programParseObj) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("ProgramExercise");
+        query.whereEqualTo("program", programParseObj);
+        query.orderByAscending("type");
+        query.include("exercise");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> exerciseList, ParseException e) {
+                ParseObject exercise;
+                for (ParseObject exerciseParseObj : exerciseList) {
+                    exercise = exerciseParseObj.getParseObject("exercise");
+                    fetcher.exerciseParseObjs.add(exercise);
                 }
                 fetcher.fetching = false;
             }

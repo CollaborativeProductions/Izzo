@@ -27,6 +27,7 @@
     <string name="lbl_add_new_cardio_exercise">Add New Cardio Exercise</string>
     <string name="lbl_add_new_weighttraining_exercise">Add New Weight Training Exercise</string>
     <string name="lbl_exercise">Exercise</string>
+    <string name="lbl_type">Type</string>
     <string name="lbl_sets">Sets</string>
     <string name="lbl_reps">Reps</string>
     <string name="lbl_weight">Weight</string>
@@ -41,6 +42,7 @@
     <string name="lbl_save_program">Save Program!</string>
     <string name="lbl_select_weight">Weight (lbs)</string>
     <string name="btn_add_new_member">Add New Member</string>
+    <string name="btn_start_workout">Start Workout</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="team_members">Team Members</string>
