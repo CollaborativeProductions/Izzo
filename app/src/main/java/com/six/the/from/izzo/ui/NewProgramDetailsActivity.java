@@ -177,15 +177,10 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
                         Intent intent;
 
                         intent = new Intent(applicationContext, InFlightActivity.class);
+                        intent.putExtra("caller", "NewProgramDetails");
                         intent.putExtra("teamId", teamParseObj.getObjectId());
                         intent.putExtra("teamName", teamParseObj.getString("name"));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                        startActivity(intent);
-
-                        intent = new Intent(applicationContext, CurrentProgramActivity.class);
-                        intent.putExtra("programId", fetcher.programParseObj.getObjectId());
-                        intent.putExtra("programName", fetcher.programParseObj.getString("name"));
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 }

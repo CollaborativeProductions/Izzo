@@ -7,6 +7,7 @@ import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
+import com.six.the.from.izzo.ui.InFlightActivity.FetchTeamProgramsStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramDetailsActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
@@ -292,4 +293,33 @@ public class ParseUtils {
         fetcher.fetching = true;
     }
 
+    public static void fetchTeamPrograms(final FetchTeamProgramsStatusFetcher fetcher, String teamId) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Team");
+        query.whereEqualTo("objectId", teamId);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject teamParseObj, ParseException e) {
+                if (e == null) {
+                    fetchPrograms(fetcher, teamParseObj);
+                }
+            }
+        });
+        fetcher.fetching = true;
+    }
+
+    public static void fetchPrograms(final FetchTeamProgramsStatusFetcher fetcher, ParseObject teamParseObj) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("TeamProgram");
+        query.whereEqualTo("team", teamParseObj);
+        query.orderByDescending("createdAt");
+        query.include("program");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> programList, ParseException e) {
+                ParseObject program;
+                for (ParseObject programParseObj : programList) {
+                    program = programParseObj.getParseObject("program");
+                    fetcher.programParseObjs.add(program);
+                }
+                fetcher.fetching = false;
+            }
+        });
+    }
 }

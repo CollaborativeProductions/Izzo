@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -18,16 +19,28 @@ import com.six.the.from.izzo.util.ParseUtils;
 import com.six.the.from.izzo.util.TeamFetcher;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import roboguice.activity.RoboActionBarActivity;
 
 
 public class InFlightActivity extends RoboActionBarActivity {
     ImageView bmpImageView;
     ParseObject teamParseObject;
+    Context applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        applicationContext = this.getApplicationContext();
+
+        if (getIntent().hasExtra("caller") && getIntent().getStringExtra("caller").equals("NewProgramDetails")) {
+            Intent intent;
+            intent = new Intent(this, CurrentProgramActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -38,8 +51,10 @@ public class InFlightActivity extends RoboActionBarActivity {
             getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
         }
         setContentView(R.layout.activity_in_flight);
+
         initViews();
         new FetchTeamThread(this.getApplicationContext()).start();
+        new FetchTeamProgramsThread().start();
     }
 
     private void initViews() {
@@ -116,6 +131,38 @@ public class InFlightActivity extends RoboActionBarActivity {
                 }
             });
         }
+    }
+
+    private class FetchTeamProgramsThread extends Thread {
+        private final FetchTeamProgramsStatusFetcher fetcher = new FetchTeamProgramsStatusFetcher();
+
+        public FetchTeamProgramsThread() { }
+
+        public void run() {
+            ParseUtils.fetchTeamPrograms(fetcher, getIntent().getStringExtra("teamId"));
+
+            while (fetcher.fetching) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!fetcher.fetching && fetcher.programParseObjs.size() > 0) {
+                        Toast.makeText(applicationContext, "Ready to rumble with..." + fetcher.programParseObjs.get(0).getString("name"), Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+    }
+
+    public class FetchTeamProgramsStatusFetcher {
+        public volatile boolean fetching;
+        public List<ParseObject> programParseObjs = new ArrayList<>();
     }
 
     @Override
