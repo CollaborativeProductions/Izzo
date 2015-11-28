@@ -53,7 +53,7 @@ public class InFlightActivity extends RoboActionBarActivity {
         setContentView(R.layout.activity_in_flight);
 
         initViews();
-        new FetchTeamThread(this.getApplicationContext()).start();
+        new FetchTeamThread().start();
         new FetchTeamProgramsThread().start();
     }
 
@@ -100,11 +100,8 @@ public class InFlightActivity extends RoboActionBarActivity {
 
     private class FetchTeamThread extends Thread {
         private final TeamFetcher fetcher = new TeamFetcher();
-        private Context applicationContext;
 
-        public FetchTeamThread(Context context) {
-            this.applicationContext = context;
-        }
+        public FetchTeamThread() { }
 
         public void run() {
             ParseUtils.fetchTeam(fetcher, getIntent().getStringExtra("teamId"));
