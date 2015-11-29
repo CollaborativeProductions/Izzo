@@ -158,7 +158,7 @@ public class NewProgramActivity extends ActionBarActivity {
             case R.id.action_next:
                 IzzoEditText etViewProgramName = (IzzoEditText) findViewById(R.id.et_new_program_name);
                 if (Validation.hasText(etViewProgramName)) {
-                    Intent intent = new Intent(this, NewProgramDetailsActivity.class);
+                    Intent intent = new Intent(this, NewProgramExercisesActivity.class);
                     intent.putExtra("programName", etViewProgramName.getText().toString());
 
                     Bitmap bmpImage = ((BitmapDrawable)imgProgramIcon.getDrawable()).getBitmap();

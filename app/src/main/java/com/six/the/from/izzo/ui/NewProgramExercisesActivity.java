@@ -34,7 +34,7 @@ import javax.inject.Inject;
 import roboguice.activity.RoboActionBarActivity;
 
 
-public class NewProgramDetailsActivity extends RoboActionBarActivity
+public class NewProgramExercisesActivity extends RoboActionBarActivity
         implements NewCardioExerciseDialogListener, NewWeightTrainingExerciseDialogListener, SaveProgramToTeamDialogListener {
     @Inject
     CurrentAthlete currentAthlete;
@@ -47,7 +47,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_program_details);
+        setContentView(R.layout.activity_new_program_exercises);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getStringExtra("programName"));
         applicationContext = this.getApplicationContext();
