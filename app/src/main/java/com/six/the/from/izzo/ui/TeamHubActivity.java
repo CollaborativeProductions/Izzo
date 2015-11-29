@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -36,12 +35,7 @@ public class TeamHubActivity extends RoboActionBarActivity {
         super.onCreate(savedInstanceState);
         applicationContext = this.getApplicationContext();
 
-        if (getIntent().hasExtra("caller") && getIntent().getStringExtra("caller").equals("NewProgramDetails")) {
-            Intent intent;
-            intent = new Intent(this, CurrentProgramActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
+
     }
 
     @Override
@@ -71,27 +65,12 @@ public class TeamHubActivity extends RoboActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
-                Intent intent;
-                String iconUrl;
                 switch (arrayAdapter.getItem(pos)) {
                     case "Current Program":
-                        ParseObject currentProgram = teamPrograms.get(0);
-                        intent = new Intent(TeamHubActivity.this, CurrentProgramActivity.class);
-                        intent.putExtra("programId", currentProgram.getObjectId());
-                        intent.putExtra("programName", currentProgram.getString("name"));
-                        iconUrl = currentProgram.getParseFile("iconImageUrl").getUrl();
-                        intent.putExtra("iconImageUrl", iconUrl);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);
+                        launchCurrentProgramActivity();
                         break;
                     case "Team Members":
-                        intent = new Intent(TeamHubActivity.this, TeamMembersActivity.class);
-                        intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
-                        intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
-                        iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
-                        intent.putExtra("iconImageUrl", iconUrl);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        startActivity(intent);
+                        launchTeamMembersActivity();
                         break;
                     case "Statistics":
 //                        Intent intent = new Intent(TeamHubActivity.this, StatisticsActivity.class);
@@ -160,7 +139,10 @@ public class TeamHubActivity extends RoboActionBarActivity {
                 public void run() {
                     if (!fetcher.fetching && fetcher.programParseObjs.size() > 0) {
                         teamPrograms = new ArrayList<>(fetcher.programParseObjs);
-                        Toast.makeText(applicationContext, "Ready to rumble with..." + fetcher.programParseObjs.get(0).getString("name"), Toast.LENGTH_LONG).show();
+                        if (getIntent().hasExtra("caller") && getIntent().getStringExtra("caller").equals("NewProgramDetails")) {
+                            getIntent().removeExtra("caller");
+                            launchCurrentProgramActivity();
+                        }
                     }
                 }
             });
@@ -170,6 +152,27 @@ public class TeamHubActivity extends RoboActionBarActivity {
     public class FetchTeamProgramsStatusFetcher {
         public volatile boolean fetching;
         public List<ParseObject> programParseObjs = new ArrayList<>();
+    }
+
+    private void launchCurrentProgramActivity() {
+        ParseObject currentProgram = teamPrograms.get(0);
+        Intent intent = new Intent(TeamHubActivity.this, CurrentProgramActivity.class);
+        intent.putExtra("programId", currentProgram.getObjectId());
+        intent.putExtra("programName", currentProgram.getString("name"));
+        String iconUrl = currentProgram.getParseFile("iconImageUrl").getUrl();
+        intent.putExtra("iconImageUrl", iconUrl);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    private void launchTeamMembersActivity() {
+        Intent intent = new Intent(TeamHubActivity.this, TeamMembersActivity.class);
+        intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
+        intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
+        String iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
+        intent.putExtra("iconImageUrl", iconUrl);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     @Override
