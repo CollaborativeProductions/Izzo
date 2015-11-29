@@ -140,7 +140,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
             ParseFile parseFile = null;
             if (getIntent().hasExtra("imageFile")) {
                 try {
-                    Bitmap bmpImage = BitmapFactory.decodeStream(applicationContext.openFileInput("izzoTeamIconImage"));
+                    Bitmap bmpImage = BitmapFactory.decodeStream(applicationContext.openFileInput("izzoProgramIconImage"));
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     bmpImage.compress(Bitmap.CompressFormat.PNG, 100, bs);
                     parseFile = new ParseFile("imageData.txt", bs.toByteArray());
