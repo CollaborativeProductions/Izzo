@@ -36,7 +36,7 @@ public class WeightTrainingExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         txtView_Name.setText(exercise.getName());
         txtView_Sets.setText(String.valueOf(exercise.getNumSets()));
         txtView_Reps.setText(String.valueOf(exercise.getNumReps()[0]));
-        txtView_Weight.setText(String.valueOf(exercise.getWeight()[0]) + " lbs");
+        txtView_Weight.setText(String.valueOf(exercise.getWeight()[0]) + " ");
 
         // Return the completed view to render on screen
         return view;

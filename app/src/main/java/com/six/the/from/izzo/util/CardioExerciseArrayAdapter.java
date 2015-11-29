@@ -33,8 +33,8 @@ public class CardioExerciseArrayAdapter extends ArrayAdapter<Exercise> {
 
         // Populate the data into the template view using the data object
         txtView_Name.setText(exercise.getName());
-        txtView_Distance.setText(String.valueOf(exercise.getDistance()) + " m");
-        txtView_Duration.setText(String.valueOf(exercise.getDuration()) + " min");
+        txtView_Distance.setText(String.valueOf(exercise.getDistance()) + " ");
+        txtView_Duration.setText(String.valueOf(exercise.getDuration()) + " ");
 
         // Return the completed view to render on screen
         return view;

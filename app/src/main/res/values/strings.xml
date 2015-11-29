@@ -35,6 +35,9 @@
     <string name="lbl_distance">Distance</string>
     <string name="lbl_select_duration">Duration (min)</string>
     <string name="lbl_select_distance">Distance (m)</string>
+    <string name="lbl_pounds">lbs</string>
+    <string name="lbl_minutes">min</string>
+    <string name="lbl_meters">m</string>
     <string name="lbl_select_exercise">Exercise</string>
     <string name="lbl_select_num_sets">Number of Sets</string>
     <string name="lbl_select_num_reps">Number of Reps</string>
