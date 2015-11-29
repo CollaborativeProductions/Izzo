@@ -34,14 +34,12 @@ public class CurrentProgramActivity extends RoboActionBarActivity {
     protected void onResume() {
         super.onResume();
         setContentView(R.layout.activity_current_program);
+        initViews();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(getIntent().getStringExtra("programName"));
-
-        initViews();
         if (getIntent().hasExtra("iconImageUrl")) {
             Picasso.with(this.getApplicationContext()).load(getIntent().getStringExtra("iconImageUrl")).into(bmpImageView);
         }
-
         new FetchProgramExercisesThread().start();
     }
 
