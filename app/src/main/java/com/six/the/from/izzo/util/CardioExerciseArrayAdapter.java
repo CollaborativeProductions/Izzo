@@ -24,7 +24,7 @@ public class CardioExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.cardio_exercise_list_item, parent, false);
+            view = inflater.inflate(R.layout.list_item_cardio_exercise, parent, false);
         }
         // Lookup view for data population
         TextView txtView_Name = (TextView) view.findViewById(R.id.name);

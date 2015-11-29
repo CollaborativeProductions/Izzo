@@ -65,7 +65,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
     private void initCardioListView() {
         cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter(
                 this,
-                R.layout.cardio_exercise_list_item);
+                R.layout.list_item_cardio_exercise);
         ListView listView = (ListView) findViewById(R.id.lv_cardio_exercises);
         listView.setAdapter(cardioExerciseArrayAdapter);
     }
@@ -73,7 +73,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
     private void initWeightTrainingListView() {
         weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter(
             this,
-            R.layout.weighttraining_exercise_list_item);
+            R.layout.list_item_weighttraining_exercise);
         ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
         listView.setAdapter(weightTrainingExerciseArrayAdapter);
     }
@@ -176,7 +176,7 @@ public class NewProgramDetailsActivity extends RoboActionBarActivity
                     if (!fetcher.saving) {
                         Intent intent;
 
-                        intent = new Intent(applicationContext, InFlightActivity.class);
+                        intent = new Intent(applicationContext, TeamHubActivity.class);
                         intent.putExtra("caller", "NewProgramDetails");
                         intent.putExtra("teamId", teamParseObj.getObjectId());
                         intent.putExtra("teamName", teamParseObj.getString("name"));

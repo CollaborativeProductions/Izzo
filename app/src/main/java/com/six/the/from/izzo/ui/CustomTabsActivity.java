@@ -32,7 +32,7 @@ public class CustomTabsActivity extends TabActivity {
     }
 
     private void addFakeTab(Context ApplicationContext, int labelId) {
-        Intent intent = new Intent(ApplicationContext, InFlightActivity.class);
+        Intent intent = new Intent(ApplicationContext, TeamHubActivity.class);
 
         TabHost.TabSpec spec = tabHost.newTabSpec("tab" + labelId);
 

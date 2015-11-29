@@ -39,7 +39,7 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
 
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
-        View view = inflater.inflate(R.layout.popup_new_weight_training_exercise, null);
+        View view = inflater.inflate(R.layout.dialog_new_weight_training_exercise, null);
 
         Button btnClose = (Button) view.findViewById(R.id.btn_close);
         btnClose.setOnClickListener(new View.OnClickListener() {

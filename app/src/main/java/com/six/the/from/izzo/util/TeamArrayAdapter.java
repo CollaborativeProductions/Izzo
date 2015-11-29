@@ -27,7 +27,7 @@ public class TeamArrayAdapter extends ArrayAdapter<Team> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.team_list_item, parent, false);
+            view = inflater.inflate(R.layout.list_item_team, parent, false);
         }
         // Lookup view for data population
         TextView txtTeamName = (TextView) view.findViewById(R.id.team_name);

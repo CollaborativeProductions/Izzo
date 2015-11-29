@@ -46,13 +46,13 @@ public class AllProgramsActivity extends RoboActionBarActivity {
 
     private void initListView() {
         ListView lvTeamsList = (ListView) findViewById(R.id.team_list_view);
-        teamArrayAdapter = new TeamArrayAdapter(this, R.layout.team_list_item);
+        teamArrayAdapter = new TeamArrayAdapter(this, R.layout.list_item_team);
         lvTeamsList.setAdapter(teamArrayAdapter);
         lvTeamsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int pos, long id) {
                 launchActivity(
-                        InFlightActivity.class,
+                        TeamHubActivity.class,
                         teamArrayAdapter.getItem(pos).getObjectId(),
                         teamArrayAdapter.getItem(pos).getName()
                 );

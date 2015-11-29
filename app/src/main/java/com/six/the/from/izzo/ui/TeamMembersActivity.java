@@ -49,7 +49,7 @@ public class TeamMembersActivity extends RoboActionBarActivity {
         bmpImageView = (ImageView) findViewById(R.id.img_team_logo);
         ListView listView = (ListView) findViewById(R.id.lv_team_members);
         teamMembersArrayAdapter = new ArrayAdapter<>(this,
-                R.layout.simple_custom_list_item);
+                R.layout.list_item_simple_custom);
         listView.setAdapter(teamMembersArrayAdapter);
         Button btnAddNewMembers = (Button) findViewById(R.id.btn_new_team_member);
         btnAddNewMembers.setOnClickListener(new View.OnClickListener() {

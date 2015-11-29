@@ -45,7 +45,7 @@ public class CurrentProgramActivity extends RoboActionBarActivity {
 
     private void initViews() {
         bmpImageView = (ImageView) findViewById(R.id.img_program_logo);
-        exerciseArrayAdapter = new ExerciseArrayAdapter(this, R.layout.cardio_exercise_list_item);
+        exerciseArrayAdapter = new ExerciseArrayAdapter(this, R.layout.list_item_cardio_exercise);
         ListView listView = (ListView) findViewById(R.id.lv_exercises);
         listView.setAdapter(exerciseArrayAdapter);
 

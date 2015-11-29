@@ -25,7 +25,7 @@ import java.util.List;
 import roboguice.activity.RoboActionBarActivity;
 
 
-public class InFlightActivity extends RoboActionBarActivity {
+public class TeamHubActivity extends RoboActionBarActivity {
     ImageView bmpImageView;
     ParseObject teamParseObject;
     Context applicationContext;
@@ -51,7 +51,7 @@ public class InFlightActivity extends RoboActionBarActivity {
         if (getIntent().hasExtra("teamName")) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("teamName"));  // provide compatibility to all the versions
         }
-        setContentView(R.layout.activity_in_flight);
+        setContentView(R.layout.activity_team_hub);
 
         initViews();
         new FetchTeamThread().start();
@@ -76,7 +76,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                 switch (arrayAdapter.getItem(pos)) {
                     case "Current Program":
                         ParseObject currentProgram = teamPrograms.get(0);
-                        intent = new Intent(InFlightActivity.this, CurrentProgramActivity.class);
+                        intent = new Intent(TeamHubActivity.this, CurrentProgramActivity.class);
                         intent.putExtra("programId", currentProgram.getObjectId());
                         intent.putExtra("programName", currentProgram.getString("name"));
                         iconUrl = currentProgram.getParseFile("iconImageUrl").getUrl();
@@ -85,7 +85,7 @@ public class InFlightActivity extends RoboActionBarActivity {
                         startActivity(intent);
                         break;
                     case "Team Members":
-                        intent = new Intent(InFlightActivity.this, TeamMembersActivity.class);
+                        intent = new Intent(TeamHubActivity.this, TeamMembersActivity.class);
                         intent.putExtra("teamId", getIntent().getStringExtra("teamId"));
                         intent.putExtra("teamName", getIntent().getStringExtra("teamName"));
                         iconUrl = teamParseObject.getParseFile("iconImageUrl").getUrl();
@@ -94,11 +94,11 @@ public class InFlightActivity extends RoboActionBarActivity {
                         startActivity(intent);
                         break;
                     case "Statistics":
-//                        Intent intent = new Intent(InFlightActivity.this, StatisticsActivity.class);
+//                        Intent intent = new Intent(TeamHubActivity.this, StatisticsActivity.class);
 //                        startActivity(intent);
                         break;
                     case "Previous Programs":
-//                        Intent intent = new Intent(InFlightActivity.this, PreviousProgramsActivity.class);
+//                        Intent intent = new Intent(TeamHubActivity.this, PreviousProgramsActivity.class);
 //                        startActivity(intent);
                         break;
 

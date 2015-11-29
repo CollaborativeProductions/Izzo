@@ -27,7 +27,7 @@ public class ContactArrayAdapter extends ArrayAdapter<ContactListItem> {
         // Check if an existing view is being reused, otherwise inflate the view
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.contact_list_item, parent, false);
+            view = inflater.inflate(R.layout.list_item_contact, parent, false);
         }
         // Lookup view for data population
         TextView txtNameEntry = (TextView) view.findViewById(R.id.name_entry);

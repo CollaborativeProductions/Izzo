@@ -29,7 +29,7 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name=".ui.InFlightActivity"
+            android:name=".ui.TeamHubActivity"
             android:label="@string/app_name"
             android:parentActivityName=".ui.CustomTabsActivity" >
 
@@ -58,12 +58,12 @@
         <activity
             android:name=".ui.TeamMembersActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".ui.InFlightActivity" >
+            android:parentActivityName=".ui.TeamHubActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.InFlightActivity" />
+                android:value=".ui.TeamHubActivity" />
         </activity>
         <activity
             android:name=".ui.NewProgramDetailsActivity"

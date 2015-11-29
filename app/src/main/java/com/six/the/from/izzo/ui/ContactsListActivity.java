@@ -54,7 +54,7 @@ public class ContactsListActivity extends ActionBarActivity {
 
     private void initSelectedListView() {
         ListView lvSelectedList = (ListView) findViewById(R.id.selected_list_view);
-        contactArrayAdapter = new ContactArrayAdapter(this, R.layout.contact_list_item);
+        contactArrayAdapter = new ContactArrayAdapter(this, R.layout.list_item_contact);
         lvSelectedList.setAdapter(contactArrayAdapter);
         lvSelectedList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
@@ -79,7 +79,7 @@ public class ContactsListActivity extends ActionBarActivity {
         ListView lvContactSearch = (ListView) findViewById(R.id.contacts_list_view);
         scAdapter =
                 new SimpleCursorAdapter(this,
-                        R.layout.contact_list_item,
+                        R.layout.list_item_contact,
                         cur,
                         from_fields,
                         to_fields,
@@ -196,7 +196,7 @@ public class ContactsListActivity extends ActionBarActivity {
                 @Override
                 public void run() {
                     if (!fetcher.saving) {
-                        launchActivity(InFlightActivity.class, fetcher.teamParseObj.getObjectId(), fetcher.teamParseObj.getString("name"));
+                        launchActivity(TeamHubActivity.class, fetcher.teamParseObj.getObjectId(), fetcher.teamParseObj.getString("name"));
                     }
                 }
             });
