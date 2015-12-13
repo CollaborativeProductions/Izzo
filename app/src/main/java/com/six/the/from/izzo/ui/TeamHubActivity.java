@@ -34,8 +34,6 @@ public class TeamHubActivity extends RoboActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         applicationContext = this.getApplicationContext();
-
-
     }
 
     @Override
