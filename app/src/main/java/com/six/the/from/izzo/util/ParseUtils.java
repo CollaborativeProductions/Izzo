@@ -341,8 +341,8 @@ public class ParseUtils {
     private static void fetchExercises(final FetchProgramExercisesStatusFetcher fetcher, ParseObject programParseObj) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("ProgramExercise");
         query.whereEqualTo("program", programParseObj);
-        query.orderByAscending("type");
         query.include("exercise");
+        query.orderByAscending("updatedAt");
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> exerciseList, ParseException e) {
                 ParseObject exercise;
