@@ -13,19 +13,20 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical" >
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/lv_layout_exercises"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <RelativeLayout
-                android:id="@+id/lv_layout_cardio_training"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp">
+            <LinearLayout
+                android:id="@+id/btns_new_exercise"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp">
+                android:layout_alignParentBottom="true"
+                android:orientation="vertical" >
                 <TextView
                     android:id="@+id/txtview_new_cardio_exercise"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
@@ -38,66 +39,8 @@
                     android:textAllCaps="true"
                     android:onClick="addNewCardioExercise"
                     android:background="@color/grey" />
-                <LinearLayout
-                    android:id="@+id/lv_cardio_title"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:orientation="horizontal"
-                    android:background="@color/white">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="@string/lbl_exercise"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/lbl_distance"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="@string/lbl_duration"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                </LinearLayout>
-                <ListView
-                    android:id="@+id/lv_cardio_exercises"
-                    android:layout_above="@id/txtview_new_cardio_exercise"
-                    android:layout_below="@id/lv_cardio_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <RelativeLayout
-                android:id="@+id/lv_layout_weight_training"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="5dp">
                 <TextView
                     android:id="@+id/txtview_new_weightlifting_exercise"
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="15dp"
@@ -110,61 +53,42 @@
                     android:textAllCaps="true"
                     android:background="@color/grey"
                     android:onClick="addNewWeightTrainingExercise" />
-                <LinearLayout
-                    android:id="@+id/lv_weighttraining_title"
-                    android:layout_width="fill_parent"
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lv_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:orientation="horizontal"
-                    android:background="@color/white">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="5"
-                        android:text="@string/lbl_exercise"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="@string/lbl_sets"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:text="@string/lbl_reps"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="center_horizontal"
-                        android:text="@string/lbl_weight"
-                        android:textColor="@color/izzo_red"
-                        android:textSize="11sp"
-                        android:textAllCaps="true" />
-                </LinearLayout>
-                <ListView
-                    android:id="@+id/lv_weighttraining_exercises"
-                    android:layout_above="@id/txtview_new_weightlifting_exercise"
-                    android:layout_below="@id/lv_weighttraining_title"
-                    android:layout_width="match_parent"
+                    android:layout_weight="5"
+                    android:text="@string/lbl_exercise"
+                    android:textColor="@color/izzo_red"
+                    android:textSize="11sp"
+                    android:textAllCaps="true" />
+                <TextView
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@color/white" />
-            </RelativeLayout>
-        </LinearLayout>
+                    android:layout_weight="1"
+                    android:text="@string/lbl_type"
+                    android:textColor="@color/izzo_red"
+                    android:textSize="11sp"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+            <ListView
+                android:id="@+id/lv_exercises"
+                android:layout_above="@id/btns_new_exercise"
+                android:layout_below="@id/lv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white" />
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

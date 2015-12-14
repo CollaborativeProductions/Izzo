@@ -13,6 +13,10 @@ public class Team {
         setName(teamName);
     }
 
+    public Team(String teamName) {
+        setName(teamName);
+    }
+
     public Team(String objectId, String teamName, String iconUrl) {
         setId(objectId);
         setName(teamName);

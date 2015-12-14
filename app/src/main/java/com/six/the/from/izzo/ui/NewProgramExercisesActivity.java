@@ -19,11 +19,9 @@ import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.ui.NewCardioExerciseFragment.NewCardioExerciseDialogListener;
 import com.six.the.from.izzo.ui.NewWeightTrainingExerciseFragment.NewWeightTrainingExerciseDialogListener;
 import com.six.the.from.izzo.ui.SelectProgramTeamFragment.SaveProgramToTeamDialogListener;
-import com.six.the.from.izzo.util.CardioExerciseArrayAdapter;
+import com.six.the.from.izzo.util.ExerciseArrayAdapter;
 import com.six.the.from.izzo.util.ParseUtils;
 import  com.six.the.from.izzo.util.TeamsInfoFetcher;
-
-import com.six.the.from.izzo.util.WeightTrainingExerciseArrayAdapter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -38,8 +36,7 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
         implements NewCardioExerciseDialogListener, NewWeightTrainingExerciseDialogListener, SaveProgramToTeamDialogListener {
     @Inject
     CurrentAthlete currentAthlete;
-    CardioExerciseArrayAdapter cardioExerciseArrayAdapter;
-    WeightTrainingExerciseArrayAdapter weightTrainingExerciseArrayAdapter;
+    ExerciseArrayAdapter exerciseArrayAdapter;
     Context applicationContext;
     ArrayList<ParseObject> teamParseObjectsArray = new ArrayList<>();
     ArrayList<String> teamsArray = new ArrayList<>();
@@ -58,24 +55,15 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
     }
 
     private void initViews() {
-        initCardioListView();
-        initWeightTrainingListView();
+        initExerciseListView();
     }
 
-    private void initCardioListView() {
-        cardioExerciseArrayAdapter = new CardioExerciseArrayAdapter(
+    private void initExerciseListView() {
+        exerciseArrayAdapter = new ExerciseArrayAdapter(
                 this,
-                R.layout.list_item_cardio_exercise);
-        ListView listView = (ListView) findViewById(R.id.lv_cardio_exercises);
-        listView.setAdapter(cardioExerciseArrayAdapter);
-    }
-
-    private void initWeightTrainingListView() {
-        weightTrainingExerciseArrayAdapter = new WeightTrainingExerciseArrayAdapter(
-            this,
-            R.layout.list_item_weighttraining_exercise);
-        ListView listView = (ListView) findViewById(R.id.lv_weighttraining_exercises);
-        listView.setAdapter(weightTrainingExerciseArrayAdapter);
+                R.layout.list_item_exercise);
+        ListView listView = (ListView) findViewById(R.id.lv_exercises);
+        listView.setAdapter(exerciseArrayAdapter);
     }
 
     public void addNewWeightTrainingExercise(View v) {
@@ -84,10 +72,18 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
         newWeightTrainingExerciseFragment.show(ft, "newWeightTrainingExerciseDialog");
     }
 
+    public void onFinishNewWeightTrainingExerciseDialog(Exercise exercise) {
+        exerciseArrayAdapter.add(exercise);
+    }
+
     public void addNewCardioExercise(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         NewCardioExerciseFragment newCardioExerciseFragment = new NewCardioExerciseFragment();
         newCardioExerciseFragment.show(ft, "newCardioExerciseDialog");
+    }
+
+    public void onFinishNewCardioExerciseDialog(Exercise exercise) {
+        exerciseArrayAdapter.add(exercise);
     }
 
     private void saveProgram() {
@@ -97,23 +93,6 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
         args.putStringArrayList("allTeamsArrayList", teamsArray);
         selectProgramTeamFragment.setArguments(args);
         selectProgramTeamFragment.show(ft, "selectProgramTeamFragment");
-    }
-
-    private void launchActivity(Class klass, String teamId, String teamName, int intent_flag) {
-        Intent intent = new Intent(this, klass);
-        intent.putExtra("teamId", teamId);
-        intent.putExtra("teamName", teamName);
-        intent.setFlags(intent_flag);
-        startActivity(intent);
-    }
-
-
-    public void onFinishNewCardioExerciseDialog(Exercise exercise) {
-        cardioExerciseArrayAdapter.add(exercise);
-    }
-
-    public void onFinishNewWeightTrainingExerciseDialog(Exercise exercise) {
-        weightTrainingExerciseArrayAdapter.add(exercise);
     }
 
     public void onFinishSelectProgramTeamDialog(int teamParseObjectsArrayPosition) {
@@ -154,8 +133,7 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
                 ParseUtils.saveProgramWithTeam(
                         getIntent().getStringExtra("programName"),
                         this.teamParseObj,
-                        cardioExerciseArrayAdapter,
-                        weightTrainingExerciseArrayAdapter,
+                        exerciseArrayAdapter,
                         parseFile,
                         fetcher,
                         currentAthlete.getParseObject()
@@ -209,8 +187,7 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
 
             ParseUtils.saveProgramWithoutTeam(
                     getIntent().getStringExtra("programName"),
-                    cardioExerciseArrayAdapter,
-                    weightTrainingExerciseArrayAdapter,
+                    exerciseArrayAdapter,
                     parseFile,
                     fetcher,
                     currentAthlete.getParseObject()

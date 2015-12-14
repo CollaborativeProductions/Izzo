@@ -2,7 +2,6 @@ package com.six.the.from.izzo.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.Menu;
