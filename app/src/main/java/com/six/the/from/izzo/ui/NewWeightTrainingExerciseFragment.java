@@ -28,7 +28,8 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
     NumericWheelAdapter weightAdapter;
 
     public interface NewWeightTrainingExerciseDialogListener {
-        void onFinishNewWeightTrainingExerciseDialog(Exercise exercise);
+        void onFinishAddNewWeightTrainingExerciseDialog(Exercise exercise);
+        void onFinishEditNewWeightTrainingExerciseDialog(Exercise exercise, int pos);
     }
 
     @Override
@@ -51,7 +52,11 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
         Button addExercise = (Button) view.findViewById(R.id.add_exercise);
         addExercise.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addExercise();
+                if (getArguments() == null || getArguments().isEmpty()) {
+                    addExercise(-1);
+                } else {
+                    addExercise(getArguments().getInt("pos", -1));
+                }
             }
         });
 
@@ -84,7 +89,7 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void addExercise() {
+    public void addExercise(int pos) {
         NewWeightTrainingExerciseDialogListener listener = (NewWeightTrainingExerciseDialogListener) getActivity();
         int[] reps = new int[Integer.parseInt(numSetsAdapter.getItemText(numSetsSelectorWheel.getCurrentItem()).toString())];
         int[] weight = new int[reps.length];
@@ -97,13 +102,24 @@ public class NewWeightTrainingExerciseFragment extends DialogFragment {
                 Integer.parseInt(weightAdapter.getItemText(weightSelectorWheel.getCurrentItem()).toString())
         );
 
-        listener.onFinishNewWeightTrainingExerciseDialog(
-                new Exercise(
-                        String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
-                        reps,
-                        weight
-                )
-        );
+        if (pos > -1) {
+            listener.onFinishEditNewWeightTrainingExerciseDialog(
+                    new Exercise(
+                            String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
+                            reps,
+                            weight
+                    ),
+                    pos
+            );
+        } else {
+            listener.onFinishAddNewWeightTrainingExerciseDialog(
+                    new Exercise(
+                            String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
+                            reps,
+                            weight
+                    )
+            );
+        }
         dismiss();
     }
 }

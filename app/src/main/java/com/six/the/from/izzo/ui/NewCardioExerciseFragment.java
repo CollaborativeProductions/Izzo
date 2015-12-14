@@ -22,9 +22,11 @@ public class NewCardioExerciseFragment extends DialogFragment {
     NumericWheelAdapter durationAdapter;
     AbstractWheel distanceSelectorWheel;
     NumericWheelAdapter distanceAdapter;
+    String[] cardioExercises = new String[] {"Run", "Swim", "Bike", "Walk", "Stairs"};
 
     public interface NewCardioExerciseDialogListener {
-        void onFinishNewCardioExerciseDialog(Exercise exercise);
+        void onFinishAddNewCardioExerciseDialog(Exercise exercise);
+        void onFinishEditNewCardioExerciseDialog(Exercise exercise, int pos);
     }
 
     @Override
@@ -47,12 +49,16 @@ public class NewCardioExerciseFragment extends DialogFragment {
         Button addExercise = (Button) view.findViewById(R.id.add_exercise);
         addExercise.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                addExercise();
+                if (getArguments() == null || getArguments().isEmpty()) {
+                    addExercise(-1);
+                } else {
+                    addExercise(getArguments().getInt("pos", -1));
+                }
             }
         });
 
         exerciseSelectorWheel = (AbstractWheel) view.findViewById(R.id.select_exercise);
-        exercisesAdapter = new ArrayWheelAdapter<>(this.getContext(), new String[] {"Run", "Swim", "Bike", "Walk", "Stairs"});
+        exercisesAdapter = new ArrayWheelAdapter<>(this.getContext(), cardioExercises);
         exercisesAdapter.setItemResource(R.layout.wheel_text_centered_dark_back_exercise);
         exercisesAdapter.setItemTextResource(R.id.text);
         exerciseSelectorWheel.setViewAdapter(exercisesAdapter);
@@ -74,15 +80,27 @@ public class NewCardioExerciseFragment extends DialogFragment {
         return builder.create();
     }
 
-    public void addExercise() {
+    public void addExercise(int pos) {
         NewCardioExerciseDialogListener listener = (NewCardioExerciseDialogListener) getActivity();
-        listener.onFinishNewCardioExerciseDialog(
-                new Exercise(
-                        String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
-                        Integer.parseInt(String.valueOf(distanceAdapter.getItemText(distanceSelectorWheel.getCurrentItem()))),
-                        Integer.parseInt(String.valueOf(durationAdapter.getItemText(durationSelectorWheel.getCurrentItem())))
-                )
-        );
+
+        if (pos > -1) {
+            listener.onFinishEditNewCardioExerciseDialog(
+                    new Exercise(
+                            String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
+                            Integer.parseInt(String.valueOf(distanceAdapter.getItemText(distanceSelectorWheel.getCurrentItem()))),
+                            Integer.parseInt(String.valueOf(durationAdapter.getItemText(durationSelectorWheel.getCurrentItem())))
+                    ),
+                    pos
+            );
+        } else {
+            listener.onFinishAddNewCardioExerciseDialog(
+                    new Exercise(
+                            String.valueOf(exercisesAdapter.getItemText(exerciseSelectorWheel.getCurrentItem())),
+                            Integer.parseInt(String.valueOf(distanceAdapter.getItemText(distanceSelectorWheel.getCurrentItem()))),
+                            Integer.parseInt(String.valueOf(durationAdapter.getItemText(durationSelectorWheel.getCurrentItem())))
+                    )
+            );
+        }
         dismiss();
     }
 }

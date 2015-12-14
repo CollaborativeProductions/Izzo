@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -64,26 +66,72 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
                 R.layout.list_item_exercise);
         ListView listView = (ListView) findViewById(R.id.lv_exercises);
         listView.setAdapter(exerciseArrayAdapter);
+        listView.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapter,
+                                            View item, int pos, long id) {
+                        Exercise exercise = exerciseArrayAdapter.getItem(pos);
+                        if (exercise.getType().equals("Cardio")) {
+                            editNewCardioExercise(pos);
+                        } else {
+                            editNewWeightTrainingExercise(pos);
+                        }
+                    }
+                }
+        );
     }
 
     public void addNewWeightTrainingExercise(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        NewWeightTrainingExerciseFragment newWeightTrainingExerciseFragment = new NewWeightTrainingExerciseFragment();
-        newWeightTrainingExerciseFragment.show(ft, "newWeightTrainingExerciseDialog");
+        NewWeightTrainingExerciseFragment fragment = new NewWeightTrainingExerciseFragment();
+        fragment.show(ft, "newWeightTrainingExerciseDialog");
     }
 
-    public void onFinishNewWeightTrainingExerciseDialog(Exercise exercise) {
+    public void editNewWeightTrainingExercise(int pos) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        NewWeightTrainingExerciseFragment fragment = new NewWeightTrainingExerciseFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("pos", pos);
+        fragment.setArguments(args);
+
+        fragment.show(ft, "newWeightTrainingExerciseDialog");
+    }
+
+    public void onFinishAddNewWeightTrainingExerciseDialog(Exercise exercise) {
         exerciseArrayAdapter.add(exercise);
+    }
+
+    public void onFinishEditNewWeightTrainingExerciseDialog(Exercise exercise, int pos) {
+        exerciseArrayAdapter.remove(exerciseArrayAdapter.getItem(pos));
+        exerciseArrayAdapter.insert(exercise, pos);
     }
 
     public void addNewCardioExercise(View v) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        NewCardioExerciseFragment newCardioExerciseFragment = new NewCardioExerciseFragment();
-        newCardioExerciseFragment.show(ft, "newCardioExerciseDialog");
+        NewCardioExerciseFragment fragment = new NewCardioExerciseFragment();
+        fragment.show(ft, "newCardioExerciseDialog");
     }
 
-    public void onFinishNewCardioExerciseDialog(Exercise exercise) {
+    public void editNewCardioExercise(int pos) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        NewCardioExerciseFragment fragment = new NewCardioExerciseFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("pos", pos);
+        fragment.setArguments(args);
+
+        fragment.show(ft, "newWeightTrainingExerciseDialog");
+    }
+
+    public void onFinishAddNewCardioExerciseDialog(Exercise exercise) {
         exerciseArrayAdapter.add(exercise);
+    }
+
+    public void onFinishEditNewCardioExerciseDialog(Exercise exercise, int pos) {
+        exerciseArrayAdapter.remove(exerciseArrayAdapter.getItem(pos));
+        exerciseArrayAdapter.insert(exercise, pos);
     }
 
     private void saveProgram() {
