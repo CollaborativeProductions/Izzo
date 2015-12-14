@@ -80,6 +80,16 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
                     }
                 }
         );
+        listView.setOnItemLongClickListener(
+                new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapter,
+                                            View item, int pos, long id) {
+                        exerciseArrayAdapter.remove(exerciseArrayAdapter.getItem(pos));
+                        return true;
+                    }
+                }
+        );
     }
 
     public void addNewWeightTrainingExercise(View v) {
