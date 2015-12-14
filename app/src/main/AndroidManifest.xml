@@ -73,6 +73,10 @@
             android:name=".ui.CurrentProgramActivity"
             android:label="@string/title_activity_current_program" >
         </activity>
+        <activity
+            android:name=".ui.WorkoutActivity"
+            android:label="@string/title_activity_workout" >
+        </activity>
     </application>
 
 </manifest>

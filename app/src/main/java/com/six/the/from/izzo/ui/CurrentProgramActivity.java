@@ -1,8 +1,11 @@
 package com.six.the.from.izzo.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -49,16 +52,24 @@ public class CurrentProgramActivity extends RoboActionBarActivity {
         ListView listView = (ListView) findViewById(R.id.lv_exercises);
         listView.setAdapter(exerciseArrayAdapter);
 
-//        Button btnNewWorkout = (Button) findViewById(R.id.btn_start_workout);
-//        btnAddNewMembers.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                launchActivity(
-//                        ContactsListActivity.class,
-//                        teamParseObject.getObjectId(),
-//                        teamParseObject.getString("name")
-//                );
-//            }
-//        });
+        Button btnNewWorkout = (Button) findViewById(R.id.btn_start_workout);
+        btnNewWorkout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                launchActivity(
+                        WorkoutActivity.class,
+                        getIntent().getStringExtra("programId"),
+                        getIntent().getStringExtra("programName")
+                );
+            }
+        });
+    }
+
+    private void launchActivity(Class klass, String programId, String programName) {
+        Intent intent = new Intent(this, klass);
+        intent.putExtra("programId", programId);
+        intent.putExtra("programName", programName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     private class FetchProgramExercisesThread extends Thread {
