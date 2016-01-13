@@ -13,12 +13,12 @@ import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.util.ExerciseArrayAdapter;
+import com.six.the.from.izzo.util.FetchProgramExercisesStatusFetcher;
 import com.six.the.from.izzo.util.ParseUtils;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import roboguice.activity.RoboActionBarActivity;
@@ -120,10 +120,6 @@ public class CurrentProgramActivity extends RoboActionBarActivity {
         }
     }
 
-    public class FetchProgramExercisesStatusFetcher {
-        public volatile boolean fetching;
-        public List<ParseObject> exerciseParseObjs = new ArrayList<>();
-    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

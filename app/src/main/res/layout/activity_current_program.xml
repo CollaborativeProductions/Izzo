@@ -26,6 +26,15 @@
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp" >
+        <Button
+            android:id="@+id/btn_start_workout"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_start_workout"
+            android:textColor="#FFFFFF"
+            android:background="@color/grey" />
         <LinearLayout
             android:id="@+id/lv_exercises_title"
             android:layout_width="fill_parent"
@@ -59,15 +68,6 @@
             android:id="@+id/lv_exercises"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <Button
-            android:id="@+id/btn_start_workout"
-            android:layout_alignParentBottom="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/btn_start_workout"
-            android:textColor="#FFFFFF"
-            android:background="@color/grey" />
     </RelativeLayout>
 
 </RelativeLayout>

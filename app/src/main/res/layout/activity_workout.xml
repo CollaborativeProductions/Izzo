@@ -6,7 +6,47 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.six.the.from.izzo.ui.WorkoutActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/lv_exercises_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp" >
+        <LinearLayout
+            android:id="@+id/lv_exercises_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:orientation="horizontal"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="@string/lbl_workout_plan"
+                android:textColor="@color/izzo_red"
+                android:textSize="11sp"
+                android:textAllCaps="true" />
+        </LinearLayout>
+        <ListView
+            android:layout_below="@id/lv_exercises_title"
+            android:id="@+id/lv_exercises"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/btn_end_workout"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/btn_end_workout"
+            android:textColor="#FFFFFF"
+            android:background="@color/grey" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -7,7 +7,6 @@ import com.parse.SaveCallback;
 import com.six.the.from.izzo.models.Athlete;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.ui.ContactsListActivity.OperationStatusFetcher;
-import com.six.the.from.izzo.ui.CurrentProgramActivity.FetchProgramExercisesStatusFetcher ;
 import com.six.the.from.izzo.ui.TeamHubActivity.FetchTeamProgramsStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramExercisesActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
