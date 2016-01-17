@@ -347,6 +347,7 @@ public class ParseUtils {
         workoutParseObj.put("athlete", currentAthlete);
         workoutParseObj.put("program", programParseObj);
 
+        saveWorkoutToAthlete(workoutParseObj, programParseObj, currentAthlete);
         saveWorkoutExercises(exerciseArrayAdapter, workoutParseObj, programParseObj);
 
         workoutParseObj.saveInBackground(new SaveCallback() {
@@ -358,6 +359,14 @@ public class ParseUtils {
             }
         });
         fetcher.saving = true;
+    }
+
+    public static void saveWorkoutToAthlete(ParseObject workoutParseObject, ParseObject programParseObj, ParseObject currentAthlete) {
+        ParseObject athleteWorkoutParseObj = new ParseObject("AthleteWorkout");
+        athleteWorkoutParseObj.put("athlete", currentAthlete);
+        athleteWorkoutParseObj.put("workout", workoutParseObject);
+        athleteWorkoutParseObj.put("program", programParseObj);
+        athleteWorkoutParseObj.saveInBackground();
     }
 
     public static void saveWorkoutExercises(
