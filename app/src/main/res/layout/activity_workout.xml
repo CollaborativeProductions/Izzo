@@ -19,7 +19,7 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp" />
         <Button
-            android:id="@+id/btn_end_workout"
+            android:id="@+id/btn_complete_workout"
             android:layout_alignParentBottom="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

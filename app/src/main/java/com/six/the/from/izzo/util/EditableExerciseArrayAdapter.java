@@ -24,6 +24,11 @@ public class EditableExerciseArrayAdapter extends ArrayAdapter<Exercise> {
         this.applicationContext = context;
     }
 
+    public EditableExerciseArrayAdapter(Context context, int dummyLayoutResource, Exercise[] exercises) {
+        super(context, dummyLayoutResource, exercises);
+        this.applicationContext = context;
+    }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         // Get the data item for this position
@@ -34,6 +39,7 @@ public class EditableExerciseArrayAdapter extends ArrayAdapter<Exercise> {
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             if (exercise.getType().equals("Cardio")) {
                 view = inflater.inflate(R.layout.list_item_editable_cardio_exercise, parent, false);
+                view.setTag("Cardio Exercise");
 
                 TextView txtView_Name = (TextView) view.findViewById(R.id.name);
                 final EditText et_Distance = (EditText) view.findViewById(R.id.distance);
@@ -46,6 +52,7 @@ public class EditableExerciseArrayAdapter extends ArrayAdapter<Exercise> {
                 et_Duration.setText(String.valueOf(exercise.getDuration()));
             } else if (exercise.getType().equals("Weight")) {
                 view = inflater.inflate(R.layout.list_item_editable_weight_training_exercise, parent, false);
+                view.setTag("Weight Training Exercise");
 
                 TextView txtView_Name = (TextView) view.findViewById(R.id.name);
                 final EditText et_Sets = (EditText) view.findViewById(R.id.num_sets);

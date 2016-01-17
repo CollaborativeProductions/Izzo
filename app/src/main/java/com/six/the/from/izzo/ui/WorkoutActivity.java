@@ -1,13 +1,20 @@
 package com.six.the.from.izzo.ui;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.inject.Inject;
 import com.parse.ParseObject;
 import com.six.the.from.izzo.R;
+import com.six.the.from.izzo.models.CurrentAthlete;
 import com.six.the.from.izzo.models.Exercise;
 import com.six.the.from.izzo.util.EditableExerciseArrayAdapter;
 import com.six.the.from.izzo.util.ParseUtils;
@@ -17,8 +24,15 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.List;
 
-public class WorkoutActivity extends ActionBarActivity {
+import roboguice.activity.RoboActionBarActivity;
+
+public class WorkoutActivity extends RoboActionBarActivity {
+    @Inject
+    CurrentAthlete currentAthlete;
+
     EditableExerciseArrayAdapter exerciseArrayAdapter;
+    ListView listView;
+    ParseObject programParseObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +45,70 @@ public class WorkoutActivity extends ActionBarActivity {
 
     private void initViews() {
         exerciseArrayAdapter = new EditableExerciseArrayAdapter(this, R.layout.list_item_editable_cardio_exercise);
-        ListView listView = (ListView) findViewById(R.id.lv_exercises);
+        listView = (ListView) findViewById(R.id.lv_exercises);
         listView.setAdapter(exerciseArrayAdapter);
+
+        Button btnCompleteWorkout = (Button) findViewById(R.id.btn_complete_workout);
+        btnCompleteWorkout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+                saveWorkout();
+            }
+        });
+    }
+
+    private void saveWorkout() {
+        exerciseArrayAdapter = new EditableExerciseArrayAdapter(this, R.layout.list_item_editable_cardio_exercise, getExercisesToSave());
+        new SaveWorkout().start();
+    }
+
+    private Exercise[] getExercisesToSave() {
+        View listItemView;
+        Exercise exercise;
+        Exercise[] exercisesToSave = new Exercise[listView.getChildCount()];
+        for (int i = 0; i < listView.getChildCount(); i++) {
+            listItemView = listView.getChildAt(i);
+            exercise = exerciseArrayAdapter.getItem(i);
+            if (listItemView.getTag().equals("Cardio Exercise")) {
+                EditText et_Distance = (EditText) listItemView.findViewById(R.id.distance);
+                EditText et_Duration = (EditText) listItemView.findViewById(R.id.duration);
+
+                int distance = Integer.parseInt(et_Distance.getText().toString());
+                int duration = Integer.parseInt(et_Duration.getText().toString());
+
+                exercise.setDistance(distance);
+                exercise.setDuration(duration);
+            } else if (listItemView.getTag().equals("Weight Training Exercise")) {
+                EditText et_Sets = (EditText) listItemView.findViewById(R.id.num_sets);
+                EditText et_Reps = (EditText) listItemView.findViewById(R.id.num_reps);
+                EditText et_Weight = (EditText) listItemView.findViewById(R.id.weight);
+
+                int num_sets = Integer.parseInt(et_Sets.getText().toString());
+                int reps = Integer.parseInt(et_Reps.getText().toString());
+                int weight = Integer.parseInt(et_Weight.getText().toString());
+
+                int[] repsArr = new int[num_sets];
+                for (int j = 0; j < num_sets; j++) {
+                    repsArr[j] = reps;
+                }
+
+                int[] weightsArr = new int[num_sets];
+                for (int j = 0; j < num_sets; j++) {
+                    weightsArr[j] = weight;
+                }
+
+                exercise.setNumReps(repsArr);
+                exercise.setWeight(weightsArr);
+            }
+            exercisesToSave[i] = exercise;
+        }
+        return exercisesToSave;
+    }
+
+    private void finishActivity() {
+        finish();
+        Toast.makeText(this.getApplicationContext(), "Congratulations! Beast mode activated!", Toast.LENGTH_LONG);
     }
 
     private class FetchProgramExercisesThread extends Thread {
@@ -54,6 +130,7 @@ public class WorkoutActivity extends ActionBarActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    programParseObject = fetcher.programParseObj;
                     if (!fetcher.fetching && fetcher.exerciseParseObjs.size() > 0) {
                         Exercise exercise;
                         for (ParseObject exerciseParseObj : fetcher.exerciseParseObjs) {
@@ -81,6 +158,37 @@ public class WorkoutActivity extends ActionBarActivity {
                 }
             });
         }
+    }
+
+    private class SaveWorkout extends Thread {
+        private final SaveWorkoutStatusFetcher fetcher = new SaveWorkoutStatusFetcher();
+
+        public SaveWorkout() { }
+
+        public void run() {
+            ParseUtils.saveWorkout(exerciseArrayAdapter, fetcher, currentAthlete.getParseObject(), programParseObject);
+
+            while (fetcher.saving) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    ie.printStackTrace();
+                }
+            }
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!fetcher.saving) {
+                        finishActivity();
+                    }
+                }
+            });
+        }
+    }
+
+    public class SaveWorkoutStatusFetcher {
+        public volatile boolean saving;
     }
 
     @Override

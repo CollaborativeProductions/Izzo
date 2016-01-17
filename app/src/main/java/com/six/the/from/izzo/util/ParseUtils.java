@@ -11,6 +11,7 @@ import com.six.the.from.izzo.ui.TeamHubActivity.FetchTeamProgramsStatusFetcher;
 import com.six.the.from.izzo.ui.NewProgramExercisesActivity.SaveProgramStatusFetcher;
 import com.six.the.from.izzo.ui.StartUpActivity.CurrentAthleteFetcher;
 import com.six.the.from.izzo.ui.TeamMembersActivity.TeamMembersFetcher;
+import com.six.the.from.izzo.ui.WorkoutActivity.SaveWorkoutStatusFetcher;
 
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -335,4 +336,60 @@ public class ParseUtils {
             programExerciseParseObj.saveInBackground();
         }
     }
+
+    public static void saveWorkout(
+            EditableExerciseArrayAdapter exerciseArrayAdapter,
+            final SaveWorkoutStatusFetcher fetcher,
+            ParseObject currentAthlete,
+            ParseObject programParseObj
+    ) {
+        final ParseObject workoutParseObj = new ParseObject("Workout");
+        workoutParseObj.put("athlete", currentAthlete);
+        workoutParseObj.put("program", programParseObj);
+
+        saveWorkoutExercises(exerciseArrayAdapter, workoutParseObj, programParseObj);
+
+        workoutParseObj.saveInBackground(new SaveCallback() {
+            public void done(ParseException e) {
+                if (e == null) {
+                    // Saved successfully.
+                    fetcher.saving = false;
+                }
+            }
+        });
+        fetcher.saving = true;
+    }
+
+    public static void saveWorkoutExercises(
+            EditableExerciseArrayAdapter exerciseArrayAdapter,
+            ParseObject workoutParseObj,
+            ParseObject programParseObj
+    ) {
+        Exercise exercise;
+        for (int i = 0; i < exerciseArrayAdapter.getCount(); i++) {
+            exercise = exerciseArrayAdapter.getItem(i);
+
+            ParseObject exerciseParseObj = new ParseObject("Exercise");
+            exerciseParseObj.put("name", exercise.getName());
+            exerciseParseObj.put("type", exercise.getType());
+            if (exercise.getType().equals("Cardio")) {
+                exerciseParseObj.put("distance", exercise.getDistance());
+                exerciseParseObj.put("duration", exercise.getDuration());
+            } else {
+                try {
+                    exerciseParseObj.put("reps", new JSONArray(exercise.getNumReps()));
+                    exerciseParseObj.put("weight", new JSONArray(exercise.getWeight()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            ParseObject workoutExerciseParseObj = new ParseObject("WorkoutExercise");
+            workoutExerciseParseObj.put("exercise", exerciseParseObj);
+            workoutExerciseParseObj.put("workout", workoutParseObj);
+            workoutExerciseParseObj.put("program", programParseObj);
+            workoutExerciseParseObj.saveInBackground();
+        }
+    }
+
 }
