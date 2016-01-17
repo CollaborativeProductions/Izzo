@@ -75,7 +75,8 @@
         </activity>
         <activity
             android:name=".ui.WorkoutActivity"
-            android:label="@string/title_activity_workout" >
+            android:label="@string/title_activity_workout"
+            android:windowSoftInputMode="adjustPan" >
         </activity>
     </application>
 
