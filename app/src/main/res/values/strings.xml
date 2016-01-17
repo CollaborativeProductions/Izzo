@@ -47,7 +47,7 @@
     <string name="lbl_select_weight">Weight (lbs)</string>
     <string name="btn_add_new_member">Add New Member</string>
     <string name="btn_start_workout">Start Workout</string>
-    <string name="btn_end_workout">End Workout</string>
+    <string name="btn_complete_workout">Complete Workout</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="team_members">Team Members</string>

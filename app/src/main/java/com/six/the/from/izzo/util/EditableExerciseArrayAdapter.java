@@ -44,7 +44,7 @@ public class EditableExerciseArrayAdapter extends ArrayAdapter<Exercise> {
                 txtView_Name.setText(exercise.getName());
                 et_Distance.setText(String.valueOf(exercise.getDistance()));
                 et_Duration.setText(String.valueOf(exercise.getDuration()));
-            } else if (exercise.getType().equals("WeightTraining")) {
+            } else if (exercise.getType().equals("Weight")) {
                 view = inflater.inflate(R.layout.list_item_editable_weight_training_exercise, parent, false);
 
                 TextView txtView_Name = (TextView) view.findViewById(R.id.name);
