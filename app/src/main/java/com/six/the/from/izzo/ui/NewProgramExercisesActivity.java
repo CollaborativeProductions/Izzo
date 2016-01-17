@@ -272,6 +272,11 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
         }
     }
 
+    public class SaveProgramStatusFetcher {
+        public volatile boolean saving;
+        public ParseObject programParseObj;
+    }
+
     private class FetchTeamsInfoThread extends Thread {
         private final TeamsInfoFetcher fetcher = new TeamsInfoFetcher();
 
@@ -303,11 +308,6 @@ public class NewProgramExercisesActivity extends RoboActionBarActivity
                 }
             });
         }
-    }
-
-    public class SaveProgramStatusFetcher {
-        public volatile boolean saving;
-        public ParseObject programParseObj;
     }
 
     @Override

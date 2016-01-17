@@ -58,6 +58,7 @@ public class Exercise {
     public int getNumSets() {
         return reps.length;
     }
+
     public int[] getNumReps() {
         return reps;
     }
