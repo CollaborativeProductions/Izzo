@@ -23,6 +23,48 @@ import java.util.List;
 
 
 public class ParseUtils {
+    public static void uuidPhoneNumberExists(final CurrentAthleteFetcher fetcher, String phoneNumber, String uuid) {
+        fetcher.fetching = true;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Athlete");
+        query.whereEqualTo("uuid", uuid);
+        query.getFirstInBackground(new GetCallback<ParseObject>() {
+            public void done(ParseObject athlete, ParseException e) {
+                if (e == null) {
+                    if (athlete != null) {
+                        fetcher.athlete = athlete;
+                    }
+                }
+                fetcher.fetching = false;
+            }
+        });
+    }
+
+    public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {
+        ParseObject newAthlete = new ParseObject("Athlete");
+        newAthlete.put("uuid", uuid);
+        newAthlete.put("firstName", firstName);
+        newAthlete.put("lastName", lastName);
+        newAthlete.put("phoneNumber", phoneNumber);
+        newAthlete.saveInBackground();
+        return newAthlete;
+    }
+
+    public static void fetchCurrentAthleteTeams(final TeamsInfoFetcher fetcher, ParseObject currentAthlete) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("AthleteTeam");
+        query.whereEqualTo("athlete", currentAthlete);
+        query.include("team");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> teamList, ParseException e) {
+                for (ParseObject athleteTeamParseObj : teamList) {
+                    ParseObject teamParseObj = athleteTeamParseObj.getParseObject("team");
+                    fetcher.teamList.add(teamParseObj);
+                }
+                fetcher.fetching = false;
+            }
+        });
+        fetcher.fetching = true;
+    }
+
     public static void saveProgramWithoutTeam(
             String programName,
             ExerciseArrayAdapter exerciseArrayAdapter,
@@ -71,35 +113,6 @@ public class ParseUtils {
 
         saveExercises(exerciseArrayAdapter, programParseObj);
         saveProgramToTeam(teamParseObj, programParseObj, fetcher);
-    }
-
-    public static void saveExercises(ExerciseArrayAdapter exerciseArrayAdapter, ParseObject programParseObj) {
-        Exercise exercise;
-        for (int i = 0; i < exerciseArrayAdapter.getCount(); i++) {
-            exercise = exerciseArrayAdapter.getItem(i);
-
-            ParseObject exerciseParseObj = new ParseObject("Exercise");
-            exerciseParseObj.put("name", exercise.getName());
-            exerciseParseObj.put("type", exercise.getType());
-            if (exercise.getType().equals("Cardio")) {
-                exerciseParseObj.put("distance", exercise.getDistance());
-                exerciseParseObj.put("duration", exercise.getDuration());
-            } else {
-                try {
-                    exerciseParseObj.put("reps", new JSONArray(exercise.getNumReps()));
-                    exerciseParseObj.put("weight", new JSONArray(exercise.getWeight()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            exerciseParseObj.saveInBackground();
-
-            ParseObject programExerciseParseObj = new ParseObject("ProgramExercise");
-            programExerciseParseObj.put("program", programParseObj);
-            programExerciseParseObj.put("exercise", exerciseParseObj);
-            programExerciseParseObj.saveInBackground();
-        }
     }
 
     public static void saveProgramToTeam(ParseObject teamParseObj, ParseObject programParseObj, final SaveProgramStatusFetcher fetcher) {
@@ -193,48 +206,6 @@ public class ParseUtils {
                 athleteteam.saveInBackground();
             }
         }
-    }
-
-    public static ParseObject saveAthlete(String uuid, String firstName, String lastName, String phoneNumber, ParseObject currentAthlete) {
-        ParseObject newAthlete = new ParseObject("Athlete");
-        newAthlete.put("uuid", uuid);
-        newAthlete.put("firstName", firstName);
-        newAthlete.put("lastName", lastName);
-        newAthlete.put("phoneNumber", phoneNumber);
-        newAthlete.saveInBackground();
-        return newAthlete;
-    }
-
-    public static void uuidPhoneNumberExists(final CurrentAthleteFetcher fetcher, String phoneNumber, String uuid) {
-        fetcher.fetching = true;
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Athlete");
-        query.whereEqualTo("uuid", uuid);
-        query.getFirstInBackground(new GetCallback<ParseObject>() {
-            public void done(ParseObject athlete, ParseException e) {
-                if (e == null) {
-                    if (athlete != null) {
-                        fetcher.athlete = athlete;
-                    }
-                }
-                fetcher.fetching = false;
-            }
-        });
-    }
-
-    public static void fetchCurrentAthleteTeams(final TeamsInfoFetcher fetcher, ParseObject currentAthlete) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("AthleteTeam");
-        query.whereEqualTo("athlete", currentAthlete);
-        query.include("team");
-        query.findInBackground(new FindCallback<ParseObject>() {
-            public void done(List<ParseObject> teamList, ParseException e) {
-                for (ParseObject athleteTeamParseObj : teamList) {
-                    ParseObject teamParseObj = athleteTeamParseObj.getParseObject("team");
-                    fetcher.teamList.add(teamParseObj);
-                }
-                fetcher.fetching = false;
-            }
-        });
-        fetcher.fetching = true;
     }
 
     public static void fetchTeam(final TeamFetcher fetcher, String teamId) {
@@ -333,5 +304,35 @@ public class ParseUtils {
                 fetcher.fetching = false;
             }
         });
+        fetcher.programParseObj = programParseObj;
+    }
+
+    public static void saveExercises(ExerciseArrayAdapter exerciseArrayAdapter, ParseObject programParseObj) {
+        Exercise exercise;
+        for (int i = 0; i < exerciseArrayAdapter.getCount(); i++) {
+            exercise = exerciseArrayAdapter.getItem(i);
+
+            ParseObject exerciseParseObj = new ParseObject("Exercise");
+            exerciseParseObj.put("name", exercise.getName());
+            exerciseParseObj.put("type", exercise.getType());
+            if (exercise.getType().equals("Cardio")) {
+                exerciseParseObj.put("distance", exercise.getDistance());
+                exerciseParseObj.put("duration", exercise.getDuration());
+            } else {
+                try {
+                    exerciseParseObj.put("reps", new JSONArray(exercise.getNumReps()));
+                    exerciseParseObj.put("weight", new JSONArray(exercise.getWeight()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            exerciseParseObj.saveInBackground();
+
+            ParseObject programExerciseParseObj = new ParseObject("ProgramExercise");
+            programExerciseParseObj.put("program", programParseObj);
+            programExerciseParseObj.put("exercise", exerciseParseObj);
+            programExerciseParseObj.saveInBackground();
+        }
     }
 }
